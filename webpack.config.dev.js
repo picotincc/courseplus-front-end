@@ -46,7 +46,8 @@ module.exports = {
         new webpack.NoErrorsPlugin(),
 
         new webpack.ProvidePlugin({
-            "$": "jquery"
+            "$": "jquery",
+            "jQuery": "jquery"
         }),
 
         new webpack.optimize.CommonsChunkPlugin({

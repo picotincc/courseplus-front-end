@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 
+import Header from "./Header";
+
 export default class App extends Component {
 
     constructor (props) {
@@ -22,7 +24,13 @@ export default class App extends Component {
     render()
     {
         return (
-            <div className="cp-home-app"></div>            
+            <div className="cp-home-app">
+                <header><Header /></header>
+                <main>
+                    <div className="tool-bar"></div>
+                    <div className="content"></div>
+                </main>
+            </div>
         );
     }
 }
