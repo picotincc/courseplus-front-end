@@ -1,0 +1,49 @@
+.cp-course-course
+{
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+
+    > .course-info
+    {
+        flex: 0 0 240px;
+        padding: 8px 16px;
+        display: flex;
+        border: 1px solid @cp-app-color;
+
+        > .image
+        {
+            flex: 0 0 240px;
+            padding: 10px 10px;
+        }
+
+        > .intro
+        {
+            flex: 1 0 auto;
+            padding: 8px 16px;
+            display: flex;
+            flex-direction: column;
+
+            > .title
+            {
+                flex: 0 0 40px;
+                font-size: 20px;
+                font-weight: 400;
+            }
+
+            > .para
+            {
+                flex: 1 0 auto;
+                word-wrap: break-word;
+                word-break: normal;
+                width: 1370px;
+            }
+        }
+    }
+
+    > .details-list
+    {
+        flex: 1 1 auto;
+        padding: 16px 16px;
+    }
+}

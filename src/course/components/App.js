@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 
+import Course from "./Course";
 import Header from "./Header";
 
 export default class App extends Component {
@@ -26,7 +27,7 @@ export default class App extends Component {
         return (
             <div className="cp-course-app">
                 <header><Header /></header>
-                <div className="container"></div>
+                <div className="container"><Course /></div>
                 <footer></footer>
             </div>
         );
