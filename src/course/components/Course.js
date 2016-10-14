@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 
+import Contributor from "./Contributor";
+
 export default class Course extends Component {
 
     constructor (props) {
@@ -45,9 +47,10 @@ export default class Course extends Component {
                         </div>
                     </div>
                 </div>
-                <div className="details-list">
-                    
-                </div>
+                <ul className="contributors-list">
+                    <li><Contributor /></li>
+                    <li><Contributor /></li>
+                </ul>
             </div>
         );
     }

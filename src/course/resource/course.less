@@ -19,7 +19,7 @@
 
         > .intro
         {
-            flex: 1 0 auto;
+            flex: 0 0 auto;
             padding: 8px 16px;
             display: flex;
             flex-direction: column;
@@ -33,17 +33,25 @@
 
             > .para
             {
-                flex: 1 0 auto;
+                flex: 0 0 auto;
                 word-wrap: break-word;
                 word-break: normal;
-                width: 1370px;
             }
         }
     }
 
-    > .details-list
+    > .contributors-list
     {
-        flex: 1 1 auto;
+        flex: 1 0 auto;
         padding: 16px 16px;
+        display: flex;
+        flex-direction: column;
+
+        li
+        {
+            flex: 0 0 auto;
+            margin-top: 8px;
+            margin-bottom: 8px;
+        }
     }
 }
