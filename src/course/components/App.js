@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 
+import Header from "./Header";
+
 export default class App extends Component {
 
     constructor (props) {
@@ -22,7 +24,11 @@ export default class App extends Component {
     render()
     {
         return (
-            <div className="cp-course-app"></div>
+            <div className="cp-course-app">
+                <header><Header /></header>
+                <div className="container"></div>
+                <footer></footer>
+            </div>
         );
     }
 }
