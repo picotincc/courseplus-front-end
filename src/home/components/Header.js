@@ -27,7 +27,7 @@ export default class Header extends Component {
     {
         return (
             <div className="cp-home-header">
-                <div className="logo"><img src="/public/logo.png" /></div>
+                <div className="logo"><img src="/public/Logo.png" /></div>
                 <span className="login">登录</span>
             </div>
         );
