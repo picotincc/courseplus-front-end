@@ -12,7 +12,7 @@
 
     > header
     {
-        flex: 0 0 70px;
+        flex: 0 0 @cp-header-height;
         background-color: @cp-header-color;
         display: flex;
         justify-content: center;
@@ -21,5 +21,22 @@
     > main
     {
         flex: 1 1 auto;
+        display: flex;
+        flex-direction: column;
+
+        > .tool-bar
+        {
+            flex: 0 0 @cp-home-search-height;
+            display: flex;
+            justify-content: center;
+        }
+
+        > .content
+        {
+            flex: 1 1 auto;
+            display: flex;
+            justify-content: center;
+        }
+
     }
 }

@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 
+import CourseContent from "./CourseContent";
 import Header from "./Header";
+import SearchBar from "./SearchBar";
 
 export default class App extends Component {
 
@@ -27,7 +29,7 @@ export default class App extends Component {
             <div className="cp-home-app">
                 <header><Header /></header>
                 <main>
-                    <div className="tool-bar"></div>
+                    <div className="tool-bar"><SearchBar /></div>
                     <div className="content"></div>
                 </main>
             </div>

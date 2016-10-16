@@ -1,0 +1,91 @@
+.cp-home-search
+{
+    flex: 0 0 @cp-home-content-width;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    display: flex;
+    align-items: center;
+    font-size: @font-size-base;
+    color: @text-color;
+
+    > .school-tag
+    {
+        flex: 0 0 55px;
+        height: 25px;
+    }
+
+    > .school-dropdown
+    {
+        flex: 0 0 128px;
+        height: 100%;
+
+        > .btn-school
+        {
+            height: 100%;
+            width: 100%;
+            font-size: @font-size-base;
+            color: @text-color;
+
+            > span
+            {
+                margin-left: 10px;
+            }
+        }
+    }
+
+    > .major-tag
+    {
+        flex: 0 0 55px;
+        height: 25px;
+        margin-left: 20px;
+    }
+
+    > .major-dropdown
+    {
+        flex: 0 0 128px;
+        height: 100%;
+
+        > .btn-major
+        {
+            height: 100%;
+            width: 100%;
+            font-size: @font-size-base;
+            color: @text-color;
+
+            > span
+            {
+                margin-left: 10px;
+            }
+        }
+    }
+
+    > .empty
+    {
+        flex: 1 1 auto;
+    }
+
+    > .search
+    {
+        flex: 0 0 250px;
+        width: 250px;
+
+        > input
+        {
+            width: 188px;
+            height: @cp-home-input-height;
+            font-size: @font-size-base;
+        }
+
+        > .input-group-addon
+        {
+            width: 62px;
+
+            > .iconfont
+            {
+                font-size: 26px;
+                color: @cp-home-icon-color;
+                cursor: pointer;
+            }
+        }
+    }
+}
