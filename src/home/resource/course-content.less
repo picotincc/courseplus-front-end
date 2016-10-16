@@ -1,0 +1,29 @@
+.cp-home-course-content
+{
+    flex: 0 0 @cp-home-content-width;
+
+    display: flex;
+    flex-wrap: wrap;
+    align-content: flex-start;
+
+    > .box
+    {
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+
+    > .box:nth-child(1), .box:nth-child(2)
+    {
+        margin-top: 0px;
+    }
+
+    > .box:nth-child(2n+1)
+    {
+        margin-right: 10px;
+    }
+
+    > .box:nth-child(2n)
+    {
+        margin-left: 10px;
+    }
+}

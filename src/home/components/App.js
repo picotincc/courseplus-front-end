@@ -30,7 +30,7 @@ export default class App extends Component {
                 <header><Header /></header>
                 <main>
                     <div className="tool-bar"><SearchBar /></div>
-                    <div className="content"></div>
+                    <div className="content"><CourseContent /></div>
                 </main>
             </div>
         );
