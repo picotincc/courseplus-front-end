@@ -1,0 +1,32 @@
+.cp-course-app
+{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+
+    > header, > footer, > .container
+    {
+        position: relative;
+    }
+
+    > header
+    {
+        flex: 0 0 56px;
+        box-shadow: 0 2px 6px rgba(0,0,0,.13);
+        border-top: 4px solid @cp-app-color;
+    }
+
+    > .container
+    {
+        flex: 1 1 auto;
+        display: flex;
+        padding: 10px 120px;
+        overflow-y: auto;
+    }
+
+    > footer
+    {
+        flex: 0 0 60px;
+    }
+}

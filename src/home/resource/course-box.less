@@ -1,0 +1,109 @@
+.cp-home-course-box
+{
+    flex: 0 0 @cp-home-box-width;
+    height: @cp-home-box-height;
+    background: #FFFFFF;
+    border: 1px solid #979797;
+    border-radius: 5px;
+
+    padding: 15px 15px;
+    display: flex;
+
+    > .course-img
+    {
+        flex: 0 0 150px;
+
+        > img
+        {
+            width: 150px;
+            height: 210px;
+        }
+    }
+
+    > .course-info
+    {
+        flex: 1 0 auto;
+        padding-left: 15px;
+        display: flex;
+        flex-direction: column;
+
+        > .title
+        {
+            flex: 0 0 36px;
+            font-size: 25px;
+            color: #000000;
+            margin-bottom: 7px;
+        }
+
+        > .label-group
+        {
+            flex: 0 0 30px;
+            margin-top: 5px;
+            margin-bottom: 9px;
+            font-family: PingFangSC-Semibold;
+            font-size: 14px;
+            color: #FFFFFF;
+
+            > span
+            {
+                height: 30px;
+                padding: 8px 8px;
+                border-radius: 3px;
+                cursor: pointer;
+            }
+
+            > .school
+            {
+                background: @cp-light-green;
+                margin-right: 16px;
+            }
+
+            > .major
+            {
+                background: @cp-deep-green;
+            }
+        }
+
+        > .count-group
+        {
+            flex: 0 0 25px;
+            margin-bottom: 25px;
+            color: @cp-grey-text;
+
+            > span:nth-child(1)
+            {
+                margin-right: 27px;
+            }
+        }
+
+        > .contributor
+        {
+            flex: 0 0 25px;
+            margin-bottom: 6px;
+            color: @cp-grey-text;
+        }
+
+        > .contributor-group
+        {
+            flex: 0 0 40px;
+            display: flex;
+
+            > .img
+            {
+                background: #D8D8D8;
+                border: 1px solid #979797;
+                width: 40px;
+                height: 100%;
+                border-radius: 20px;
+                margin-right: 15px;
+
+                > img
+                {
+                    width: 40px;
+                    height: 40px;
+                    border-radius: 20px;
+                }
+            }
+        }
+    }
+}

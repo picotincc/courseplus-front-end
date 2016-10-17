@@ -1,0 +1,44 @@
+.cp-home-app
+{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+
+    > header, > main > .tool-bar, > main > .content
+    {
+        position: relative;
+    }
+
+    > header
+    {
+        flex: 0 0 @cp-header-height;
+        background-color: @cp-header-color;
+        display: flex;
+        justify-content: center;
+    }
+
+    > main
+    {
+        flex: 1 1 auto;
+        display: flex;
+        flex-direction: column;
+        background: #EDEEF0;
+        overflow-y: scroll;
+
+        > .tool-bar
+        {
+            flex: 0 0 @cp-home-search-height;
+            display: flex;
+            justify-content: center;
+        }
+
+        > .content
+        {
+            flex: 1 1 auto;
+            display: flex;
+            justify-content: center;
+        }
+
+    }
+}
