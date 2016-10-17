@@ -24,16 +24,90 @@
 
         > .title
         {
-            flex: 0 0 40px;
-            font-size: 20px;
-            font-weight: 400;
+            flex: 0 0 36px;
+            display: flex;
+            align-items: center;
+
+            > .name
+            {
+                flex: 0 0 auto;
+                font-size: 25px;
+                color: #000000;
+                margin-right: 10px;
+            }
+
+            > .knowledge
+            {
+                flex: 0 0 21px;
+                height: 20px;
+                background-image: url(./img/knowledge.png);
+                margin-right: 8px;
+            }
+
+            > .resource
+            {
+                flex: 0 0 23px;
+                height: 26px;
+                background-image: url(./img/resource.png);
+                margin-right: 7px;
+            }
+
+            > .knowledge-count, .resource-count
+            {
+                flex: 0 0 auto;
+                font-size: 18px;
+                color: @cp-grey-text;
+                margin-right: 10px;
+            }
+        }
+
+        > .label-group
+        {
+            flex: 0 0 50px;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            font-size: 14px;
+            color: #FFFFFF;
+            display: flex;
+
+            > .label
+            {
+                height: 30px;
+                padding: 7px 8px;
+                border-radius: 3px;
+                cursor: pointer;
+            }
+
+            > .school
+            {
+                background-color: @cp-light-green;
+                margin-right: 10px;
+            }
+
+            > .major
+            {
+                background-color: @cp-deep-green;
+            }
         }
 
         > .para
         {
-            flex: 0 0 auto;
-            word-wrap: break-word;
-            word-break: normal;
+            flex: 0 0 100px;
+            text-overflow: ellipsis;
+            font-size: 18px;
+            color: @cp-grey-text;
         }
+
+        > .bottom
+        {
+            flex: 0 0 25px;
+
+            > a
+            {
+                float: right;
+            }
+        }
+
+
     }
 }
