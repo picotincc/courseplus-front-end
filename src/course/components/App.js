@@ -29,7 +29,6 @@ export default class App extends Component {
             <div className="cp-course-app">
                 <header><Header isLogin={this.state.isLogin} /></header>
                 <div className="container"><Course /></div>
-                <footer></footer>
             </div>
         );
     }
