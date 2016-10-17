@@ -27,12 +27,12 @@ export default class CourseContent extends Component {
 
     render()
     {
+        const courses = this.props.courses;
         return (
             <div className="cp-home-course-content">
-                <CourseBox />
-                <CourseBox />
-                <CourseBox />
-                <CourseBox />
+                {courses.map(item => {
+                    return (<CourseBox courseInfo={item} />)
+                })}
             </div>
         );
     }

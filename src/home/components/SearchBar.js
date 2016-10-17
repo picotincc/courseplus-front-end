@@ -4,12 +4,15 @@ export default class SearchBar extends Component {
 
     constructor (props) {
         super(props);
+
+        this.handleSearchClick = this.handleSearchClick.bind(this);
     }
 
     static defaultProps = {
         school: "",
         majors: [],
-        selectedMajor: ""
+        selectedMajor: "",
+        isSearched: false
     }
 
     static propTypes = {
@@ -57,8 +60,10 @@ export default class SearchBar extends Component {
                 </div>
                 <div className="empty"></div>
                 <div className="search input-group">
-                  <input type="text" className="form-control" placeholder="搜索" />
-                  <span className="input-group-addon"><span className="iconfont icon-search"></span></span>
+                  <input ref="searchInput" type="text" className="form-control" placeholder="搜索" />
+                  <span className="input-group-addon">
+                    <span onClick={this.handleSearchClick} className="iconfont icon-search"></span>
+                    </span>
                 </div>
 
             </div>
@@ -67,6 +72,18 @@ export default class SearchBar extends Component {
 
     onSelectionChange(major)
     {
-        console.log(major);
+        if (this.props.isSearched || this.props.selectedMajor !== major)
+        {
+            this.props.handleSelect(major);
+        }
+    }
+
+    handleSearchClick()
+    {
+        const input = this.refs.searchInput;
+        if (input.value !== "")
+        {
+            this.props.handleSearch(input.value);
+        }
     }
 }

@@ -49,19 +49,90 @@ export default class ServiceClient
     //根据专业名获取相关课程
     getCoursesByMajor(major)
     {
-        const courses = [
+        const courses1 = [
             {
+                "id": 1,
                 "name": "数据结构"
             },
             {
+                "id":2,
                 "name": "计算机网络"
+            },
+            {
+                "id":3,
+                "name": "操作系统"
+            },
+            {
+                "id": 4,
+                "name": "软件工程"
+            }
+        ];
+
+        const courses2 = [
+            {
+                "id": 1,
+                "name": "微积分"
+            },
+            {
+                "id":2,
+                "name": "线性代数"
+            },
+            {
+                "id":3,
+                "name": "概率论"
+            },
+            {
+                "id": 4,
+                "name": "傅里叶"
             }
         ];
 
         return new Promise((resolve, reject) => {
             if (true)
             {
-                resolve(courses);
+                if (major === "数学")
+                {
+                    resolve(courses2)
+                }else {
+                    resolve(courses1);
+                }
+            }
+        });
+    }
+
+    search(key)
+    {
+        const result = [
+            {
+                "id": 1,
+                "name": "人机交互"
+            },
+            {
+                "id":2,
+                "name": "数据仓库"
+            },
+            {
+                "id":3,
+                "name": "数据挖掘"
+            },
+            {
+                "id": 4,
+                "name": "云计算"
+            },
+            {
+                "id":5,
+                "name": "软件工程管理"
+            },
+            {
+                "id": 6,
+                "name": "前沿软件技术"
+            }
+        ];
+
+        return new Promise((resolve, reject) => {
+            if (true)
+            {
+                resolve(result);
             }
         });
     }

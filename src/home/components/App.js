@@ -11,6 +11,7 @@ export default class App extends Component {
         super(props);
         console.log("Courseplus home is running......");
 
+        this.handleSelectMajor = this.handleSelectMajor.bind(this);
         this.handleSearch = this.handleSearch.bind(this);
 
         this.loadInitialData();
@@ -28,6 +29,7 @@ export default class App extends Component {
         selectedSchool: "",
         majors: [],
         selectedMajor: "",
+        isSearched: false,
         content: []
     }
 
@@ -44,6 +46,9 @@ export default class App extends Component {
                             school={state.selectedSchool}
                             majors={state.majors}
                             selectedMajor={state.selectedMajor}
+                            isSearched={state.isSearched}
+                            handleSelect={this.handleSelectMajor}
+                            handleSearch={this.handleSearch}
                         /></div>
                     <div className="content"><CourseContent courses={state.content}/></div>
                 </main>
@@ -67,8 +72,24 @@ export default class App extends Component {
         });
     }
 
+    handleSelectMajor(major)
+    {
+        ServiceClient.getInstance().getCoursesByMajor(major.name).then(res => {
+            this.setState({
+                isSearched: false,
+                selectedMajor: major,
+                content: res
+            });
+        });
+    }
+
     handleSearch(key)
     {
-
+        ServiceClient.getInstance().search(key).then(res => {
+            this.setState({
+                isSearched: true,
+                content: res
+            });
+        });
     }
 }

@@ -7,7 +7,7 @@ export default class CourseBox extends Component {
     }
 
     static defaultProps = {
-
+        courseInfo: null
     }
 
     static propTypes = {
@@ -25,13 +25,15 @@ export default class CourseBox extends Component {
 
     render()
     {
+        const courseInfo = this.props.courseInfo;
+
         return (
             <div className="cp-home-course-box box">
                 <div className="course-img">
                     <img src="https://img3.doubanio.com/lpic/s1106991.jpg" />
                 </div>
                 <div className="course-info">
-                    <span className="title">数据结构</span>
+                    <span className="title">{courseInfo.name}</span>
                     <div className="label-group">
                         <span className="school">南京大学</span>
                         <span className="major">软件工程</span>
