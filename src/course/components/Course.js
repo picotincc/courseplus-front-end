@@ -34,7 +34,11 @@ export default class Course extends Component {
                     <CourseInfo />
                 </div>
                 <div className="course-contributor">
-
+                    <Contributor />
+                </div>
+                <div className="discuss-area">
+                </div>
+                <div className="related-resources">
                 </div>
             </div>
         );
