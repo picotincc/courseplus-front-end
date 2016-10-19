@@ -4,4 +4,56 @@
     height: 100%;
     background: #FFFFFF;
     border-radius: 5px;
+    padding: 15px 15px;
+
+    display: flex;
+    flex-direction: column;
+
+    > .knowledge-content
+    {
+        flex: 1 0 auto;
+        background-color: yellow;
+    }
+
+    > .bottom-controls
+    {
+        flex: 0 0 35px;
+        display: flex;
+        justify-content: space-between;
+
+        > .previous, .next
+        {
+            flex: 0 0 95px;
+            color: #FFFFFF;
+            font-size: 14px;
+            background: @cp-light-green;
+            border: 1px solid #DDDDDD;
+            border-radius: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        > .category-dropdown
+        {
+            flex: 0 0 auto;
+            height: 100%;
+
+            > .btn-category
+            {
+                background: #FFFFFF;
+                border: 1px solid #CCCCCC;
+                border-radius: 5px;
+                font-size: 18px;
+                color: #000000;
+                padding: 4px 8px;
+
+                > span
+                {
+                    margin-left: 12px;
+                }
+            }
+        }
+    }
 }
