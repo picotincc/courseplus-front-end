@@ -5,7 +5,7 @@ export default class CourseInfo extends Component {
     constructor (props) {
         super(props);
 
-        this.showAllPara = this.showAllPara.bind(this);
+        this.togglePara = this.togglePara.bind(this);
     }
 
     static defaultProps = {
@@ -17,11 +17,6 @@ export default class CourseInfo extends Component {
     }
 
     state = {
-
-    }
-
-    componentDidMount()
-    {
 
     }
 
@@ -48,7 +43,7 @@ export default class CourseInfo extends Component {
                             <span>软件工程</span>
                         </div>
                     </div>
-                    <div className="para overflow-hide" ref="para">
+                    <div className="para" ref="para">
                         &nbsp;数据结构数数据结构数据结构数据结构数数据结构数据结构数据结
                         构数数据结构数据结构数据结构数数据结构数据结构数据结构数数据结构数
                         据结构数据结构数数据结构数据结构数据结构数数据结构数据结构
@@ -59,33 +54,44 @@ export default class CourseInfo extends Component {
                         构数数据结构数据结构数据结构数数据结构数据结构数据结构数数据
                         结构数据结构数据结构数数据结构数据结构数据结构数数据结构
                         数据结构数据结构数数据结构数据结构数据结构数数据结构数据结
-                        
                     </div>
                     <div className="bottom">
-                        <a ref="showAll" onClick={this.showAllPara}><u>查看全部</u></a>
+                        <a ref="togglePara" onClick={this.togglePara}>查看全文</a>
                     </div>
                 </div>
             </div>
         );
     }
 
-    showAllPara()
+    componentDidMount()
     {
-        const $btnShow = $(this.refs.showAll);
-        const para = this.refs.para;
-
-        if ($btnShow.text() === "查看全部") {
-            para.style.height = "auto";
-            $btnShow.empty();
-            let $addDom = $("<u>收起全文</u>");
-            $btnShow.append($addDom);
+        const $para = $(this.refs.para);
+        const togglePara = this.refs.togglePara;
+        const height = $para.height();
+        if (height < 99) {
+            togglePara.style.visibility = "hidden";
         }
         else
         {
-            para.style.height = "96px";
-            $btnShow.empty();
-            let $addDom = $("<u>查看全部</u>");
-            $btnShow.append($addDom);
+            $para.addClass("overflow-hide");
         }
     }
+
+    togglePara()
+    {
+        const $para = $(this.refs.para);
+        const togglePara = this.refs.togglePara;
+
+        if (togglePara.text === "查看全文") {
+            $para.removeClass("overflow-hide");
+            togglePara.text = "收起全文";
+        }
+        else
+        {
+            $para.addClass("overflow-hide");
+            togglePara.text = "查看全文";
+        }
+
+    }
+
 }

@@ -29,7 +29,7 @@ export default class ContributorInfo extends Component {
                     王思议
                 </div>
                 <div className="intro">
-                    &nbsp;南京大学软件学院2016级考研第一名，精通数据结构、操作系统、网络、软件工程。大神带你飞！
+                    南京大学软件学院2016级考研第一名，精通数据结构、操作系统、网络、软件工程。大神带你飞！
                 </div>
                 <div className="contact">
                     <span className="icon iconfont icon-message"></span>
