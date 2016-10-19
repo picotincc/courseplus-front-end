@@ -48,8 +48,8 @@ export default class CourseInfo extends Component {
                             <span>软件工程</span>
                         </div>
                     </div>
-                    <div className="para" ref="para">
-                        <p>&nbsp;数据结构数数据结构数据结构数据结构数数据结构数据结构数据结
+                    <div className="para overflow-hide" ref="para">
+                        &nbsp;数据结构数数据结构数据结构数据结构数数据结构数据结构数据结
                         构数数据结构数据结构数据结构数数据结构数据结构数据结构数数据结构数
                         据结构数据结构数数据结构数据结构数据结构数数据结构数据结构
                         数据结构数数据结构数据结构数据结构数数据结构数据结构数据结构
@@ -59,7 +59,7 @@ export default class CourseInfo extends Component {
                         构数数据结构数据结构数据结构数数据结构数据结构数据结构数数据
                         结构数据结构数据结构数数据结构数据结构数据结构数数据结构
                         数据结构数据结构数数据结构数据结构数据结构数数据结构数据结
-                        </p>
+                        
                     </div>
                     <div className="bottom">
                         <a ref="showAll" onClick={this.showAllPara}><u>查看全部</u></a>
@@ -82,7 +82,7 @@ export default class CourseInfo extends Component {
         }
         else
         {
-            para.style.height = "105px";
+            para.style.height = "96px";
             $btnShow.empty();
             let $addDom = $("<u>查看全部</u>");
             $btnShow.append($addDom);

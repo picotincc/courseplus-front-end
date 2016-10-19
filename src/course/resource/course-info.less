@@ -90,28 +90,30 @@
             }
         }
 
+        .overflow-hide
+        {
+            display: -webkit-box;
+            -webkit-line-clamp: 4;
+            -webkit-box-orient: vertical;
+        }
+
         > .para
         {
             font-size: 18px;
             color: @cp-grey-text;
             flex: 0 0 auto;
-            height: 105px;
             width: 755px;
             white-space: pre-line;
             overflow:hidden;
             text-overflow: ellipsis;
             font-size: 18px;
             color: @cp-grey-text;
-
-            > p
-            {
-                margin: 0;
-            }
         }
 
         > .bottom
         {
             flex: 0 0 25px;
+            align-self: flex-end;
 
             > a
             {
