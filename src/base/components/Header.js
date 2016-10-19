@@ -30,7 +30,7 @@ export default class Header extends Component {
             loginInfo = (
                 <div className="user-info">
                     <div className="user-img">
-                        <img src="http://uupaper.oss-cn-qingdao.aliyuncs.com/b6eee5a620d6e14f4f8e5786f24244f7.jpeg" />
+                        <img src="http://i1.piimg.com/573251/970594a863d7aeb9.png" />
                     </div>
                     <span className="user-name">用户1</span>
                 </div>
