@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 
+import Comment from "./Comment";
+
 export default class Forum extends Component {
 
     constructor (props) {
@@ -32,6 +34,8 @@ export default class Forum extends Component {
                     </div>
                 </div>
                 <ul className="comment-list">
+                    <li><Comment /></li>
+                    <li><Comment /></li>
                 </ul>
             </div>
         );
