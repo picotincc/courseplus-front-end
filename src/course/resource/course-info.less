@@ -1,0 +1,138 @@
+.cp-course-info
+{
+    height: 100%;
+    width: 100%;
+    display: flex;
+
+    > .image
+    {
+        flex: 0 0 auto;
+
+        > img
+        {
+            width: 150px;
+            height: 210px;
+        }
+    }
+
+    > .intro
+    {
+        flex: 0 0 770px;
+        padding-left: 15px;
+        display: flex;
+        flex-direction: column;
+
+        > .title
+        {
+            flex: 0 0 36px;
+            display: flex;
+            align-items: center;
+
+            > .name
+            {
+                flex: 0 0 auto;
+                font-size: 25px;
+                color: #000000;
+                margin-right: 10px;
+            }
+
+            > .knowledge
+            {
+                flex: 0 0 21px;
+                height: 20px;
+                background-image: url(./img/knowledge.png);
+                margin-right: 8px;
+            }
+
+            > .resource
+            {
+                flex: 0 0 23px;
+                height: 26px;
+                background-image: url(./img/resource.png);
+                margin-right: 7px;
+            }
+
+            > .knowledge-count, .resource-count
+            {
+                flex: 0 0 auto;
+                font-size: 18px;
+                color: @cp-grey-text;
+                margin-right: 10px;
+            }
+        }
+
+        > .label-group
+        {
+            flex: 0 0 50px;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            font-size: 14px;
+            color: #FFFFFF;
+            display: flex;
+
+            > .label
+            {
+                height: 30px;
+                padding: 7px 8px;
+                border-radius: 3px;
+                cursor: pointer;
+            }
+
+            > .school
+            {
+                background-color: @cp-light-green;
+                margin-right: 10px;
+            }
+
+            > .major
+            {
+                background-color: @cp-deep-green;
+            }
+        }
+
+        .overflow-hide
+        {
+            display: -webkit-box;
+            -webkit-line-clamp: 4;
+            -webkit-box-orient: vertical;
+        }
+
+        > .para
+        {
+            font-size: 18px;
+            max-height: 97px;
+            color: @cp-grey-text;
+            flex: 0 0 auto;
+            width: 755px;
+            white-space: pre-line;
+            overflow:hidden;
+            text-overflow: ellipsis;
+            font-size: 18px;
+            color: @cp-grey-text;
+            transition: max-height 2s ease;
+        }
+
+        > .bottom
+        {
+            flex: 0 0 25px;
+            align-self: flex-end;
+            margin-top: 6px;
+
+            > a
+            {
+                float: right;
+                cursor: pointer;
+                font-size: 18px;
+                color: #000000;
+                text-decoration: underline;
+
+                &:hover
+                {
+                    color: @cp-light-green;
+                }
+            }
+        }
+
+
+    }
+}

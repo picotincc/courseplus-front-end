@@ -1,57 +1,37 @@
 .cp-course-course
 {
-    flex: 1 1 auto;
+    flex: 0 0 @cp-content-width;
     display: flex;
     flex-direction: column;
+    padding-top: 20px;
 
     > .course-info
     {
-        flex: 0 0 240px;
-        padding: 8px 16px;
-        display: flex;
-        border: 1px solid @cp-app-color;
-
-        > .image
-        {
-            flex: 0 0 240px;
-            padding: 10px 10px;
-        }
-
-        > .intro
-        {
-            flex: 0 0 auto;
-            padding: 8px 16px;
-            display: flex;
-            flex-direction: column;
-
-            > .title
-            {
-                flex: 0 0 40px;
-                font-size: 20px;
-                font-weight: 400;
-            }
-
-            > .para
-            {
-                flex: 0 0 auto;
-                word-wrap: break-word;
-                word-break: normal;
-            }
-        }
+        flex: 0 0 auto;
+        padding: 20px 20px;
+        border-radius: 5px;
+        background: #FFFFFF;
     }
 
-    > .contributors-list
+    > .course-contributor
     {
-        flex: 1 0 auto;
-        padding: 16px 16px;
-        display: flex;
-        flex-direction: column;
+        flex: 0 0 950px;
+    }
 
-        li
-        {
-            flex: 0 0 auto;
-            margin-top: 8px;
-            margin-bottom: 8px;
-        }
+    > .discuss-area
+    {
+        flex: 0 0 auto;
+        margin-top: 20px;
+        margin-bottom: 20px;
+        background: #FFFFFF;
+        border-radius: 5px;
+    }
+
+    > .related-resources
+    {
+        flex: 0 0 195px;
+        margin-bottom: 80px;
+        background: #FFFFFF;
+        border-radius: 5px;
     }
 }

@@ -5,9 +5,20 @@
     background: #FFFFFF;
     border: 1px solid #979797;
     border-radius: 5px;
+    position: relative;
 
     padding: 15px 15px;
     display: flex;
+    cursor: pointer;
+
+    &:hover
+    {
+        -webkit-transform:scale(1.05);
+        transition: .3s;
+        box-shadow: 0 2px 5px rgba(187,179,168,.64);
+        background-color: #faf9f9;
+        z-index: 101;
+    }
 
     > .course-img
     {
@@ -40,7 +51,6 @@
             flex: 0 0 30px;
             margin-top: 5px;
             margin-bottom: 9px;
-            font-family: PingFangSC-Semibold;
             font-size: 14px;
             color: #FFFFFF;
 

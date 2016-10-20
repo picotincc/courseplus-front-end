@@ -1,0 +1,73 @@
+.cp-app-header
+{
+    flex: 0 0 @cp-content-width;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-right: 10px;
+
+    > .logo
+    {
+        flex: 1 0 176px;
+
+        > a
+        {
+            width: 176px;
+            height: 52px;
+            cursor: pointer;
+
+            > img
+            {
+                width: 176px;
+                height: 52px;
+            }
+        }
+
+
+    }
+
+    > .login
+    {
+        flex: 0 0 auto;
+        height: 28px;
+        float: right;
+        font-size: 20px;
+        color: #FFFFFF;
+        cursor: pointer;
+        margin-right: 4px;
+    }
+
+    > .user-info
+    {
+        flex: 0 0 auto;
+        display: flex;
+
+        > .user-img
+        {
+            flex: 0 0 26px;
+            height: 26px;
+            border-radius: 13px;
+
+
+            > img
+            {
+                border-radius: 13px;
+                width: 26px;
+                height: 26px;
+            }
+        }
+
+        > .user-name
+        {
+            flex: 0 0 auto;
+            height: 28px;
+            font-size: 20px;
+            color: #FFFFFF;
+            cursor: pointer;
+            padding-left: 10px;
+            padding-right: 4px;
+        }
+    }
+
+
+}
