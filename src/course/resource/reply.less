@@ -1,0 +1,68 @@
+.cp-course-reply
+{
+    height: auto;
+    margin-top: 20px;
+    display: flex;
+
+    > .replyer-img
+    {
+        flex: 0 0 auto;
+        margin-right: 15px;
+
+        > img
+        {
+            width: 60px;
+            height: 60px;
+        }
+    }
+
+    > .right-section
+    {
+        flex: 0 0 770px;
+        display: flex;
+        flex-direction: column;
+
+        > .name
+        {
+            flex: 0 0 24px;
+            font-size: 18px;
+            color: #4B7385;
+        }
+
+        > .content
+        {
+            flex: 0 0 auto;
+            font-size: 16px;
+            color: #839393;
+            white-space: pre-line;
+            margin-bottom: 15px;
+        }
+
+        > .bottom-bar
+        {
+            flex: 0 0 auto;
+            display: flex;
+
+            > .comment-date
+            {
+                flex: 1 0 auto;
+                font-size: 12px;
+                color: #839393;
+            }
+
+            > .reply
+            {
+                flex: 0 0 auto;
+                font-size: 14px;
+                color: #4B7385;
+                cursor: pointer;
+
+                &:hover
+                {
+                    color: @cp-grey-text;
+                    text-decoration: underline;
+                }
+            }
+        }
+    }
+}
