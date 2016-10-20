@@ -23,11 +23,6 @@ export default class Comment extends Component {
         replyList: []
     }
 
-    componentDidMount()
-    {
-
-    }
-
     render()
     {
         return (
@@ -51,7 +46,12 @@ export default class Comment extends Component {
                         <li><Reply /></li>
                     </ul>
                     <div className="reply-input">
-                        <textarea className="forum-textarea" placeholder="我要评论"/>
+                        <textarea
+                            className="forum-textarea"
+                            placeholder="我要评论"
+                            onFocus={this._replyInput_onfocus}
+                            onBlur={this._replyInput_onblur}
+                        />
                     </div>
                     <div className="bar">
                         <div className="btn-reply">
@@ -85,5 +85,15 @@ export default class Comment extends Component {
                 });
             }
         }
+    }
+
+    _replyInput_onfocus(e)
+    {
+        e.target.style.height = "120px";
+    }
+
+    _replyInput_onblur(e)
+    {
+        e.target.style.height = "52px";
     }
 }

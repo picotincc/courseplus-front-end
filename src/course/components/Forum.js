@@ -6,6 +6,9 @@ export default class Forum extends Component {
 
     constructor (props) {
         super(props);
+
+        this.commentInput_onfocus = this.commentInput_onfocus.bind(this);
+        this.commentInput_onblur = this.commentInput_onblur.bind(this);
     }
 
     static defaultProps = {
@@ -26,7 +29,7 @@ export default class Forum extends Component {
             <div className="cp-course-forum">
                 <div className="title">讨论区</div>
                 <div className="comment-input">
-                    <textarea className="forum-textarea" placeholder="说点什么吧"/>
+                    <textarea ref="commentInput" className="forum-textarea" placeholder="说点什么吧"/>
                 </div>
                 <div className="bar">
                     <div className="btn-publish">
@@ -38,5 +41,22 @@ export default class Forum extends Component {
                 </ul>
             </div>
         );
+    }
+
+    componentDidMount()
+    {
+        this.commentInput = this.refs["commentInput"];
+        this.commentInput.onfocus = this.commentInput_onfocus;
+        this.commentInput.onblur = this.commentInput_onblur;
+    }
+
+    commentInput_onfocus(e)
+    {
+        this.commentInput.style.height = "120px";
+    }
+
+    commentInput_onblur(e)
+    {
+        this.commentInput.style.height = "52px";
     }
 }
