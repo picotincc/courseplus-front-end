@@ -66,28 +66,24 @@ export default class Comment extends Component {
 
     showReply()
     {
-        const replySection = this.refs.replySection;
         const btnShowReply = this.refs.btnShowReply;
-        console.log(btnShowReply);
-        // if (this.state.isExpanded) {
-        //     replySection.style.display = "none";
-        //     btnShowReply.innerHTML = "回复 2";
-        //     this.setState({
-        //         isExpanded: false
-        //     });
-        // }
-        // else
-        // {
-        //     replySection.style.display = "flex";
-        //     btnShowReply.innerHTML = "收起回复";
-        //
-        //     if (this.state.replyList.length === 0) {
-        //         //请求此评论的回复列表
-        //         this.setState({
-        //             isExpanded: true,
-        //             replyList: []
-        //         });
-        //     }
-        // }
+        if (this.state.isExpanded) {
+            btnShowReply.innerHTML = "回复 2";
+            this.setState({
+                isExpanded: false
+            });
+        }
+        else
+        {
+            btnShowReply.innerHTML = "收起回复";
+
+            if (this.state.replyList.length === 0) {
+                //请求此评论的回复列表
+                this.setState({
+                    isExpanded: true,
+                    replyList: []
+                });
+            }
+        }
     }
 }
