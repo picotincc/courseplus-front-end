@@ -65,31 +65,33 @@ export default class CourseInfo extends Component {
 
     componentDidMount()
     {
-        const $para = $(this.refs.para);
-        const togglePara = this.refs.togglePara;
-        const height = $para.height();
-        if (height < 99) {
-            togglePara.style.visibility = "hidden";
-        }
-        else
-        {
-            $para.addClass("overflow-hide");
-        }
+        // const $para = $(this.refs.para);
+        // const togglePara = this.refs.togglePara;
+        // const height = $para.height();
+        // if (height < 99) {
+        //     togglePara.style.visibility = "hidden";
+        // }
+        // else
+        // {
+        //     $para.addClass("overflow-hide");
+        // }
     }
 
     togglePara()
     {
-        const $para = $(this.refs.para);
+        const para = this.refs.para;
         const togglePara = this.refs.togglePara;
 
         if (togglePara.text === "查看全文") {
-            $para.removeClass("overflow-hide");
+            para.style.maxHeight = "1000px";
             togglePara.text = "收起全文";
         }
         else
         {
-            $para.addClass("overflow-hide");
-            togglePara.text = "查看全文";
+            para.style.maxHeight = "97px";
+            setTimeout(() => {
+                togglePara.text = "查看全文";
+            }, 750);
         }
 
     }

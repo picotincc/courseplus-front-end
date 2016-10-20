@@ -100,6 +100,7 @@
         > .para
         {
             font-size: 18px;
+            max-height: 97px;
             color: @cp-grey-text;
             flex: 0 0 auto;
             width: 755px;
@@ -108,12 +109,14 @@
             text-overflow: ellipsis;
             font-size: 18px;
             color: @cp-grey-text;
+            transition: max-height 2s ease;
         }
 
         > .bottom
         {
             flex: 0 0 25px;
             align-self: flex-end;
+            margin-top: 6px;
 
             > a
             {
