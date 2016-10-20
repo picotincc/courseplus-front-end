@@ -94,6 +94,6 @@ export default class Comment extends Component {
 
     _replyInput_onblur(e)
     {
-        e.target.style.height = "52px";
+        e.target.style.height = "auto";
     }
 }
