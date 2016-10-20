@@ -41,11 +41,11 @@ export default class Comment extends Component {
                         <div className="content">这是一个很长的评论这是一个很长的评论这是一个很长的评论这是一个很长的评论这是一个很长的评论这是一个很长的评论这是一个很长的评论这是一个很长的评论这是一个很长的评论这是一个很长的评论这是一个很长的评论这是一个很长的评论这是一个很长的评论这是一个很长的评论这是一个很长的评论这是一个很长的评论这是一个很长的评论这是一个很长的评论这是一个很长的评论这是一个很长的评论这是一个很长的评论这是一个很长的评论这是一个很长的评论这是一个很长的评论这是一个很长的评论这是一个很长的评论这是一个很长的评论这是一个很长的评论这是一个很长的评论这是一个很长的评论这是一个很长的评论这是一个很长的评论这是一个很长的评论</div>
                         <div className="bottom-bar">
                             <div className="comment-date">2016.10.16 15:20</div>
-                            <div ref="btnShowReply"onClick={this.showReply} className="show-reply">回复&nbsp;2</div>
+                            <a ref="btnShowReply" href="#comment1" data-toggle="collapse" onClick={this.showReply} className="show-reply">回复&nbsp;2</a>
                         </div>
                     </div>
                 </div>
-                <div ref="replySection" className="reply-section">
+                <div id="comment1" ref="replySection" className="reply-section collapse">
                     <ul className="reply-list">
                         <li><Reply /></li>
                         <li><Reply /></li>
@@ -69,25 +69,25 @@ export default class Comment extends Component {
         const replySection = this.refs.replySection;
         const btnShowReply = this.refs.btnShowReply;
         console.log(btnShowReply);
-        if (this.state.isExpanded) {
-            replySection.style.display = "none";
-            btnShowReply.innerHTML = "回复 2";
-            this.setState({
-                isExpanded: false
-            });
-        }
-        else
-        {
-            replySection.style.display = "flex";
-            btnShowReply.innerHTML = "收起回复";
-
-            if (this.state.replyList.length === 0) {
-                //请求此评论的回复列表
-                this.setState({
-                    isExpanded: true,
-                    replyList: []
-                });
-            }
-        }
+        // if (this.state.isExpanded) {
+        //     replySection.style.display = "none";
+        //     btnShowReply.innerHTML = "回复 2";
+        //     this.setState({
+        //         isExpanded: false
+        //     });
+        // }
+        // else
+        // {
+        //     replySection.style.display = "flex";
+        //     btnShowReply.innerHTML = "收起回复";
+        //
+        //     if (this.state.replyList.length === 0) {
+        //         //请求此评论的回复列表
+        //         this.setState({
+        //             isExpanded: true,
+        //             replyList: []
+        //         });
+        //     }
+        // }
     }
 }

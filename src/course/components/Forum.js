@@ -35,7 +35,6 @@ export default class Forum extends Component {
                 </div>
                 <ul className="comment-list">
                     <li><Comment /></li>
-                    <li><Comment /></li>
                 </ul>
             </div>
         );
