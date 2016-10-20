@@ -1,0 +1,74 @@
+.cp-course-resources
+{
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+
+    > .top-bar
+    {
+        flex: 0 0 55px;
+        border-bottom: 1px solid #979797;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        padding-left: 20px;
+        padding-right: 15px;
+        font-size: 20px;
+        color: #4B7385;
+        display: flex;
+
+        > .title
+        {
+            flex: 1 0 auto;
+            align-self: center;
+        }
+
+        > .package-download
+        {
+            flex: 0 0 156px;
+            background: #39C1C3;
+            border: 1px solid #FFFFFF;
+            font-size: 18px;
+            border-radius: 5px;
+            color: #FFFFFF;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+
+            > span
+            {
+                font-size: 22px;
+                margin-right: 8px;
+            }
+        }
+    }
+
+    > .history-resources
+    {
+        flex: 1 0 auto;
+        padding: 15px 20px;
+
+        display: flex;
+
+        > .box
+        {
+            flex: 0 0 86px;
+            color: #4B7385;
+            display: flex;
+            flex-direction: column;
+            margin-right: 30px;
+
+            > .icon
+            {
+                font-size: 86px;
+                cursor: pointer;
+            }
+
+            > .year
+            {
+                font-size: 20px;
+                align-self: center;
+            }
+        }
+    }
+}

@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 
+import ContributorInfo from "./ContributorInfo";
+import Knowledge from "./Knowledge";
+
 export default class Contributor extends Component {
 
     constructor (props) {
@@ -27,20 +30,22 @@ export default class Contributor extends Component {
     {
         return (
             <div className="cp-course-contributor">
-                <div className="contributor-info">
-                    <div className="image"></div>
-                    <div className="intro">复习资料作者个人简介</div>
-                    <span className="contact">联系他</span>
-                    <span className="download">下载他的复习资料</span>
-                    <span className="other">他的其他课程</span>
-                    <ul className="other-courses">
-                        <li>数据库</li>
-                        <li>软件工程</li>
-                    </ul>
+                <div className="tab-group">
+                    <div className="tab selected">
+                        <span>王思议</span>
+                    </div>
+                    <div className="tab">
+                        <span>大神</span>
+                    </div>
                 </div>
-                <ul className="course-content-list">
-
-                </ul>
+                <div className="content">
+                    <div className="left-section">
+                        <ContributorInfo />
+                    </div>
+                    <div className="right-section">
+                        <Knowledge />
+                    </div>
+                </div>
             </div>
         );
     }

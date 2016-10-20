@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 
+import Header from "../../base/components/Header";
+
 import CourseContent from "./CourseContent";
-import Header from "./Header";
 import SearchBar from "./SearchBar";
 import ServiceClient from "../service/ServiceClient";
 
@@ -26,6 +27,7 @@ export default class App extends Component {
     }
 
     state = {
+        isLogin: false,
         selectedSchool: "",
         majors: [],
         selectedMajor: "",
@@ -36,10 +38,9 @@ export default class App extends Component {
     render()
     {
         const state = this.state;
-
         return (
             <div className="cp-home-app">
-                <header><Header /></header>
+                <header><Header isLogin={state.isLogin} /></header>
                 <main>
                     <div className="tool-bar">
                         <SearchBar

@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 
+import Header from "../../base/components/Header";
+
 import Course from "./Course";
-import Header from "./Header";
 
 export default class App extends Component {
 
@@ -19,16 +20,15 @@ export default class App extends Component {
     }
 
     state = {
-
+        isLogin: true
     }
 
     render()
     {
         return (
             <div className="cp-course-app">
-                <header><Header /></header>
+                <header><Header isLogin={this.state.isLogin} /></header>
                 <div className="container"><Course /></div>
-                <footer></footer>
             </div>
         );
     }

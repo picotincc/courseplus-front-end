@@ -1,0 +1,126 @@
+.cp-course-comment
+{
+    height: auto;
+    margin-bottom: 30px;
+    display: flex;
+    flex-direction: column;
+
+    > .root-comment
+    {
+        flex: 0 0 auto;
+        display: flex;
+
+        > .commenter-img
+        {
+            flex: 0 0 auto;
+            margin-right: 15px;
+
+            > img
+            {
+                width: 60px;
+                height: 60px;
+            }
+        }
+
+        > .right-section
+        {
+            flex: 0 0 848px;
+            display: flex;
+            flex-direction: column;
+
+            > .name
+            {
+                flex: 0 0 24px;
+                font-size: 18px;
+                color: #4B7385;
+            }
+
+            > .content
+            {
+                flex: 0 0 auto;
+                font-size: 16px;
+                color: #839393;
+                white-space: pre-line;
+                margin-bottom: 15px;
+            }
+
+            > .bottom-bar
+            {
+                flex: 0 0 auto;
+                display: flex;
+
+                > .comment-date
+                {
+                    flex: 1 0 auto;
+                    font-size: 12px;
+                    color: #839393;
+                }
+
+                > .show-reply
+                {
+                    flex: 0 0 auto;
+                    font-size: 14px;
+                    color: #4B7385;
+                    cursor: pointer;
+
+                    &:hover
+                    {
+                        color: @cp-grey-text;
+                        text-decoration: underline;
+                    }
+                }
+            }
+        }
+    }
+
+    > .reply-section
+    {
+        // display: flex;
+        flex: 0 0 auto;
+        flex-direction: column;
+
+        > .reply-list
+        {
+            flex: 0 0 auto;
+            padding-left: 75px;
+        }
+
+        > .reply-input
+        {
+            flex: 0 0 auto;
+            padding-left: 75px;
+            margin-top: 30px;
+
+            font-size: 18px;
+            color: #838383;
+        }
+
+        > .bar
+        {
+            flex: 0 0 35px;
+            margin-top: 12px;
+
+            > .btn-reply
+            {
+                width: 90px;
+                height: 35px;
+                float: right;
+                background: #4B7385;
+                border: 1px solid #DDDDDD;
+                border-radius: 40px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                cursor: pointer;
+
+                > span
+                {
+                    font-size: 14px;
+                    color: #FFFFFF;
+                }
+            }
+        }
+    }
+
+
+}
