@@ -2,46 +2,77 @@
 {
     width: 100%;
     height: 100%;
-    display: flex;
-    flex-direction: column;
 
-    > header, > main > .tool-bar, > main > .content
+    > .dialog-container
     {
-        position: relative;
-    }
-
-    > header
-    {
-        flex: 0 0 @cp-header-height;
-        background-color: @cp-header-color;
+        z-index: 0;
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        background: rgba(0,0,0,0.40);
         display: flex;
+        align-items: center;
         justify-content: center;
     }
 
-    > main
+    .app-blur {
+        -moz-filter: blur(2px);
+        -webkit-filter: blur(2px);
+        -o-filter: blur(2px);
+        -ms-filter: blur(2px);
+        filter: blur(2px);
+    }
+
+    > .app-container
     {
-        flex: 1 1 auto;
+        position: absolute;
+        z-index: 10;
+        width: 100%;
+        height: 100%;
+        background: #EDEEF0;
         display: flex;
         flex-direction: column;
-        background: @cp-background-color;
-        overflow-y: scroll;
-        width: 100%;
-        padding: 0;
-        margin: 0;
 
-        > .tool-bar
+        > header, > main > .tool-bar, > main > .content
         {
-            flex: 0 0 @cp-home-search-height;
+            position: relative;
+        }
+
+        > header
+        {
+            flex: 0 0 @cp-header-height;
+            background-color: @cp-header-color;
             display: flex;
             justify-content: center;
         }
 
-        > .content
+        > main
         {
             flex: 1 1 auto;
             display: flex;
-            justify-content: center;
-        }
+            flex-direction: column;
+            background: @cp-background-color;
+            overflow-y: scroll;
+            width: 100%;
+            padding: 0;
+            margin: 0;
 
+            > .tool-bar
+            {
+                flex: 0 0 @cp-home-search-height;
+                display: flex;
+                justify-content: center;
+            }
+
+            > .content
+            {
+                flex: 1 1 auto;
+                display: flex;
+                justify-content: center;
+            }
+
+        }
     }
 }

@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import Header from "../../base/components/Header";
 
 import CourseContent from "./CourseContent";
+import Dialog from "./Dialog";
 import SearchBar from "./SearchBar";
 import ServiceClient from "../service/ServiceClient";
 
@@ -12,8 +13,10 @@ export default class App extends Component {
         super(props);
         console.log("Courseplus home is running......");
 
+        this.showDialog = this.showDialog.bind(this);
         this.handleSelectMajor = this.handleSelectMajor.bind(this);
         this.handleSearch = this.handleSearch.bind(this);
+        this.hideDialog = this.hideDialog.bind(this);
 
         this.loadInitialData();
     }
@@ -40,21 +43,37 @@ export default class App extends Component {
         const state = this.state;
         return (
             <div className="cp-home-app">
-                <header><Header isLogin={state.isLogin} /></header>
-                <main>
-                    <div className="tool-bar">
-                        <SearchBar
-                            school={state.selectedSchool}
-                            majors={state.majors}
-                            selectedMajor={state.selectedMajor}
-                            isSearched={state.isSearched}
-                            handleSelect={this.handleSelectMajor}
-                            handleSearch={this.handleSearch}
-                        /></div>
-                    <div className="content"><CourseContent courses={state.content}/></div>
-                </main>
+                <div ref="dialogContainer" className="dialog-container">
+                    <Dialog hideDialog={this.hideDialog}/>
+                </div>
+                <div ref="homeApp" className="app-container">
+                    <header>
+                        <Header
+                            isLogin={state.isLogin}
+                            showDialog={this.showDialog}
+                        />
+                    </header>
+                    <main>
+                        <div className="tool-bar">
+                            <SearchBar
+                                school={state.selectedSchool}
+                                majors={state.majors}
+                                selectedMajor={state.selectedMajor}
+                                isSearched={state.isSearched}
+                                handleSelect={this.handleSelectMajor}
+                                handleSearch={this.handleSearch}
+                            /></div>
+                        <div className="content"><CourseContent courses={state.content}/></div>
+                    </main>
+                </div>
             </div>
         );
+    }
+
+    componentDidMount()
+    {
+        this.homeApp = this.refs["homeApp"];
+        this.dialogContainer = this.refs["dialogContainer"];
     }
 
     loadInitialData()
@@ -71,6 +90,18 @@ export default class App extends Component {
                 });
             });
         });
+    }
+
+    showDialog()
+    {
+        this.homeApp.classList.add("app-blur");
+        this.dialogContainer.style.zIndex = 20;
+    }
+
+    hideDialog()
+    {
+        this.homeApp.classList.remove("app-blur");
+        this.dialogContainer.style.zIndex = 0;
     }
 
     handleSelectMajor(major)
