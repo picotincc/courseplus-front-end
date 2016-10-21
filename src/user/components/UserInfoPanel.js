@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 
-export default class App extends Component {
+export default class UserInfoPanel extends Component {
 
     constructor (props) {
         super(props);
-        console.log("Courseplus login is running......");
     }
 
     static defaultProps = {
@@ -19,10 +18,13 @@ export default class App extends Component {
 
     }
 
+    componentDidMount()
+    {
+
+    }
+
     render()
     {
-        return (
-            <div className="cp-login-app"></div>
-        );
+
     }
 }

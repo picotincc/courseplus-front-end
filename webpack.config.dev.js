@@ -9,7 +9,7 @@ module.exports = {
 
     entry: {
         vendor: [ "jquery", "./base/lib/bootstrap.min.js" ],
-        login: [ "./login/index.js", "./login/resource/index.less" ],
+        user: [ "./user/index.js", "./user/resource/index.less" ],
         home: [ "./home/index.js", "./home/resource/index.less" ],
         course: [ "./course/index.js", "./course/resource/index.less" ]
     },
