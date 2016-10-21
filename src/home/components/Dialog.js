@@ -110,6 +110,7 @@ export default class Dialog extends Component {
     hide()
     {
         this.props.hideDialog();
+        this.navToLogin();
     }
 
     navToRegister()
