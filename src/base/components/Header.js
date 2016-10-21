@@ -4,6 +4,8 @@ export default class Header extends Component {
 
     constructor (props) {
         super(props);
+
+        this.login = this.login.bind(this);
     }
 
     static defaultProps = {
@@ -38,7 +40,7 @@ export default class Header extends Component {
         }
         else
         {
-            loginInfo = (<span className="login">登录</span>);
+            loginInfo = (<span onClick={this.login} className="login">登录</span>);
         }
 
         return (
@@ -51,5 +53,10 @@ export default class Header extends Component {
                 {loginInfo}
             </div>
         );
+    }
+
+    login()
+    {
+        this.props.showDialog();
     }
 }
