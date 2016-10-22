@@ -35,6 +35,18 @@ export default class Header extends Component {
                         <img src="http://i1.piimg.com/573251/970594a863d7aeb9.png" />
                     </div>
                     <span className="user-name">用户1</span>
+                    <ul className="user-dropdown">
+                        <li>
+                            <div className="item user-center">
+                                <span>个人中心</span>
+                            </div>
+                        </li>
+                        <li>
+                            <div className="item logout">
+                                <span>退出登录</span>
+                            </div>
+                        </li>
+                    </ul>
                 </div>
             );
         }
