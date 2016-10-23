@@ -6,6 +6,7 @@ export default class UserInfoPanel extends Component {
         super(props);
 
         this.changeGender = this.changeGender.bind(this);
+        this.uploadImg = this.uploadImg.bind(this);
     }
 
     static defaultProps = {
@@ -48,7 +49,8 @@ export default class UserInfoPanel extends Component {
                 </div>
 
                 <div className="user-img">
-
+                    <img ref="userImg" onClick={this.uploadImg} src="http://i1.piimg.com/573251/970594a863d7aeb9.png" />
+                    <input ref="imgInput" type="file" />
                 </div>
 
                 <div className="btn-update">
@@ -65,6 +67,10 @@ export default class UserInfoPanel extends Component {
         this.maleGender = this.refs["maleGender"];
         this.femaleGender = this.refs["femaleGender"];
         this.genderInput = this.refs["genderInput"];
+        this.imgInput = this.refs["imgInput"];
+        this.userImg = this.refs["userImg"];
+
+        this.imgInput.onchange = this.changeImg;
     }
 
     changeGender(gender)
@@ -88,4 +94,11 @@ export default class UserInfoPanel extends Component {
             }
         }
     }
+
+    uploadImg()
+    {
+        console.log("uploadImg");
+        this.imgInput.click();
+    }
+
 }

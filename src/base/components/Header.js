@@ -6,6 +6,7 @@ export default class Header extends Component {
         super(props);
 
         this.login = this.login.bind(this);
+        this.initUserCenter = this.initUserCenter.bind(this);
         this.dropdownUserCenter = this.dropdownUserCenter.bind(this);
         this.collapseUserCenter = this.collapseUserCenter.bind(this);
     }
@@ -66,17 +67,31 @@ export default class Header extends Component {
 
     componentDidMount()
     {
+        if (this.state.isLogin) {
+            this.initUserCenter();
+        }
+    }
+
+    componentDidUpdate()
+    {
+        if (this.state.isLogin) {
+            this.initUserCenter();
+        }
+    }
+
+    login()
+    {
+        this.props.showDialog();
+    }
+
+    initUserCenter()
+    {
         this.userInfo = this.refs["userInfo"];
         this.userDropdown = this.refs["userDropdown"];
 
         this.userInfo.onmouseover = this.dropdownUserCenter;
         this.userDropdown.onmouseover = this.dropdownUserCenter;
         this.userDropdown.onmouseout = this.collapseUserCenter;
-    }
-
-    login()
-    {
-        this.props.showDialog();
     }
 
     dropdownUserCenter()
