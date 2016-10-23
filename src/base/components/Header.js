@@ -12,7 +12,7 @@ export default class Header extends Component {
     }
 
     static defaultProps = {
-        isLogin: false
+        isLogin: true
     }
 
     static propTypes = {
@@ -67,14 +67,14 @@ export default class Header extends Component {
 
     componentDidMount()
     {
-        if (this.state.isLogin) {
+        if (this.props.isLogin) {
             this.initUserCenter();
         }
     }
 
     componentDidUpdate()
     {
-        if (this.state.isLogin) {
+        if (this.props.isLogin) {
             this.initUserCenter();
         }
     }
