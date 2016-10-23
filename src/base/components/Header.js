@@ -6,6 +6,9 @@ export default class Header extends Component {
         super(props);
 
         this.login = this.login.bind(this);
+        this.initUserCenter = this.initUserCenter.bind(this);
+        this.dropdownUserCenter = this.dropdownUserCenter.bind(this);
+        this.collapseUserCenter = this.collapseUserCenter.bind(this);
     }
 
     static defaultProps = {
@@ -20,21 +23,28 @@ export default class Header extends Component {
 
     }
 
-    componentDidMount()
-    {
-
-    }
-
     render()
     {
         let loginInfo = null;
         if (this.props.isLogin) {
             loginInfo = (
-                <div className="user-info">
+                <div className="user-info" ref="userInfo">
                     <div className="user-img">
                         <img src="http://i1.piimg.com/573251/970594a863d7aeb9.png" />
                     </div>
                     <span className="user-name">用户1</span>
+                    <ul ref="userDropdown" className="user-dropdown">
+                        <li>
+                            <div className="item user-center">
+                                <span><a href="/public/user.html">个人中心</a></span>
+                            </div>
+                        </li>
+                        <li>
+                            <div className="item logout">
+                                <span>退出登录</span>
+                            </div>
+                        </li>
+                    </ul>
                 </div>
             );
         }
@@ -55,8 +65,44 @@ export default class Header extends Component {
         );
     }
 
+    componentDidMount()
+    {
+        if (this.state.isLogin) {
+            this.initUserCenter();
+        }
+    }
+
+    componentDidUpdate()
+    {
+        if (this.state.isLogin) {
+            this.initUserCenter();
+        }
+    }
+
     login()
     {
         this.props.showDialog();
     }
+
+    initUserCenter()
+    {
+        this.userInfo = this.refs["userInfo"];
+        this.userDropdown = this.refs["userDropdown"];
+
+        this.userInfo.onmouseover = this.dropdownUserCenter;
+        this.userDropdown.onmouseover = this.dropdownUserCenter;
+        this.userDropdown.onmouseout = this.collapseUserCenter;
+    }
+
+    dropdownUserCenter()
+    {
+        this.userDropdown.style.display = "block";
+    }
+
+    collapseUserCenter()
+    {
+        this.userDropdown.style.display = "none";
+    }
+
+
 }
