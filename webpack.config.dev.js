@@ -61,5 +61,23 @@ module.exports = {
         }),
 
         new ExtractTextPlugin("./[name]/resource/bundle.css")
-    ]
+    ],
+
+    devServer: {
+        proxy: {
+            "/api/*": {
+                "target": {
+                  "host": "118.178.137.101",
+                  "protocol": 'http:',
+                  "port": 8000
+                },
+                ignorePath: false,
+                changeOrigin: true,
+                secure: false,
+                // headers: {
+                //     "Referer": "http://music.163.com"
+                // }
+            }
+        }
+    }
 };
