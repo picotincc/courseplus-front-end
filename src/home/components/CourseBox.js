@@ -26,7 +26,6 @@ export default class CourseBox extends Component {
     render()
     {
         const courseInfo = this.props.courseInfo;
-
         return (
             <div className="cp-home-course-box box">
                 <div className="course-img">
@@ -35,12 +34,12 @@ export default class CourseBox extends Component {
                 <div className="course-info">
                     <span className="title">{courseInfo.name}</span>
                     <div className="label-group">
-                        <span className="school">南京大学</span>
-                        <span className="major">软件工程</span>
+                        <span className="school">{courseInfo.schoolName}</span>
+                        <span className="major">{courseInfo.specialityName}</span>
                     </div>
                     <div className="count-group">
-                        <span>知识点：20</span>
-                        <span>资料数量：18</span>
+                        <span>知识点：{courseInfo.topicNum}</span>
+                        <span>资料数量：{courseInfo.resourceNum}</span>
                     </div>
                     <span className="contributor">作者</span>
                     <div className="contributor-group">

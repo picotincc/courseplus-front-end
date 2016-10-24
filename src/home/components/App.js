@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
 import Header from "../../base/components/Header";
+import WebStorageUtil from "../../base/util/WebStorageUtil";
 
 import CourseContent from "./CourseContent";
 import Dialog from "./Dialog";
@@ -13,12 +14,14 @@ export default class App extends Component {
         super(props);
         console.log("Courseplus home is running......");
 
-        this.showDialog = this.showDialog.bind(this);
-        this.handleSelectMajor = this.handleSelectMajor.bind(this);
+        this.handleDialogShow = this.handleDialogShow.bind(this);
+        this.handleDialogHide = this.handleDialogHide.bind(this);
+        this.handleMajorSelect = this.handleMajorSelect.bind(this);
         this.handleSearch = this.handleSearch.bind(this);
-        this.hideDialog = this.hideDialog.bind(this);
-
+        this.handleLogin = this.handleLogin.bind(this);
         this.loadInitialData();
+
+
     }
 
     static defaultProps = {
@@ -30,44 +33,13 @@ export default class App extends Component {
     }
 
     state = {
+        user: null,
         isLogin: false,
         selectedSchool: "",
         majors: [],
         selectedMajor: "",
         isSearched: false,
         content: []
-    }
-
-    render()
-    {
-        const state = this.state;
-        return (
-            <div className="cp-home-app">
-                <div ref="dialogContainer" className="dialog-container">
-                    <Dialog hideDialog={this.hideDialog}/>
-                </div>
-                <div ref="homeApp" className="app-container">
-                    <header>
-                        <Header
-                            isLogin={state.isLogin}
-                            showDialog={this.showDialog}
-                        />
-                    </header>
-                    <main>
-                        <div className="tool-bar">
-                            <SearchBar
-                                school={state.selectedSchool}
-                                majors={state.majors}
-                                selectedMajor={state.selectedMajor}
-                                isSearched={state.isSearched}
-                                handleSelect={this.handleSelectMajor}
-                                handleSearch={this.handleSearch}
-                            /></div>
-                        <div className="content"><CourseContent courses={state.content}/></div>
-                    </main>
-                </div>
-            </div>
-        );
     }
 
     componentDidMount()
@@ -78,12 +50,39 @@ export default class App extends Component {
 
     loadInitialData()
     {
-        ServiceClient.getInstance().getHomeData().then(data => {
-            const school = data.school;
-            const majors = data.majors;
-            ServiceClient.getInstance().getCoursesByMajor(majors[0]).then(courses => {
+        const user = WebStorageUtil.getUserStorage();
+        let isLogin = false;
+
+        if (user)
+        {
+            ServiceClient.getInstance().login({
+                phone: user.phone,
+                password: user.password
+            }).then(res => {
+                if (res.code === 0)
+                {
+                    isLogin = true;
+                    WebStorageUtil.setToken(res.message);
+                }
+                this.loadHomeData(isLogin, user);
+            });
+        }
+        else
+        {
+            this.loadHomeData(isLogin);
+        }
+    }
+
+    loadHomeData(isLogin, user = null)
+    {
+        ServiceClient.getInstance().getCourseSpeciality().then(data => {
+            const school = data["南京大学"];
+            const majors = school.specialities;
+            ServiceClient.getInstance().getCourseList(majors[0]).then(courses => {
                 this.setState({
-                    selectedSchool :school,
+                    isLogin,
+                    user,
+                    selectedSchool :"南京大学",
                     majors,
                     selectedMajor: majors[0],
                     content: courses
@@ -92,19 +91,27 @@ export default class App extends Component {
         });
     }
 
-    showDialog()
+    handleLogin(user)
+    {
+        this.setState({
+            isLogin: true,
+            user: user
+        });
+    }
+
+    handleDialogShow()
     {
         this.homeApp.classList.add("app-blur");
         this.dialogContainer.style.zIndex = 20;
     }
 
-    hideDialog()
+    handleDialogHide()
     {
         this.homeApp.classList.remove("app-blur");
         this.dialogContainer.style.zIndex = 0;
     }
 
-    handleSelectMajor(major)
+    handleMajorSelect(major)
     {
         ServiceClient.getInstance().getCoursesByMajor(major.name).then(res => {
             this.setState({
@@ -124,4 +131,43 @@ export default class App extends Component {
             });
         });
     }
+
+    render()
+    {
+        const state = this.state;
+        return (
+            <div className="cp-home-app">
+                <div ref="dialogContainer" className="dialog-container">
+                    <Dialog
+                        onDialogHide={this.handleDialogHide}
+                        onLogin={this.handleLogin}
+                    />
+                </div>
+                <div ref="homeApp" className="app-container">
+                    <header>
+                        <Header
+                            isLogin={state.isLogin}
+                            user={state.user}
+                            onDialogShow={this.handleDialogShow}
+                        />
+                    </header>
+                    <main>
+                        <div className="tool-bar">
+                            <SearchBar
+                                school={state.selectedSchool}
+                                majors={state.majors}
+                                selectedMajor={state.selectedMajor}
+                                isSearched={state.isSearched}
+                                onMajorSelect={this.handleMajorSelect}
+                                onSearch={this.handleSearch}
+                            /></div>
+                        <div className="content"><CourseContent courses={state.content}/></div>
+                    </main>
+                </div>
+            </div>
+        );
+    }
+
+
+
 }

@@ -31,7 +31,7 @@ export default class CourseContent extends Component {
         return (
             <div className="cp-home-course-content">
                 {courses.map(item => {
-                    return (<CourseBox courseInfo={item} />)
+                    return (<CourseBox key={item.id} courseInfo={item} />)
                 })}
             </div>
         );

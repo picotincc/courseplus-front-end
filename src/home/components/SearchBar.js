@@ -74,7 +74,7 @@ export default class SearchBar extends Component {
     {
         if (this.props.isSearched || this.props.selectedMajor !== major)
         {
-            this.props.handleSelect(major);
+            this.props.onMajorSelect(major);
         }
     }
 
@@ -83,7 +83,7 @@ export default class SearchBar extends Component {
         const input = this.refs.searchInput;
         if (input.value !== "")
         {
-            this.props.handleSearch(input.value);
+            this.props.onSearch(input.value);
         }
     }
 }
