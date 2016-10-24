@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 
 import Header from "../../base/components/Header";
 
+import WebStorageUtil from "../../base/util/WebStorageUtil";
+import ServiceClient from "../service/ServiceClient";
+
 import ChangePasswordPanel from "./ChangePasswordPanel";
 import UserInfoPanel from "./UserInfoPanel";
 
@@ -11,6 +14,8 @@ export default class App extends Component {
         super(props);
 
         this.tabChange = this.tabChange.bind(this);
+
+        this.loadInitialData();
     }
 
     static defaultProps = {
@@ -23,7 +28,40 @@ export default class App extends Component {
 
     state = {
         isLogin: true,
+        user: null,
         selectedTab: "info"
+    }
+
+    loadInitialData()
+    {
+        const user = WebStorageUtil.getUserStorage();
+        let isLogin = false;
+
+        if (user)
+        {
+            ServiceClient.getInstance().login({
+                phone: user.phone,
+                password: user.password
+            }).then(res => {
+                if (res.code === 0)
+                {
+                    isLogin = true;
+                    WebStorageUtil.setToken(res.message);
+                    this.setState({
+                        isLogin,
+                        user
+                    });
+                }
+                else
+                {
+                    location.href = "/public/home.html";
+                }
+            });
+        }
+        else
+        {
+            location.href = "/public/home.html";
+        }
     }
 
     render()
