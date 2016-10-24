@@ -1,12 +1,13 @@
+import BaseServiceClient from "../../base/service/BaseServiceClient";
 
 
-export default class ServiceClient
+export default class ServiceClient extends BaseServiceClient
 {
     static _instance = null;
 
-    constructor()
+    constructor(...args)
     {
-        this._userId = null;
+        super(...args);
     }
 
     static getInstance()
@@ -18,122 +19,172 @@ export default class ServiceClient
         return ServiceClient._instance;
     }
 
-    //获取首页的学校和专业的分类
-    getHomeData()
+    checkUserIsValide(phone)
     {
-        const data = {
-            "school": "南京大学",
-            "majors": [
+        const api = this.apiUrl;
+        return new Promise((resolve, reject) => {
+            $.ajax({
+                url: `${api}/web/user/checkUserIsValide?phone=${phone}`,
+                type: "GET",
+            }).then((data, textStatus, jqXHR) => {
+                if (jqXHR.status === 200)
                 {
-                    "id": 1,
-                    "name": "物理学"
+                    resolve(data);
+                }
+                else
+                {
+                    reject("checkUserIsValide error");
+                }
+            });
+        });
+    }
+
+    sendAuthCode(phone)
+    {
+        const api = this.apiUrl;
+        const sendData = JSON.stringify({ "phone": phone });
+        return new Promise((resolve, reject) => {
+            $.ajax({
+                url: `${api}/web/user/sendAuthCode`,
+                type: "POST",
+                contentType: "application/json",
+                data: sendData
+            }).then((data, textStatus, jqXHR) => {
+                if (jqXHR.status === 200)
+                {
+                    resolve(data);
+                }
+                else
+                {
+                    reject("sendAuthCode error");
+                }
+            });
+        });
+    }
+
+    register(user)
+    {
+        const api = this.apiUrl;
+        const sendData = JSON.stringify({
+            "phone": user.phone,
+            "password": user.password,
+            "verifyCode": user.code
+        });
+        return new Promise((resolve, reject) => {
+            $.ajax({
+                url: `${api}/web/user/register`,
+                type: "POST",
+                contentType: "application/json",
+                data: sendData
+            }).then((data, textStatus, jqXHR) => {
+                if (jqXHR.status === 200)
+                {
+                    resolve(data);
+                }
+                else
+                {
+                    reject("register error");
+                }
+            });
+        });
+    }
+
+    login(user)
+    {
+        console.log("login api");
+        const api = this.apiUrl;
+        const sendData = JSON.stringify({
+            "phone": user.phone,
+            "password": user.password
+        });
+        return new Promise((resolve, reject) => {
+            $.ajax({
+                url: `${api}/web/user/login`,
+                type: "POST",
+                contentType: "application/json",
+                data: sendData
+            }).then((data, textStatus, jqXHR) => {
+                if (jqXHR.status === 200)
+                {
+                    resolve(data);
+                }
+                else
+                {
+                    reject("Login error");
+                }
+            });
+        });
+    }
+
+
+    getCourseSpeciality()
+    {
+        const api = this.apiUrl;
+        return new Promise((resolve, reject) => {
+            $.ajax({
+                url: `${api}/web/course/speciality`,
+                type: "GET"
+            }).then((data, textStatus, jqXHR) => {
+                if (jqXHR.status === 200) {
+                    resolve(data);
+                }
+                else
+                {
+                    reject("getCourseSpeciality error");
+                }
+            });
+        });
+    }
+
+    getCourseList(courseKey)
+    {
+        const api = this.apiUrl;
+        return new Promise((resolve, reject) => {
+            const data = [
+                {
+                    id: "c1",
+                    name: "数据结构",
+                    topicNum: 20,
+                    resourceNum: 12,
+                    schoolName: "南京大学",
+                    specialityName: "软件工程",
+                    specialityId: "1",
+                    authors:[]
                 },
                 {
-                    "id": 2,
-                    "name": "数学"
-                },
-                {
-                    "id": 3,
-                    "name": "软件工程"
+                    id: "c2",
+                    name: "计算机网络",
+                    topicNum: 18,
+                    resourceNum: 16,
+                    schoolName: "南京大学",
+                    specialityName: "软件工程",
+                    specialityId: "1",
+                    authors:[]
                 }
-            ]
-        };
-        return new Promise((resolve, reject) => {
-            if (true)
-            {
-                resolve(data);
-            }
+            ];
+
+            resolve(data);
         });
+        // return new Promise((resolve, reject) => {
+        //     $.ajax({
+        //         url: `${api}/web/course/courseList`,
+        //         method: "GET",
+        //         data: {
+        //             page: 1,
+        //             limit: 1000,
+        //             key: courseKey.name
+        //         }
+        //     }).then((data, textStatus, jqXHR) => {
+        //         if (jqXHR.status === 200) {
+        //             resolve(data);
+        //         }
+        //         else
+        //         {
+        //             console.log("getCourseList error");
+        //         }
+        //     });
+        // });
     }
 
-    //根据专业名获取相关课程
-    getCoursesByMajor(major)
-    {
-        const courses1 = [
-            {
-                "id": 1,
-                "name": "数据结构"
-            },
-            {
-                "id":2,
-                "name": "计算机网络"
-            },
-            {
-                "id":3,
-                "name": "操作系统"
-            },
-            {
-                "id": 4,
-                "name": "软件工程"
-            }
-        ];
 
-        const courses2 = [
-            {
-                "id": 1,
-                "name": "微积分"
-            },
-            {
-                "id":2,
-                "name": "线性代数"
-            },
-            {
-                "id":3,
-                "name": "概率论"
-            },
-            {
-                "id": 4,
-                "name": "傅里叶"
-            }
-        ];
-
-        return new Promise((resolve, reject) => {
-            if (true)
-            {
-                if (major === "数学")
-                {
-                    resolve(courses2)
-                }else {
-                    resolve(courses1);
-                }
-            }
-        });
-    }
-
-    search(key)
-    {
-        const result = [
-            {
-                "id": 1,
-                "name": "人机交互"
-            },
-            {
-                "id":2,
-                "name": "数据仓库"
-            },
-            {
-                "id":3,
-                "name": "数据挖掘"
-            },
-            {
-                "id": 4,
-                "name": "云计算"
-            },
-            {
-                "id":5,
-                "name": "软件工程管理"
-            },
-            {
-                "id": 6,
-                "name": "前沿软件技术"
-            }
-        ];
-
-        return new Promise((resolve, reject) => {
-            if (true)
-            {
-                resolve(result);
-            }
-        });
-    }
 }

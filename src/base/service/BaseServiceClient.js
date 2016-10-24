@@ -4,7 +4,7 @@ export default class BaseServiceClient
     constructor()
     {
         this._user = null;
-        this._apiUrl = "http://118.178.137.101:8000/api";
+        this._apiUrl = "/api";
     }
 
     get user()
