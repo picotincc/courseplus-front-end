@@ -1,25 +1,28 @@
 import React, { Component } from 'react';
 
+import Dialog from "../../base/components/Dialog";
 import Header from "../../base/components/Header";
+import ServiceClient from "../../base/service/ServiceClient";
 import WebStorageUtil from "../../base/util/WebStorageUtil";
 
 import CourseContent from "./CourseContent";
-import Dialog from "./Dialog";
 import SearchBar from "./SearchBar";
-import ServiceClient from "../service/MockServiceClient";
+
+
+const HOST = "/public";
 
 export default class App extends Component {
 
     constructor (props) {
         super(props);
-        console.log("Courseplus home is running......");
 
         this.handleDialogShow = this.handleDialogShow.bind(this);
         this.handleDialogHide = this.handleDialogHide.bind(this);
         this.handleMajorSelect = this.handleMajorSelect.bind(this);
         this.handleSearch = this.handleSearch.bind(this);
         this.handleLogin = this.handleLogin.bind(this);
-        this.loadInitialData();
+        this.handleCourseClick = this.handleCourseClick.bind(this);
+        this.autoLogin();
 
 
     }
@@ -48,7 +51,7 @@ export default class App extends Component {
         this.dialogContainer = this.refs["dialogContainer"];
     }
 
-    loadInitialData()
+    autoLogin()
     {
         const user = WebStorageUtil.getUserStorage();
         let isLogin = false;
@@ -59,12 +62,11 @@ export default class App extends Component {
                 phone: user.phone,
                 password: user.password
             }).then(res => {
-                if (res.code === 0)
-                {
-                    isLogin = true;
-                    WebStorageUtil.setToken(res.message);
-                }
-                this.loadHomeData(isLogin, user);
+                isLogin = true;
+                WebStorageUtil.setToken(res.token);
+                this.loadHomeData(isLogin, res);
+            }, error => {
+                this.loadHomeData(isLogin);
             });
         }
         else
@@ -78,7 +80,7 @@ export default class App extends Component {
         ServiceClient.getInstance().getCourseSpeciality().then(data => {
             const school = data["南京大学"];
             const majors = school.specialities;
-            ServiceClient.getInstance().getCourseList(majors[0]).then(courses => {
+            ServiceClient.getInstance().getCourseList(majors[0].id).then(courses => {
                 this.setState({
                     isLogin,
                     user,
@@ -113,7 +115,7 @@ export default class App extends Component {
 
     handleMajorSelect(major)
     {
-        ServiceClient.getInstance().getCoursesByMajor(major.name).then(res => {
+        ServiceClient.getInstance().getCourseList(major.id).then(res => {
             this.setState({
                 isSearched: false,
                 selectedMajor: major,
@@ -124,12 +126,20 @@ export default class App extends Component {
 
     handleSearch(key)
     {
-        ServiceClient.getInstance().search(key).then(res => {
+        ServiceClient.getInstance().search(key, true).then(res => {
             this.setState({
                 isSearched: true,
                 content: res
             });
         });
+    }
+
+    handleCourseClick(courseId)
+    {
+        console.log("app got course click", courseId);
+
+        location.href = `${HOST}/course.html?id=${courseId}`;
+
     }
 
     render()
@@ -161,7 +171,12 @@ export default class App extends Component {
                                 onMajorSelect={this.handleMajorSelect}
                                 onSearch={this.handleSearch}
                             /></div>
-                        <div className="content"><CourseContent courses={state.content}/></div>
+                        <div className="content">
+                            <CourseContent
+                                courses={state.content}
+                                onCourseClick={this.handleCourseClick}
+                            />
+                        </div>
                     </main>
                 </div>
             </div>

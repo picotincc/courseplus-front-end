@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
 
+import Dialog from "../../base/components/Dialog";
 import Header from "../../base/components/Header";
 
 import Course from "./Course";
+
+const HOST = "/public";
 
 export default class App extends Component {
 
@@ -25,6 +28,7 @@ export default class App extends Component {
 
     render()
     {
+
         return (
             <div className="cp-course-app">
                 <header><Header isLogin={this.state.isLogin} /></header>
