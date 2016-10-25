@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import Header from "../../base/components/Header";
 
 import WebStorageUtil from "../../base/util/WebStorageUtil";
-import ServiceClient from "../service/ServiceClient";
+import ServiceClient from "../service/MockServiceClient";
 
 import ChangePasswordPanel from "./ChangePasswordPanel";
 import UserInfoPanel from "./UserInfoPanel";
@@ -27,7 +27,7 @@ export default class App extends Component {
     }
 
     state = {
-        isLogin: true,
+        isLogin: false,
         user: null,
         selectedTab: "info"
     }
@@ -80,7 +80,12 @@ export default class App extends Component {
 
         return (
             <div className="cp-user-app">
-                <header><Header isLogin={this.state.isLogin} /></header>
+                <header>
+                    <Header
+                        isLogin={this.state.isLogin}
+                        user={this.state.user}
+                    />
+                </header>
                 <div className="container">
                     <div className="content">
                         <section>

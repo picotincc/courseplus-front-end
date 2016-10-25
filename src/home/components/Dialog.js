@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import FormatUtil from "../../base/util/FormatUtil";
 import WebStorageUtil from "../../base/util/WebStorageUtil";
 
-import ServiceClient from "../service/ServiceClient";
+import ServiceClient from "../service/MockServiceClient";
 
 export default class Dialog extends Component {
 

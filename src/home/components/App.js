@@ -6,7 +6,7 @@ import WebStorageUtil from "../../base/util/WebStorageUtil";
 import CourseContent from "./CourseContent";
 import Dialog from "./Dialog";
 import SearchBar from "./SearchBar";
-import ServiceClient from "../service/ServiceClient";
+import ServiceClient from "../service/MockServiceClient";
 
 export default class App extends Component {
 
