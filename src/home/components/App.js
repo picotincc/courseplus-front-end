@@ -125,7 +125,8 @@ export default class App extends Component {
 
     handleSearch(key)
     {
-        ServiceClient.getInstance().search(key, true).then(res => {
+        ServiceClient.getInstance().search(key).then(res => {
+            console.log(res);
             this.setState({
                 isSearched: true,
                 content: res

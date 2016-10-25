@@ -158,5 +158,28 @@ export default class ServiceClient
         });
     }
 
+    search(courseKey)
+    {
+        return new Promise((resolve, reject) => {
+            $.ajax({
+                url: `${CP_API_URL}/web/course/courseList`,
+                type: "GET",
+                data: {
+                    page: 1,
+                    limit: 100,
+                    key: courseKey
+                }
+            }).then((data, textStatus, jqXHR) => {
+                if (jqXHR.status === 200) {
+                    resolve(JSON.parse(data));
+                }
+                else
+                {
+                    console.log("search error");
+                }
+            });
+        });
+    }
+
 
 }
