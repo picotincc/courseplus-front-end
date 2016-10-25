@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import FormatUtil from "../../base/util/FormatUtil";
 import WebStorageUtil from "../../base/util/WebStorageUtil";
 
-import ServiceClient from "../service/MockServiceClient";
+import ServiceClient from "../service/ServiceClient";
 
 export default class Dialog extends Component {
 
@@ -64,15 +64,18 @@ export default class Dialog extends Component {
         this.registerBox.classList.remove("active");
     }
 
-    setUserInfoToStorage(user, token, isSave)
+    setUserInfoToStorage(info, isSave)
     {
         if (isSave)
         {
-            WebStorageUtil.setUserStorage(user);
-            WebStorageUtil.setToken(token);
+            WebStorageUtil.setUserStorage({
+                phone: info.phone,
+                password: info.password
+            });
+            WebStorageUtil.setToken(info.token);
         }
         this.hide();
-        this.props.onLogin(user);
+        this.props.onLogin(info);
     }
 
 
@@ -83,22 +86,20 @@ export default class Dialog extends Component {
         const checked = FormatUtil.isPhoneNumber(phone);
         if (checked)
         {
-            // ServiceClient.getInstance().checkUserIsValide(phone).then(result => {
-            //     if (result.code == 0) {
+            ServiceClient.getInstance().checkUserIsValide(phone).then(result => {
+                if (result.code == 0) {
                     ServiceClient.getInstance().sendAuthCode(phone).then(res => {
                         if (res.code === 1)
                         {
                             console.log("发送成功");
                         }
                     });
-            //     }
-            //     else
-            //     {
-            //         alert("该手机号已被注册");
-            //     }
-            //
-            // });
-
+                }
+                else
+                {
+                    alert("该手机号已被注册");
+                }
+            });
         }
         else
         {
@@ -124,17 +125,10 @@ export default class Dialog extends Component {
                     password,
                     code
                 }).then(res => {
-                    if (res.code === 0)
-                    {
-                        self.setUserInfoToStorage({
-                            phone,
-                            password
-                        }, res.message, true);
-                    }
-                    else
-                    {
-                        alert("register error");
-                    }
+                    const info = res;
+                    info.phone = phone;
+                    info.password = password;
+                    self.setUserInfoToStorage(info, true);
                 });
             }
             else
@@ -162,17 +156,10 @@ export default class Dialog extends Component {
                 phone,
                 password
             }).then(res => {
-                if (res.code === 0)
-                {
-                    self.setUserInfoToStorage({
-                        phone,
-                        password
-                    }, res.message, isSave);
-                }
-                else
-                {
-                    alert("login error");
-                }
+                const info = res;
+                info.phone = phone;
+                info.password = password;
+                self.setUserInfoToStorage(info, isSave);
             });
         }
         else
@@ -185,7 +172,7 @@ export default class Dialog extends Component {
     render()
     {
         return (
-            <div className="cp-home-dialog">
+            <div className="cp-app-dialog">
                 <div ref="loginBox" className="login-box">
                     <div className="top-bar">
                         <div className="title">
