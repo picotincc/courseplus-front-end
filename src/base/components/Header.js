@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 
 import WebStorageUtil from "../../base/util/WebStorageUtil";
 
+const HOST = "/public";
+
 export default class Header extends Component {
 
     constructor (props) {
@@ -48,7 +50,7 @@ export default class Header extends Component {
     logout()
     {
         WebStorageUtil.removeUserStorage();
-        location.href = "/public/home.html";
+        location.href = HOST + "/home.html";
     }
 
     initUserCenter()
@@ -77,7 +79,6 @@ export default class Header extends Component {
         if (this.props.isLogin) {
             const user = this.props.user;
             let userImg = "http://i1.piimg.com/573251/970594a863d7aeb9.png";
-            console.log(user);
             if (user.icon !== "")
             {
                 userImg = user.icon;
@@ -91,7 +92,7 @@ export default class Header extends Component {
                     <ul ref="userDropdown" className="user-dropdown">
                         <li>
                             <div className="item user-center">
-                                <span><a href="/public/user.html">个人中心</a></span>
+                                <span><a href={HOST + "/user.html"}>个人中心</a></span>
                             </div>
                         </li>
                         <li>
