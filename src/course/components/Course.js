@@ -12,7 +12,7 @@ export default class Course extends Component {
     }
 
     static defaultProps = {
-
+        course: null
     }
 
     static propTypes = {
@@ -20,7 +20,9 @@ export default class Course extends Component {
     }
 
     state = {
-
+        selectedContributor: "",
+        selectedTopic: "",
+        forumInfo: []
     }
 
     componentDidMount()
@@ -30,10 +32,27 @@ export default class Course extends Component {
 
     render()
     {
+        const course = this.props.course;
+        console.log(course);
+
+        let courseInfo = null;
+        if (course)
+        {
+            courseInfo = {
+                cover: course.cover,
+                desc: course.description,
+                name: course.name,
+                topicNum: course.topicNum,
+                resourceNum: course.resourceNum,
+                schoolName: course.schoolName,
+                specialityName: course.specialityName
+            };
+        }
+
         return (
             <div className="cp-course-course">
                 <div className="course-info">
-                    <CourseInfo />
+                    <CourseInfo courseInfo={courseInfo} />
                 </div>
                 <div className="course-contributor">
                     <Contributor />

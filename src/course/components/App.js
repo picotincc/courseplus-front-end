@@ -30,7 +30,8 @@ export default class App extends Component {
 
     state = {
         isLogin: false,
-        user: null
+        user: null,
+        courseInfo: {}
     }
 
     componentDidMount()
@@ -42,8 +43,8 @@ export default class App extends Component {
 
     autoLogin()
     {
-        const user = WebStorageUtil.getUserStorage();
         let isLogin = false;
+        const user = WebStorageUtil.getUserStorage();
 
         if (user)
         {
@@ -51,11 +52,16 @@ export default class App extends Component {
                 phone: user.phone,
                 password: user.password
             }).then(res => {
-                isLogin = true;
-                WebStorageUtil.setToken(res.token);
-                this.loadCourseData(isLogin, res);
-            }, error => {
-                this.loadCourseData(isLogin);
+                if (res.textStatus === "success")
+                {
+                    isLogin = true;
+                    WebStorageUtil.setToken(res.token);
+                    this.loadCourseData(isLogin, res);
+                }
+                else
+                {
+                    this.loadCourseData(isLogin);
+                }
             });
         }
         else
@@ -64,13 +70,17 @@ export default class App extends Component {
         }
     }
 
-    loadCourseData(isLogin, user = null)
+    loadCourseData(isLogin, user = null,)
     {
-        console.log(isLogin, user);
-        this.setState({
-            isLogin,
-            user
+        const courseId = WebStorageUtil.getCourseStorage();
+        ServiceClient.getInstance().getCourseDetail(courseId).then(res => {
+            this.setState({
+                isLogin,
+                user,
+                courseInfo: res
+            });
         });
+
     }
 
     handleDialogShow()
@@ -115,7 +125,9 @@ export default class App extends Component {
                             onDialogShow={this.handleDialogShow}
                         />
                     </header>
-                    <div className="container"><Course /></div>
+                    <div className="container">
+                        <Course course={state.courseInfo} />
+                    </div>
                 </div>
             </div>
         );
