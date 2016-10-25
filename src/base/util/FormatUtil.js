@@ -12,7 +12,7 @@ export default class FormatUtil
 
     static isCodeNumber(phone)
     {
-        if (phone.length === 4)
+        if (phone.length === 6)
         {
             return _isNum(phone);
         }

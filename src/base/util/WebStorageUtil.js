@@ -1,16 +1,17 @@
 const KEY_USER = "COURSEPLUS_USER";
 const KEY_TOKEN = "COURSEPLUS_TOKEN";
+const KEY_COURSE_ID = "COURSEPLUS_COURSE_ID";
 
 export default class WebStorageUtil
 {
     static setUserStorage(user)
     {
-        _setStorage(KEY_USER, JSON.stringify(user));
+        _setLocalStorage(KEY_USER, JSON.stringify(user));
     }
 
     static getUserStorage()
     {
-        const res = _getStorage(KEY_USER);
+        const res = _getLocalStorage(KEY_USER);
         if (res)
         {
             return JSON.parse(res);
@@ -20,7 +21,27 @@ export default class WebStorageUtil
 
     static removeUserStorage()
     {
-        _removeStorage(KEY_USER);
+        _removeLocalStorage(KEY_USER);
+    }
+
+    static setCourseStorage(courseId)
+    {
+        _setSessionStorage(KEY_COURSE_ID, courseId);
+    }
+
+    static getCourseStorage()
+    {
+        const res = _getSessionStorage(KEY_COURSE_ID);
+        if (res)
+        {
+            return res;
+        }
+        return false;
+    }
+
+    static removeCourseStorage()
+    {
+        _removeSessionStorage(KEY_COURSE_ID);
     }
 
     static setToken(value)
@@ -63,17 +84,32 @@ function _getCookie(c_name)
 　　　　return ""
 　　}
 
-function _getStorage(key)
+function _getLocalStorage(key)
 {
     return localStorage.getItem(key);
 }
 
-function _setStorage(key, value)
+function _setLocalStorage(key, value)
 {
     localStorage.setItem(key, value);
 }
 
-function _removeStorage(key)
+function _removeLocalStorage(key)
 {
     localStorage.removeItem(key);
+}
+
+function _getSessionStorage(key)
+{
+    return sessionStorage.getItem(key);
+}
+
+function _setSessionStorage(key, value)
+{
+    sessionStorage.setItem(key, value);
+}
+
+function _removeSessionStorage(key)
+{
+    sessionStorage.removeItem(key);
 }

@@ -61,11 +61,16 @@ export default class App extends Component {
                 phone: user.phone,
                 password: user.password
             }).then(res => {
-                isLogin = true;
-                WebStorageUtil.setToken(res.token);
-                this.loadHomeData(isLogin, res);
-            }, error => {
-                this.loadHomeData(isLogin);
+                if (res.textStatus === "success")
+                {
+                    isLogin = true;
+                    WebStorageUtil.setToken(res.token);
+                    this.loadHomeData(isLogin, res);
+                }
+                else
+                {
+                    this.loadHomeData(isLogin);
+                }
             });
         }
         else
@@ -126,7 +131,6 @@ export default class App extends Component {
     handleSearch(key)
     {
         ServiceClient.getInstance().search(key).then(res => {
-            console.log(res);
             this.setState({
                 isSearched: true,
                 content: res
@@ -136,10 +140,8 @@ export default class App extends Component {
 
     handleCourseClick(courseId)
     {
-        console.log("app got course click", courseId);
-
-        location.href = `${HOST}/course.html?id=${courseId}`;
-
+        WebStorageUtil.setCourseStorage(courseId);
+        location.href = `${HOST}/course.html`;
     }
 
     render()

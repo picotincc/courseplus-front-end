@@ -23,21 +23,18 @@ export default class ServiceClient
         return ServiceClient._instance;
     }
 
-    checkUserIsValide(phone)
+    checkUserIsValid(phone)
     {
         return new Promise((resolve, reject) => {
             $.ajax({
                 url: `${CP_API_URL}/web/user/checkUserIsValid?phone=${phone}`,
                 type: "GET",
             }).then((data, textStatus, jqXHR) => {
-                if (jqXHR.status === 200)
-                {
-                    resolve(data);
-                }
-                else
-                {
-                    reject("checkUserIsValid error");
-                }
+                const res = Object.assign(data, {textStatus});
+                resolve(res);
+            }, (jqXHR, textStatus, errorThrown) => {
+                const res = Object.assign(jqXHR.responseJSON, {textStatus});
+                resolve(res);
             });
         });
     }
@@ -52,14 +49,11 @@ export default class ServiceClient
                 contentType: "application/json",
                 data: sendData
             }).then((data, textStatus, jqXHR) => {
-                if (jqXHR.status === 200)
-                {
-                    resolve(data);
-                }
-                else
-                {
-                    reject("sendAuthCode error");
-                }
+                const res = Object.assign(data, {textStatus});
+                resolve(res);
+            }, (jqXHR, textStatus, errorThrown) => {
+                const res = Object.assign(jqXHR.responseJSON, {textStatus});
+                resolve(res);
             });
         });
     }
@@ -78,14 +72,11 @@ export default class ServiceClient
                 contentType: "application/json",
                 data: sendData
             }).then((data, textStatus, jqXHR) => {
-                if (jqXHR.status === 200)
-                {
-                    resolve(data);
-                }
-                else
-                {
-                    reject("register error");
-                }
+                const res = Object.assign(data, {textStatus});
+                resolve(res);
+            }, (jqXHR, textStatus, errorThrown) => {
+                const res = Object.assign(jqXHR.responseJSON, {textStatus});
+                resolve(res);
             });
         });
     }
@@ -103,14 +94,11 @@ export default class ServiceClient
                 contentType: "application/json",
                 data: sendData
             }).then((data, textStatus, jqXHR) => {
-                if (jqXHR.status === 200)
-                {
-                    resolve(data);
-                }
-                else
-                {
-                    reject("Login error");
-                }
+                const res = Object.assign(data, {textStatus});
+                resolve(res);
+            }, (jqXHR, textStatus, errorThrown) => {
+                const res = Object.assign(jqXHR.responseJSON, {textStatus});
+                resolve(res);
             });
         });
     }
@@ -123,13 +111,9 @@ export default class ServiceClient
                 url: `${CP_API_URL}/web/course/speciality`,
                 type: "GET"
             }).then((data, textStatus, jqXHR) => {
-                if (jqXHR.status === 200) {
-                    resolve(data);
-                }
-                else
-                {
-                    reject("getCourseSpeciality error");
-                }
+                resolve(data);
+            }, (jqXHR, textStatus, errorThrown) => {
+                console.log(jqXHR.responseJSON);
             });
         });
     }
@@ -147,13 +131,9 @@ export default class ServiceClient
                     specialityId: id
                 }
             }).then((data, textStatus, jqXHR) => {
-                if (jqXHR.status === 200) {
-                    resolve(JSON.parse(data));
-                }
-                else
-                {
-                    console.log("getCourseList error");
-                }
+                resolve(JSON.parse(data));
+            }, (jqXHR, textStatus, errorThrown) => {
+                console.log(jqXHR.responseJSON);
             });
         });
     }
@@ -170,13 +150,27 @@ export default class ServiceClient
                     key: courseKey
                 }
             }).then((data, textStatus, jqXHR) => {
-                if (jqXHR.status === 200) {
-                    resolve(JSON.parse(data));
+                resolve(JSON.parse(data));
+            }, (jqXHR, textStatus, errorThrown) => {
+                console.log(jqXHR.responseJSON);
+            });
+        });
+    }
+
+    getCourseDetail(courseId)
+    {
+        const id = courseId.toString();
+        return new Promise((resolve, reject) => {
+            $.ajax({
+                url: `${CP_API_URL}/web/course/courseDetail`,
+                type: "GET",
+                data: {
+                    id
                 }
-                else
-                {
-                    console.log("search error");
-                }
+            }).then((data, textStatus, jqXHR) => {
+                resolve(data);
+            }, (jqXHR, textStatus, errorThrown) => {
+                console.log(jqXHR.responseJSON);
             });
         });
     }

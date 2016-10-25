@@ -86,18 +86,23 @@ export default class Dialog extends Component {
         const checked = FormatUtil.isPhoneNumber(phone);
         if (checked)
         {
-            ServiceClient.getInstance().checkUserIsValide(phone).then(result => {
-                if (result.code == 0) {
+            ServiceClient.getInstance().checkUserIsValid(phone).then(res => {
+                if (res.textStatus === "success" )
+                {
                     ServiceClient.getInstance().sendAuthCode(phone).then(res => {
-                        if (res.code === 1)
+                        if (res.textStatus === "success")
                         {
-                            console.log("发送成功");
+                            alert(res.message);
+                        }
+                        else
+                        {
+                            alert(res.message)
                         }
                     });
                 }
                 else
                 {
-                    alert("该手机号已被注册");
+                    alert(res.message);
                 }
             });
         }
@@ -125,10 +130,17 @@ export default class Dialog extends Component {
                     password,
                     code
                 }).then(res => {
-                    const info = res;
-                    info.phone = phone;
-                    info.password = password;
-                    self.setUserInfoToStorage(info, true);
+                    if (res.textStatus === "success")
+                    {
+                        const info = res;
+                        info.phone = phone;
+                        info.password = password;
+                        self.setUserInfoToStorage(info, true);
+                    }
+                    else
+                    {
+                        alert(res.message);
+                    }
                 });
             }
             else
@@ -156,10 +168,17 @@ export default class Dialog extends Component {
                 phone,
                 password
             }).then(res => {
-                const info = res;
-                info.phone = phone;
-                info.password = password;
-                self.setUserInfoToStorage(info, isSave);
+                if (res.textStatus === "success")
+                {
+                    const info = res;
+                    info.phone = phone;
+                    info.password = password;
+                    self.setUserInfoToStorage(info, isSave);
+                }
+                else
+                {
+                    alert(res.message);
+                }
             });
         }
         else
