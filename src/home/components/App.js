@@ -22,8 +22,6 @@ export default class App extends Component {
         this.handleSearch = this.handleSearch.bind(this);
         this.handleLogin = this.handleLogin.bind(this);
         this.handleCourseClick = this.handleCourseClick.bind(this);
-        this.autoLogin();
-
 
     }
 
@@ -47,8 +45,9 @@ export default class App extends Component {
 
     componentDidMount()
     {
-        this.homeApp = this.refs["homeApp"];
+        this.appContainer = this.refs["appContainer"];
         this.dialogContainer = this.refs["dialogContainer"];
+        this.autoLogin();
     }
 
     autoLogin()
@@ -103,13 +102,13 @@ export default class App extends Component {
 
     handleDialogShow()
     {
-        this.homeApp.classList.add("app-blur");
+        this.appContainer.classList.add("app-blur");
         this.dialogContainer.style.zIndex = 20;
     }
 
     handleDialogHide()
     {
-        this.homeApp.classList.remove("app-blur");
+        this.appContainer.classList.remove("app-blur");
         this.dialogContainer.style.zIndex = 0;
     }
 
@@ -153,7 +152,7 @@ export default class App extends Component {
                         onLogin={this.handleLogin}
                     />
                 </div>
-                <div ref="homeApp" className="app-container">
+                <div ref="appContainer" className="app-container">
                     <header>
                         <Header
                             isLogin={state.isLogin}
