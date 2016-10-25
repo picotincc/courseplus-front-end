@@ -1,13 +1,17 @@
-import BaseServiceClient from "../../base/service/BaseServiceClient";
+const CP_API_URL = "/api";
 
-
-export default class ServiceClient extends BaseServiceClient
+export default class ServiceClient
 {
     static _instance = null;
 
-    constructor(...args)
+    constructor()
     {
-        super(...args);
+        this._user = null;
+    }
+
+    get user()
+    {
+        return this._user;
     }
 
     static getInstance()
@@ -21,10 +25,9 @@ export default class ServiceClient extends BaseServiceClient
 
     checkUserIsValide(phone)
     {
-        const api = this.apiUrl;
         return new Promise((resolve, reject) => {
             $.ajax({
-                url: `${api}/web/user/checkUserIsValide?phone=${phone}`,
+                url: `${CP_API_URL}/web/user/checkUserIsValid?phone=${phone}`,
                 type: "GET",
             }).then((data, textStatus, jqXHR) => {
                 if (jqXHR.status === 200)
@@ -33,7 +36,7 @@ export default class ServiceClient extends BaseServiceClient
                 }
                 else
                 {
-                    reject("checkUserIsValide error");
+                    reject("checkUserIsValid error");
                 }
             });
         });
@@ -41,11 +44,10 @@ export default class ServiceClient extends BaseServiceClient
 
     sendAuthCode(phone)
     {
-        const api = this.apiUrl;
         const sendData = JSON.stringify({ "phone": phone });
         return new Promise((resolve, reject) => {
             $.ajax({
-                url: `${api}/web/user/sendAuthCode`,
+                url: `${CP_API_URL}/web/user/sendAuthCode`,
                 type: "POST",
                 contentType: "application/json",
                 data: sendData
@@ -64,7 +66,6 @@ export default class ServiceClient extends BaseServiceClient
 
     register(user)
     {
-        const api = this.apiUrl;
         const sendData = JSON.stringify({
             "phone": user.phone,
             "password": user.password,
@@ -72,7 +73,7 @@ export default class ServiceClient extends BaseServiceClient
         });
         return new Promise((resolve, reject) => {
             $.ajax({
-                url: `${api}/web/user/register`,
+                url: `${CP_API_URL}/web/user/register`,
                 type: "POST",
                 contentType: "application/json",
                 data: sendData
@@ -91,15 +92,13 @@ export default class ServiceClient extends BaseServiceClient
 
     login(user)
     {
-        console.log("login api");
-        const api = this.apiUrl;
         const sendData = JSON.stringify({
             "phone": user.phone,
             "password": user.password
         });
         return new Promise((resolve, reject) => {
             $.ajax({
-                url: `${api}/web/user/login`,
+                url: `${CP_API_URL}/web/user/login`,
                 type: "POST",
                 contentType: "application/json",
                 data: sendData
@@ -119,10 +118,9 @@ export default class ServiceClient extends BaseServiceClient
 
     getCourseSpeciality()
     {
-        const api = this.apiUrl;
         return new Promise((resolve, reject) => {
             $.ajax({
-                url: `${api}/web/course/speciality`,
+                url: `${CP_API_URL}/web/course/speciality`,
                 type: "GET"
             }).then((data, textStatus, jqXHR) => {
                 if (jqXHR.status === 200) {
@@ -136,54 +134,28 @@ export default class ServiceClient extends BaseServiceClient
         });
     }
 
-    getCourseList(courseKey)
+    getCourseList(specialityId)
     {
-        const api = this.apiUrl;
+        const id = specialityId.toString();
         return new Promise((resolve, reject) => {
-            const data = [
-                {
-                    id: "c1",
-                    name: "数据结构",
-                    topicNum: 20,
-                    resourceNum: 12,
-                    schoolName: "南京大学",
-                    specialityName: "软件工程",
-                    specialityId: "1",
-                    authors:[]
-                },
-                {
-                    id: "c2",
-                    name: "计算机网络",
-                    topicNum: 18,
-                    resourceNum: 16,
-                    schoolName: "南京大学",
-                    specialityName: "软件工程",
-                    specialityId: "1",
-                    authors:[]
+            $.ajax({
+                url: `${CP_API_URL}/web/course/courseList`,
+                type: "GET",
+                data: {
+                    page: 1,
+                    limit: 100,
+                    specialityId: id
                 }
-            ];
-
-            resolve(data);
+            }).then((data, textStatus, jqXHR) => {
+                if (jqXHR.status === 200) {
+                    resolve(JSON.parse(data));
+                }
+                else
+                {
+                    console.log("getCourseList error");
+                }
+            });
         });
-        // return new Promise((resolve, reject) => {
-        //     $.ajax({
-        //         url: `${api}/web/course/courseList`,
-        //         method: "GET",
-        //         data: {
-        //             page: 1,
-        //             limit: 1000,
-        //             key: courseKey.name
-        //         }
-        //     }).then((data, textStatus, jqXHR) => {
-        //         if (jqXHR.status === 200) {
-        //             resolve(data);
-        //         }
-        //         else
-        //         {
-        //             console.log("getCourseList error");
-        //         }
-        //     });
-        // });
     }
 
 
