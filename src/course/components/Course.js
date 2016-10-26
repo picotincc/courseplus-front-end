@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 
+import FormatUtil from "../../base/util/FormatUtil";
+
 import Contributor from "./Contributor";
 import CourseInfo from "./CourseInfo";
 import Topic from "./Topic";
@@ -38,8 +40,11 @@ export default class Course extends Component {
         if (!this.state.selectedContributor && nextProps)
         {
             const course = nextProps.course;
+            const author = course.authors[0];
+            const topic = course.topics[author.id][0];
             this.setState({
-                selectedContributor: course.authors[0]
+                selectedContributor: course.authors[0],
+                selectedTopic: topic
             });
         }
     }
@@ -48,8 +53,11 @@ export default class Course extends Component {
     {
         if (item.id !== this.state.selectedContributor.id)
         {
+            const course = this.props.course;
+            const topic = course.topics[item.id][0];
             this.setState({
-                selectedContributor: item
+                selectedContributor: item,
+                selectedTopic: topic
             });
         }
     }
@@ -58,7 +66,7 @@ export default class Course extends Component {
     {
         const course = this.props.course;
         const state = this.state;
-        console.log(course);
+        // console.log(course);
 
         let courseInfo = null;
         let contributors = [];
@@ -77,7 +85,7 @@ export default class Course extends Component {
             };
 
             contributors = course.authors;
-            topics = course.topics;
+            topics = FormatUtil.expandTopics(course.topics);
             resources = course.resources;
         }
 
@@ -107,12 +115,11 @@ export default class Course extends Component {
                         <Contributor info={state.selectedContributor}/>
                     </div>
                     <div className="topic">
-                        <Topic topics={topics} />
+                        <Topic
+                            topics={topics}
+                            selectedTopic={state.selectedTopic}
+                        />
                     </div>
-                    {/* <Contributor
-                        contributor={state.selectedContributor}
-                        topics={topics}
-                    /> */}
                 </div>
                 <div className="discuss-area">
                     <Forum />

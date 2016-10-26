@@ -175,5 +175,23 @@ export default class ServiceClient
         });
     }
 
+    getTopicDetail(topicId)
+    {
+        const id = topicId.toString();
+        return new Promise((resolve, reject) => {
+            $.ajax({
+                url: `${CP_API_URL}/web/course/topicDetail`,
+                type: "GET",
+                data: {
+                    id
+                }
+            }).then((data, textStatus, jqXHR) => {
+                resolve(data);
+            }, (jqXHR, textStatus, errorThrown) => {
+                console.log(jqXHR.responseJSON);
+            });
+        });
+    }
+
 
 }

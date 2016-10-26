@@ -19,6 +19,18 @@ export default class FormatUtil
 
         return false;
     }
+
+    static expandTopics(topics)
+    {
+        const indexs = Object.keys(topics);
+        let res = [];
+        for (let i = 0; i < indexs.length; i++)
+        {
+            let id = indexs[i];
+            res = res.concat(topics[id]);
+        }
+        return res;
+    }
 }
 
 //判断是否为纯数字

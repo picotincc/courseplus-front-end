@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 
+import ServiceClient from "../../base/service/ServiceClient";
+
 export default class Knowledge extends Component {
 
     constructor (props) {
@@ -7,7 +9,7 @@ export default class Knowledge extends Component {
     }
 
     static defaultProps = {
-
+        topics: []
     }
 
     static propTypes = {
@@ -15,14 +17,32 @@ export default class Knowledge extends Component {
     }
 
     state = {
+        selectedTopic: null,
+        topicContent: ""
+    }
 
+    componentWillReceiveProps(nextProps)
+    {
+        if (nextProps.selectedTopic)
+        {
+            const id = nextProps.selectedTopic.id;
+            ServiceClient.getInstance().getTopicDetail(id).then(res => {
+                this.setState({
+                    topicContent: res.content
+                });
+            });
+        }
     }
 
     render()
     {
+        const {topics, selectedTopic} = this.props;
+        const content = this.state.topicContent;
         return (
             <div className="cp-course-topic">
                 <div className="knowledge-content">
+                    <div dangerouslySetInnerHTML={{__html: content}}>
+                    </div>
                 </div>
                 <div className="bottom-controls">
                     <div className="previous">
@@ -30,11 +50,14 @@ export default class Knowledge extends Component {
                     </div>
                     <div className="category-dropdown dropdown">
                         <button className="btn-category btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
-                            二叉树<span className="caret"></span>
+                            {selectedTopic ? selectedTopic.name : ""}<span className="caret"></span>
                         </button>
                         <ul className="dropdown-menu">
-                            <li><a>二叉树</a></li>
-                            <li><a>快速排序</a></li>
+                            {topics.map(item => {
+                                return (
+                                    <li key={item.id}><a>{item.name}</a></li>
+                                );
+                            })}
                         </ul>
                     </div>
                     <div className="next">
