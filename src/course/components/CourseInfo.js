@@ -56,7 +56,7 @@ export default class CourseInfo extends Component {
 
     render()
     {
-        const info = this.props.courseInfo;
+        const info = this.props.courseInfo ? this.props.courseInfo : {};
 
         return (
             <div className="cp-course-info">

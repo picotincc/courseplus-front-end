@@ -31,7 +31,7 @@ export default class App extends Component {
     state = {
         isLogin: false,
         user: null,
-        courseInfo: {}
+        courseInfo: null
     }
 
     componentDidMount()

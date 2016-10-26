@@ -21,7 +21,7 @@ export default class Knowledge extends Component {
     render()
     {
         return (
-            <div className="cp-course-knowledge">
+            <div className="cp-course-topic">
                 <div className="knowledge-content">
                 </div>
                 <div className="bottom-controls">

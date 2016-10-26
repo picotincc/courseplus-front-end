@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 
 import Contributor from "./Contributor";
 import CourseInfo from "./CourseInfo";
+import Topic from "./Topic";
 import Forum from "./Forum";
 import Resources from "./Resources";
 
@@ -9,6 +10,8 @@ export default class Course extends Component {
 
     constructor (props) {
         super(props);
+
+        this.handleTabClick = this.handleTabClick.bind(this);
     }
 
     static defaultProps = {
@@ -20,7 +23,7 @@ export default class Course extends Component {
     }
 
     state = {
-        selectedContributor: "",
+        selectedContributor: null,
         selectedTopic: "",
         forumInfo: []
     }
@@ -28,6 +31,27 @@ export default class Course extends Component {
     componentDidMount()
     {
 
+    }
+
+    componentWillReceiveProps(nextProps)
+    {
+        if (!this.state.selectedContributor && nextProps)
+        {
+            const course = nextProps.course;
+            this.setState({
+                selectedContributor: course.authors[0]
+            });
+        }
+    }
+
+    handleTabClick(item)
+    {
+        if (item.id !== this.state.selectedContributor.id)
+        {
+            this.setState({
+                selectedContributor: item
+            });
+        }
     }
 
     render()
@@ -63,19 +87,32 @@ export default class Course extends Component {
                     <CourseInfo courseInfo={courseInfo} />
                 </div>
                 <div className="contributor-tabs">
-                    <div className="tab selected">
-                        <span>王思议</span>
-                    </div>
-                    <div className="tab">
-                        <span>大神</span>
-                    </div>
+                    {contributors.map(item => {
+                        if (state.selectedContributor && state.selectedContributor.id === item.id) {
+                            return (
+                                <div key={item.id} className="tab selected" onClick={() => this.handleTabClick(item)}>
+                                    <span>{item.name}</span>
+                                </div>
+                            );
+                        }
+                        return (
+                            <div key={item.id} className="tab" onClick={() => this.handleTabClick(item)}>
+                                <span>{item.name}</span>
+                            </div>
+                        );
+                    })}
                 </div>
-                <div className="course-contributor">
-                    <Contributor
-                        contributors={contributors}
+                <div className="middle-content">
+                    <div className="contributor">
+                        <Contributor info={state.selectedContributor}/>
+                    </div>
+                    <div className="topic">
+                        <Topic topics={topics} />
+                    </div>
+                    {/* <Contributor
+                        contributor={state.selectedContributor}
                         topics={topics}
-                        selectedContributor={state.selectedContributor}
-                    />
+                    /> */}
                 </div>
                 <div className="discuss-area">
                     <Forum />

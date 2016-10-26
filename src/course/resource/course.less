@@ -39,9 +39,24 @@
         }
     }
 
-    > .course-contributor
+    > .middle-content
     {
         flex: 0 0 900px;
+
+        flex: 1 0 auto;
+        display: flex;
+        background: @cp-background-color;
+
+        > .contributor
+        {
+            flex: 0 0 200px;
+            margin-right: 20px;
+        }
+
+        > .topic
+        {
+            flex: 0 0 740px;
+        }
     }
 
     > .discuss-area
