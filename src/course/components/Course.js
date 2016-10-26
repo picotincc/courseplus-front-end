@@ -33,9 +33,13 @@ export default class Course extends Component {
     render()
     {
         const course = this.props.course;
+        const state = this.state;
         console.log(course);
 
         let courseInfo = null;
+        let contributors = [];
+        let topics = [];
+        let resources = [];
         if (course)
         {
             courseInfo = {
@@ -47,6 +51,10 @@ export default class Course extends Component {
                 schoolName: course.schoolName,
                 specialityName: course.specialityName
             };
+
+            contributors = course.authors;
+            topics = course.topics;
+            resources = course.resources;
         }
 
         return (
@@ -54,8 +62,20 @@ export default class Course extends Component {
                 <div className="course-info">
                     <CourseInfo courseInfo={courseInfo} />
                 </div>
+                <div className="contributor-tabs">
+                    <div className="tab selected">
+                        <span>王思议</span>
+                    </div>
+                    <div className="tab">
+                        <span>大神</span>
+                    </div>
+                </div>
                 <div className="course-contributor">
-                    <Contributor />
+                    <Contributor
+                        contributors={contributors}
+                        topics={topics}
+                        selectedContributor={state.selectedContributor}
+                    />
                 </div>
                 <div className="discuss-area">
                     <Forum />

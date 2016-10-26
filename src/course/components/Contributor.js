@@ -29,22 +29,12 @@ export default class Contributor extends Component {
     render()
     {
         return (
-            <div className="cp-course-contributor">
-                <div className="tab-group">
-                    <div className="tab selected">
-                        <span>王思议</span>
-                    </div>
-                    <div className="tab">
-                        <span>大神</span>
-                    </div>
+            <div className="cp-course-contributor">    
+                <div className="left-section">
+                    <ContributorInfo />
                 </div>
-                <div className="content">
-                    <div className="left-section">
-                        <ContributorInfo />
-                    </div>
-                    <div className="right-section">
-                        <Knowledge />
-                    </div>
+                <div className="right-section">
+                    <Knowledge />
                 </div>
             </div>
         );

@@ -13,9 +13,35 @@
         background: #FFFFFF;
     }
 
+    > .contributor-tabs
+    {
+        flex: 0 0 60px;
+        background: @cp-background-color;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        font-size: 14px;
+        color: #4B7385;
+        display: flex;
+
+        > .tab
+        {
+            padding: 12px 12px;
+
+            &.selected
+            {
+                background: @cp-light-green;
+                color: #FFFFFF;
+                border-radius: 5px;
+                cursor: default;
+            }
+
+            cursor: pointer;
+        }
+    }
+
     > .course-contributor
     {
-        flex: 0 0 950px;
+        flex: 0 0 900px;
     }
 
     > .discuss-area
