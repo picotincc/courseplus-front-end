@@ -193,5 +193,50 @@ export default class ServiceClient
         });
     }
 
+    getCommentList(topicId)
+    {
+        const id = topicId.toString();
+        return new Promise((resolve, reject) => {
+            $.ajax({
+                url: `${CP_API_URL}/web/comment/getCommentList`,
+                type: "GET",
+                data: {
+                    topicId: id,
+                    page: 1,
+                    limit: 100
+                }
+            }).then((data, textStatus, jqXHR) => {
+                resolve(JSON.parse(data));
+            }, (jqXHR, textStatus, errorThrown) => {
+                console.log(jqXHR.responseJSON);
+            });
+        });
+    }
+
+    postComment(comment, token)
+    {
+        const sendData = JSON.stringify({
+            "topicId": comment.topicId,
+            "content": comment.content
+        });
+        return new Promise((resolve, reject) => {
+            $.ajax({
+                url: `${CP_API_URL}/user/comment/postComment`,
+                type: "POST",
+                contentType: "application/json",
+                headers: {
+                    "Authorization": "Basic " + btoa(token + ":")
+                },
+                data: sendData
+            }).then((data, textStatus, jqXHR) => {
+                const res = Object.assign(data, {textStatus});
+                resolve(res);
+            }, (jqXHR, textStatus, errorThrown) => {
+                const res = Object.assign(jqXHR.responseJSON, {textStatus});
+                resolve(res);
+            });
+        });
+    }
+
 
 }

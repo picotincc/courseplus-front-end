@@ -6,6 +6,9 @@ export default class Knowledge extends Component {
 
     constructor (props) {
         super(props);
+
+        this.handleTopicSelect = this.handleTopicSelect.bind(this);
+        this.handleTopicMove = this.handleTopicMove.bind(this);
     }
 
     static defaultProps = {
@@ -17,7 +20,6 @@ export default class Knowledge extends Component {
     }
 
     state = {
-        selectedTopic: null,
         topicContent: ""
     }
 
@@ -34,6 +36,20 @@ export default class Knowledge extends Component {
         }
     }
 
+    handleTopicSelect(item)
+    {
+        if (item.id !== this.props.selectedTopic.id)
+        {
+            this.props.onTopicChange(item);
+        }
+    }
+
+    handleTopicMove(tag)
+    {
+        const curTopic = this.props.selectedTopic;
+        this.props.onTopicMove(tag, curTopic);
+    }
+
     render()
     {
         const {topics, selectedTopic} = this.props;
@@ -45,7 +61,7 @@ export default class Knowledge extends Component {
                     </div>
                 </div>
                 <div className="bottom-controls">
-                    <div className="previous">
+                    <div onClick={() => this.handleTopicMove(0)} className="previous">
                         <span>上一条</span>
                     </div>
                     <div className="category-dropdown dropdown">
@@ -55,12 +71,17 @@ export default class Knowledge extends Component {
                         <ul className="dropdown-menu">
                             {topics.map(item => {
                                 return (
-                                    <li key={item.id}><a>{item.name}</a></li>
+                                    <li
+                                        key={item.id}
+                                        onClick={() => this.handleTopicSelect(item)}
+                                    >
+                                        <a>{item.name}</a>
+                                    </li>
                                 );
                             })}
                         </ul>
                     </div>
-                    <div className="next">
+                    <div onClick={() => this.handleTopicMove(1)} className="next">
                         <span>下一条</span>
                     </div>
                 </div>

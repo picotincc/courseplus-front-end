@@ -14,6 +14,8 @@ export default class Course extends Component {
         super(props);
 
         this.handleTabClick = this.handleTabClick.bind(this);
+        this.handleTopicChange = this.handleTopicChange.bind(this);
+        this.handleTopicMove = this.handleTopicMove.bind(this);
     }
 
     static defaultProps = {
@@ -26,7 +28,8 @@ export default class Course extends Component {
 
     state = {
         selectedContributor: null,
-        selectedTopic: "",
+        selectedTopic: null,
+        expandedTopics: [],
         forumInfo: []
     }
 
@@ -42,9 +45,11 @@ export default class Course extends Component {
             const course = nextProps.course;
             const author = course.authors[0];
             const topic = course.topics[author.id][0];
+            const expandedTopics = FormatUtil.expandTopics(course.topics);
             this.setState({
                 selectedContributor: course.authors[0],
-                selectedTopic: topic
+                selectedTopic: topic,
+                expandedTopics: expandedTopics
             });
         }
     }
@@ -60,6 +65,58 @@ export default class Course extends Component {
                 selectedTopic: topic
             });
         }
+    }
+
+    handleTopicChange(topic)
+    {
+        const { selectedContributor } = this.state;
+        if (topic.authorId === selectedContributor.id)
+        {
+            this.setState({
+                selectedTopic: topic
+            });
+        }
+        else
+        {
+            const authors = this.props.course.authors;
+            const contributor = authors.find(item => item.id === topic.authorId);
+            this.setState({
+                selectedContributor: contributor,
+                selectedTopic: topic
+            });
+        }
+    }
+
+    handleTopicMove(tag, curTopic)
+    {
+        const expandedTopics = this.state.expandedTopics;
+        let index = expandedTopics.findIndex(item => item.id === curTopic.id);
+        if (tag === 0)
+        {
+            index = (index - 1) < 0 ? expandedTopics.length - 1 : index - 1;
+        }
+        else
+        {
+            index = (index + 1) > expandedTopics.length - 1 ? 0 : index + 1;
+        }
+        const topic = expandedTopics[index];
+        if (topic.authorId === curTopic.authorId)
+        {
+            this.setState({
+                selectedTopic: topic
+            });
+        }
+        else
+        {
+            const authors = this.props.course.authors;
+            const contributor = authors.find(item => item.id === topic.authorId);
+            this.setState({
+                selectedContributor: contributor,
+                selectedTopic: topic
+            });
+        }
+
+
     }
 
     render()
@@ -85,7 +142,7 @@ export default class Course extends Component {
             };
 
             contributors = course.authors;
-            topics = FormatUtil.expandTopics(course.topics);
+            topics = state.expandedTopics;
             resources = course.resources;
         }
 
@@ -118,11 +175,13 @@ export default class Course extends Component {
                         <Topic
                             topics={topics}
                             selectedTopic={state.selectedTopic}
+                            onTopicChange={this.handleTopicChange}
+                            onTopicMove={this.handleTopicMove}
                         />
                     </div>
                 </div>
                 <div className="discuss-area">
-                    <Forum />
+                    <Forum selectedTopic={state.selectedTopic} />
                 </div>
                 <div className="related-resources">
                     <Resources />
