@@ -20,6 +20,40 @@ export default class CourseInfo extends Component {
 
     }
 
+    componentDidMount()
+    {
+
+    }
+
+    componentDidUpdate()
+    {
+        const $para = $(this.refs.para);
+        const togglePara = this.refs.togglePara;
+        const height = $para.height();
+        if (height < 96.5) {
+            togglePara.style.visibility = "hidden";
+        }
+    }
+
+    togglePara()
+    {
+        const para = this.refs.para;
+        const togglePara = this.refs.togglePara;
+
+        if (togglePara.text === "查看全文") {
+            para.style.maxHeight = "1000px";
+            togglePara.text = "收起全文";
+        }
+        else
+        {
+            para.style.maxHeight = "97px";
+            setTimeout(() => {
+                togglePara.text = "查看全文";
+            }, 750);
+        }
+
+    }
+
     render()
     {
         const info = this.props.courseInfo;
@@ -54,39 +88,6 @@ export default class CourseInfo extends Component {
                 </div>
             </div>
         );
-    }
-
-    componentDidMount()
-    {
-        const $para = $(this.refs.para);
-        const togglePara = this.refs.togglePara;
-        const height = $para.height();
-        if (height < 97) {
-            togglePara.style.visibility = "hidden";
-        }
-        else
-        {
-            $para.addClass("overflow-hide");
-        }
-    }
-
-    togglePara()
-    {
-        const para = this.refs.para;
-        const togglePara = this.refs.togglePara;
-
-        if (togglePara.text === "查看全文") {
-            para.style.maxHeight = "1000px";
-            togglePara.text = "收起全文";
-        }
-        else
-        {
-            para.style.maxHeight = "97px";
-            setTimeout(() => {
-                togglePara.text = "查看全文";
-            }, 750);
-        }
-
     }
 
 }
