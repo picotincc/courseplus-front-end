@@ -79,10 +79,11 @@ export default class Forum extends Component {
                         this.setState({
                             commentList
                         });
+                        alert("发布成功");
                     }
                     else
                     {
-                        alert("请重新登录");
+                        alert("发布失败");
                     }
                 });
             }
