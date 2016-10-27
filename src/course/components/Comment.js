@@ -110,7 +110,7 @@ export default class Comment extends Component {
                         this.replyInput.value = "";
 
                         let newReply = {
-                            authorName: "user.nickname",
+                            authorName: "用户nickname",
                             authorIcon: null,
                             replyTime: FormatUtil.getCurrentTime(),
                             content: text
