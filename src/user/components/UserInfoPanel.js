@@ -5,17 +5,12 @@ export default class UserInfoPanel extends Component {
     constructor (props) {
         super(props);
 
-        this.changeGender = this.changeGender.bind(this);
         this.handleGenderSelect = this.handleGenderSelect.bind(this);
         this.uploadImg = this.uploadImg.bind(this);
     }
 
     static defaultProps = {
-        user: {
-            nickname: "",
-            gender: 1,
-            icon: null
-        }
+        user: {}
     }
 
     static propTypes = {
@@ -23,7 +18,7 @@ export default class UserInfoPanel extends Component {
     }
 
     state = {
-        selectedGender: 1
+
     }
 
     componentDidMount()
@@ -32,23 +27,43 @@ export default class UserInfoPanel extends Component {
         this.femaleGender = this.refs["femaleGender"];
         this.genderInput = this.refs["genderInput"];
         this.imgInput = this.refs["imgInput"];
+        this.nicknameInput = this.refs["nicknameInput"];
         this.userImg = this.refs["userImg"];
 
         this.imgInput.onchange = this.changeImg;
-    }
+        const user = this.props.user;
+        this.genderInput.value = user.gender;
+        this.nicknameInput.value = user.nickname;
+        this.imgInput.value = user.icon;
 
-    componentWillReceiveProps(nextProps)
-    {
-
+        if (user.gender !== 2)
+        {
+            this.maleGender.classList.add("selected");
+        }
+        else
+        {
+            this.maleGender.classList.remove("selected");
+        }
     }
 
     componentDidUpdate()
     {
-        const gender = this.state.selectedGender;
-        this.changeGender(gender)
+        const user = this.props.user;
+        this.genderInput.value = user.gender;
+        this.nicknameInput.value = user.nickname;
+        this.imgInput.value = user.icon;
+
+        if (user.gender !== 2)
+        {
+            this.maleGender.classList.add("selected");
+        }
+        else
+        {
+            this.maleGender.classList.remove("selected");
+        }
     }
 
-    changeGender(gender)
+    handleGenderSelect(gender)
     {
         if (gender !== 2 )
         {
@@ -56,7 +71,7 @@ export default class UserInfoPanel extends Component {
             {
                 this.maleGender.classList.add("selected");
                 this.femaleGender.classList.remove("selected");
-                this.genderInput.value = "male";
+                this.genderInput.value = 1;
             }
         }
         else
@@ -65,16 +80,9 @@ export default class UserInfoPanel extends Component {
             {
                 this.femaleGender.classList.add("selected");
                 this.maleGender.classList.remove("selected");
-                this.genderInput.value = "female";
+                this.genderInput.value = 2;
             }
         }
-    }
-
-    handleGenderSelect(gender)
-    {
-        this.setState({
-            selectedGender: gender
-        });
     }
 
     uploadImg()
@@ -93,7 +101,7 @@ export default class UserInfoPanel extends Component {
                 <div className="title"><span>基本资料</span></div>
                 <div className="form-group">
                     <label>昵称</label>
-                    <input type="text" placeholder="昵称" className="form-control" value={user.nickname}/>
+                    <input ref="nicknameInput" type="text" placeholder="昵称" className="form-control"/>
                 </div>
                 <div className="form-group">
                     <input ref="genderInput" type="hidden" />

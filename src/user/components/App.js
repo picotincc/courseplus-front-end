@@ -109,8 +109,8 @@ export default class App extends Component {
             <div className="cp-user-app">
                 <header>
                     <Header
-                        isLogin={this.state.isLogin}
-                        user={this.state.user}
+                        isLogin={state.isLogin}
+                        user={state.user}
                     />
                 </header>
                 <div className="container">
