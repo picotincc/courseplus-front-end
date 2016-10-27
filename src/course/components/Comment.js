@@ -105,25 +105,18 @@ export default class Comment extends Component {
                     replyId,
                     content: text
                 }, token).then(res => {
-                    if (res.code === 0)
+                    if (res.textStatus === "success")
                     {
                         this.replyInput.value = "";
-
-                        let newReply = {
-                            authorName: "用户nickname",
-                            authorIcon: null,
-                            replyTime: FormatUtil.getCurrentTime(),
-                            content: text
-                        };
-                        replyList.push(newReply);
+                        replyList.push(res);
                         this.setState({
                             replyList: replyList
                         })
-                        alert("发布成功");
+                        alert("回复成功");
                     }
                     else
                     {
-                        alert("发布失败");
+                        alert("回复失败");
                     }
                 });
             }

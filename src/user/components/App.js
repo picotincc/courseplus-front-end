@@ -7,6 +7,8 @@ import WebStorageUtil from "../../base/util/WebStorageUtil";
 import ChangePasswordPanel from "./ChangePasswordPanel";
 import UserInfoPanel from "./UserInfoPanel";
 
+const HOST = "/public";
+
 export default class App extends Component {
 
     constructor (props) {
@@ -14,7 +16,7 @@ export default class App extends Component {
 
         this.tabChange = this.tabChange.bind(this);
 
-        this.loadInitialData();
+        this.autoLogin();
     }
 
     static defaultProps = {
@@ -29,6 +31,73 @@ export default class App extends Component {
         isLogin: false,
         user: null,
         selectedTab: "info"
+    }
+
+    componentDidMount()
+    {
+        this.tabInfo = this.refs["tabInfo"];
+        this.tabPassword = this.refs["tabPassword"];
+
+        this.tabInfo.classList.add("selected");
+    }
+
+    componentDidUpdate()
+    {
+        const {selectedTab} = this.state;
+        if (selectedTab === "info")
+        {
+            this.tabInfo.classList.add("selected");
+            this.tabPassword.classList.remove("selected");
+        }
+        else
+        {
+            this.tabInfo.classList.remove("selected");
+            this.tabPassword.classList.add("selected");
+        }
+    }
+
+    autoLogin()
+    {
+        let isLogin = false;
+        const user = WebStorageUtil.getUserStorage();
+
+        if (user)
+        {
+            ServiceClient.getInstance().login({
+                phone: user.phone,
+                password: user.password
+            }).then(res => {
+                if (res.textStatus === "success")
+                {
+                    isLogin = true;
+                    WebStorageUtil.setToken(res.token);
+                    this.setState({
+                        isLogin,
+                        user: res
+                    });
+                }
+                else
+                {
+                    alert("登录失败");
+                    location.href = `${HOST}/home.html`;
+                }
+            });
+        }
+        else
+        {
+            alert("请先登录");
+            location.href = `${HOST}/home.html`;
+        }
+    }
+
+    tabChange(tab)
+    {
+        if (this.state.selectedTab !== tab)
+        {
+            this.setState({
+                selectedTab: tab
+            });
+        }
     }
 
     render()
@@ -72,36 +141,5 @@ export default class App extends Component {
         );
     }
 
-    componentDidMount()
-    {
-        this.tabInfo = this.refs["tabInfo"];
-        this.tabPassword = this.refs["tabPassword"];
 
-        this.tabInfo.classList.add("selected");
-    }
-
-    componentDidUpdate()
-    {
-        const {selectedTab} = this.state;
-        if (selectedTab === "info")
-        {
-            this.tabInfo.classList.add("selected");
-            this.tabPassword.classList.remove("selected");
-        }
-        else
-        {
-            this.tabInfo.classList.remove("selected");
-            this.tabPassword.classList.add("selected");
-        }
-    }
-
-    tabChange(tab)
-    {
-        if (this.state.selectedTab !== tab)
-        {
-            this.setState({
-                selectedTab: tab
-            });
-        }
-    }
 }

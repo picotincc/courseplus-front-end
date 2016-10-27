@@ -61,6 +61,7 @@ export default class Forum extends Component {
     handleCommentPublish()
     {
         const text = this.commentInput.value;
+        let commentList = this.state.commentList;
         if (text !== "")
         {
             const token = WebStorageUtil.getToken();
@@ -71,10 +72,13 @@ export default class Forum extends Component {
                     topicId: topic.id,
                     content: text
                 }, token).then(res => {
-                    if (res.code === 0)
+                    if (res.textStatus === "success")
                     {
-                        alert("发布成功");
                         this.commentInput.value = "";
+                        commentList.push(res);
+                        this.setState({
+                            commentList
+                        });
                     }
                     else
                     {

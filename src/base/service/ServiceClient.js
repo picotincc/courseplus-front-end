@@ -1,3 +1,5 @@
+import WebStorageUtil from "../util/WebStorageUtil";
+
 const CP_API_URL = "/api";
 
 export default class ServiceClient
@@ -21,6 +23,31 @@ export default class ServiceClient
             ServiceClient._instance = new ServiceClient();
         }
         return ServiceClient._instance;
+    }
+
+    autoLogin()
+    {
+
+    }
+
+    getUserInfo(token)
+    {
+        return new Promise((resolve, reject) => {
+            $.ajax({
+                url: `${CP_API_URL}/user/user/getUserInfo`,
+                type: "GET",
+                contentType: "application/json",
+                headers: {
+                    "Authorization": "Basic " + btoa(token + ":")
+                }
+            }).then((data, textStatus, jqXHR) => {
+                const res = Object.assign(data, {textStatus});
+                resolve(res);
+            }, (jqXHR, textStatus, errorThrown) => {
+                const res = Object.assign(jqXHR.responseJSON, {textStatus});
+                resolve(res);
+            });
+        });
     }
 
     checkUserIsValid(phone)
