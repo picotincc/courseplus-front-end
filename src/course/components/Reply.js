@@ -4,10 +4,17 @@ export default class Reply extends Component {
 
     constructor (props) {
         super(props);
+
+        this.reply = this.reply.bind(this);
     }
 
     static defaultProps = {
-
+        reply: {
+            authorIcon: null,
+            authorName: "",
+            content: "",
+            replyTime: ""
+        }
     }
 
     static propTypes = {
@@ -23,19 +30,28 @@ export default class Reply extends Component {
 
     }
 
+    reply()
+    {
+        const reply = this.props.reply;
+        this.props.onReplyClick(reply.authorName);
+    }
+
     render()
     {
+        const reply = this.props.reply;
+        let authorIcon = "http://uupaper.oss-cn-qingdao.aliyuncs.com/9c5b17a57bbf9c3279f9e2faf3b3e118.jpeg";
+
         return (
             <div className="cp-course-reply">
                 <div className="replyer-img">
-                    <img src="http://uupaper.oss-cn-qingdao.aliyuncs.com/9c5b17a57bbf9c3279f9e2faf3b3e118.jpeg" />
+                    <img src={reply.authorIcon ? reply.authorIcon : authorIcon} />
                 </div>
                 <div className="right-section">
-                    <div className="name">高扬最帅</div>
-                    <div className="content">这是一个很长的评论这是一个很长的评论这是一个很长的评论这是一个很长的评论这是一个很长的评论这是一个很长的评论这是一个很长的评论这是一个很长的评论这是一个很长的评论这是一个很长的评论这是一个很长的评论这是一个很长的评论这是一个很长的评论这是一个很长的评论这是一个很长的评论这是一个很长的评论这是一个很长的评论这是一个很长的评论这是一个很长的评论这是一个很长的评论这是一个很长的评论这是一个很长的评论这是一个很长的评论这是一个很长的评论这是一个很长的评论这是一个很长的评论这是一个很长的评论这是一个很长的评论这是一个很长的评论这是一个很长的评论这是一个很长的评论这是一个很长的评论这是一个很长的评论</div>
+                    <div className="name">{reply.authorName}</div>
+                    <div className="content">{reply.content}</div>
                     <div className="bottom-bar">
-                        <div className="comment-date">2016.10.16 15:20</div>
-                        <div className="reply">回复</div>
+                        <div className="comment-date">{reply.replyTime}</div>
+                        <div onMouseDown={this.reply} className="reply">回复</div>
                     </div>
                 </div>
             </div>

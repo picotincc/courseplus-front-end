@@ -47,7 +47,20 @@ export default class Course extends Component {
             const topic = course.topics[author.id][0];
             const expandedTopics = FormatUtil.expandTopics(course.topics);
             this.setState({
-                selectedContributor: course.authors[0],
+                selectedContributor: author,
+                selectedTopic: topic,
+                expandedTopics: expandedTopics
+            });
+        }
+
+        if (this.state.selectedContributor && nextProps)
+        {
+            const course = nextProps.course;
+            const author = this.state.selectedContributor;
+            const topic = course.topics[author.id][0];
+            const expandedTopics = FormatUtil.expandTopics(course.topics);
+            this.setState({
+                selectedContributor: author,
                 selectedTopic: topic,
                 expandedTopics: expandedTopics
             });
@@ -121,9 +134,8 @@ export default class Course extends Component {
 
     render()
     {
-        const course = this.props.course;
+        const {course, user, onCourseSelect} = this.props;
         const state = this.state;
-        // console.log(course);
 
         let courseInfo = null;
         let contributors = [];
@@ -169,7 +181,10 @@ export default class Course extends Component {
                 </div>
                 <div className="middle-content">
                     <div className="contributor">
-                        <Contributor info={state.selectedContributor}/>
+                        <Contributor
+                            info={state.selectedContributor}
+                            onCourseSelect={onCourseSelect}
+                        />
                     </div>
                     <div className="topic">
                         <Topic
@@ -181,7 +196,9 @@ export default class Course extends Component {
                     </div>
                 </div>
                 <div className="discuss-area">
-                    <Forum selectedTopic={state.selectedTopic} />
+                    <Forum
+                        selectedTopic={state.selectedTopic}
+                    />
                 </div>
                 <div className="related-resources">
                     <Resources />

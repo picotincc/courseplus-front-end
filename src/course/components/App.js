@@ -18,6 +18,7 @@ export default class App extends Component {
         this.handleDialogShow = this.handleDialogShow.bind(this);
         this.handleDialogHide = this.handleDialogHide.bind(this);
         this.handleLogin = this.handleLogin.bind(this);
+        this.handleCourseSelect = this.handleCourseSelect.bind(this);
     }
 
     static defaultProps = {
@@ -104,6 +105,20 @@ export default class App extends Component {
         });
     }
 
+    handleCourseSelect(courseId)
+    {
+        const course = this.state.courseInfo;
+        if (course.id !== courseId)
+        {
+            WebStorageUtil.setCourseStorage(courseId);
+            ServiceClient.getInstance().getCourseDetail(courseId).then(res => {
+                this.setState({
+                    courseInfo: res
+                });
+            });
+        }
+    }
+
 
     render()
     {
@@ -126,7 +141,10 @@ export default class App extends Component {
                         />
                     </header>
                     <div className="container">
-                        <Course course={state.courseInfo} />
+                        <Course
+                            course={state.courseInfo}
+                            onCourseSelect={this.handleCourseSelect}
+                         />
                     </div>
                 </div>
             </div>

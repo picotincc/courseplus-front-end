@@ -96,6 +96,8 @@ export default class Forum extends Component {
 
     render()
     {
+        const topic = this.props.selectedTopic;
+        const user = this.props.user;
         const commentList = this.state.commentList;
         return (
             <div className="cp-course-forum">
@@ -111,7 +113,12 @@ export default class Forum extends Component {
                 <ul className="comment-list">
                 {commentList.map(item => {
                     return (
-                        <li key={item.id}><Comment rootComment={item}/></li>
+                        <li key={item.id}>
+                            <Comment
+                                topic={topic}
+                                rootComment={item}
+                            />
+                        </li>
                     );
                 })}
                 </ul>

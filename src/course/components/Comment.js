@@ -1,5 +1,9 @@
 import React, { Component } from 'react';
 
+import FormatUtil from "../../base/util/FormatUtil";
+import ServiceClient from "../../base/service/ServiceClient";
+import WebStorageUtil from "../../base/util/WebStorageUtil";
+
 import Reply from "./Reply";
 
 export default class Comment extends Component {
@@ -7,7 +11,9 @@ export default class Comment extends Component {
     constructor (props) {
         super(props);
 
+        this.updateReplyInput = this.updateReplyInput.bind(this);
         this.showReply = this.showReply.bind(this);
+        this.handleCommentReply = this.handleCommentReply.bind(this);
     }
 
     static defaultProps = {
@@ -17,7 +23,8 @@ export default class Comment extends Component {
             replyTime: "",
             replyCount: "",
             authorIcon: null
-        }
+        },
+        topic: null
     }
 
     static propTypes = {
@@ -27,6 +34,11 @@ export default class Comment extends Component {
     state = {
         isExpanded: false,
         replyList: []
+    }
+
+    componentDidMount()
+    {
+        this.replyInput = this.refs["replyInput"];
     }
 
     componentWillReceiveProps(nextProps)
@@ -44,11 +56,18 @@ export default class Comment extends Component {
         e.target.style.height = "auto";
     }
 
+    updateReplyInput(replyName)
+    {
+        this.replyInput.value = "回复 " + replyName + ":";
+    }
+
     showReply()
     {
         const btnShowReply = this.refs.btnShowReply;
+        const replyList = this.state.replyList;
+        const {rootComment, topic} = this.props;
         if (this.state.isExpanded) {
-            btnShowReply.innerHTML = "回复 2";
+            btnShowReply.innerHTML = "回复 " + replyList.length;
             this.setState({
                 isExpanded: false
             });
@@ -57,37 +76,54 @@ export default class Comment extends Component {
         {
             btnShowReply.innerHTML = "收起回复";
 
-            if (this.state.replyList.length === 0) {
-                //请求此评论的回复列表
+            ServiceClient.getInstance().getReplyList({
+                topicId: topic.id,
+                commentId: rootComment.id
+            }).then(res => {
                 this.setState({
                     isExpanded: true,
-                    replyList: []
+                    replyList: res
                 });
-            }
+            });
+
         }
     }
 
     handleCommentReply()
     {
-        const text = this.commentInput.value;
+        const text = this.replyInput.value;
+        const replyId = this.props.rootComment.id;
+        const replyList = this.state.replyList;
         if (text !== "")
         {
             const token = WebStorageUtil.getToken();
-            const topic = this.props.selectedTopic;
+            const topic = this.props.topic;
             if (token)
             {
-                ServiceClient.getInstance().postComment({
+                ServiceClient.getInstance().replyComment({
                     topicId: topic.id,
+                    replyId,
                     content: text
                 }, token).then(res => {
                     if (res.code === 0)
                     {
+                        this.replyInput.value = "";
+
+                        let newReply = {
+                            authorName: "user.nickname",
+                            authorIcon: null,
+                            replyTime: FormatUtil.getCurrentTime(),
+                            content: text
+                        };
+                        replyList.push(newReply);
+                        this.setState({
+                            replyList: replyList
+                        })
                         alert("发布成功");
-                        this.commentInput.value = "";
                     }
                     else
                     {
-                        alert("请重新登录");
+                        alert("发布失败");
                     }
                 });
             }
@@ -95,7 +131,6 @@ export default class Comment extends Component {
             {
                 alert("请先登录");
             }
-
         }
         else
         {
@@ -106,6 +141,7 @@ export default class Comment extends Component {
     render()
     {
         const rootComment = this.props.rootComment;
+        const replyList = this.state.replyList;
         let authorIcon1 = "http://blog.bzxxg.cn/wp-content/uploads/2013/07/guest.png";
         let authorIcon2 = "https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcSeiPB1slh_EwpLQzoRaYX7duYX4vVvPDqhVX2MReSVucJhUtEAo3s-UA";
         return (
@@ -120,21 +156,27 @@ export default class Comment extends Component {
                         <div className="bottom-bar">
                             <div className="comment-date">{rootComment.replyTime}</div>
                             <a ref="btnShowReply"
-                               href={"#comment" + rootComment.id}
+                               href={'#comment' + rootComment.id}
                                data-toggle="collapse"
-                               onClick={this.showReply}
+                               onMouseDown={this.showReply}
                                className="show-reply"
                              >回复&nbsp;{rootComment.replyCount > 0 ? rootComment.replyCount : ""}</a>
                         </div>
                     </div>
                 </div>
-                <div id={"#comment" + rootComment.id} ref="replySection" className="reply-section collapse">
+                <div id={'comment' + rootComment.id} ref="replySection" className="reply-section collapse">
                     <ul className="reply-list">
-                        <li><Reply /></li>
-                        <li><Reply /></li>
+                        {replyList.map(item => {
+                            return (
+                                <li key={item.id}>
+                                    <Reply onReplyClick={this.updateReplyInput} reply={item} />
+                                </li>
+                            );
+                        })}
                     </ul>
                     <div className="reply-input">
                         <textarea
+                            ref="replyInput"
                             className="forum-textarea"
                             placeholder="我要评论"
                             onFocus={this.replyInput_onfocus}
@@ -142,12 +184,11 @@ export default class Comment extends Component {
                         />
                     </div>
                     <div className="bar">
-                        <div className="btn-reply">
+                        <div onMouseDown={this.handleCommentReply} className="btn-reply">
                             <span>回复</span>
                         </div>
                     </div>
                 </div>
-
             </div>
         );
     }

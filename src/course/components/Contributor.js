@@ -4,6 +4,8 @@ export default class Contributor extends Component {
 
     constructor (props) {
         super(props);
+
+        this.handleCourseSelect = this.handleCourseSelect.bind(this);
     }
 
     static defaultProps = {
@@ -16,6 +18,11 @@ export default class Contributor extends Component {
 
     state = {
 
+    }
+
+    handleCourseSelect(courseId)
+    {
+        this.props.onCourseSelect(courseId);
     }
 
     render()
@@ -52,7 +59,12 @@ export default class Contributor extends Component {
                 <ul className="others-courses">
                     {relatedCourses.map(item => {
                         return (
-                            <li key={item.id}>{item.name}</li>
+                            <li
+                                key={item.id}
+                                onClick={() => this.handleCourseSelect(item.id)}
+                            >
+                                {item.name}
+                            </li>
                         );
                     })}
                 </ul>
