@@ -6,11 +6,16 @@ export default class UserInfoPanel extends Component {
         super(props);
 
         this.changeGender = this.changeGender.bind(this);
+        this.handleGenderSelect = this.handleGenderSelect.bind(this);
         this.uploadImg = this.uploadImg.bind(this);
     }
 
     static defaultProps = {
-
+        user: {
+            nickname: "",
+            gender: 1,
+            icon: null
+        }
     }
 
     static propTypes = {
@@ -18,48 +23,7 @@ export default class UserInfoPanel extends Component {
     }
 
     state = {
-
-    }
-
-    render()
-    {
-        return (
-            <div className="cp-user-userinfo">
-                <div className="title">
-                    <span>基本资料</span>
-                </div>
-                <div className="form-group">
-                    <label>昵称</label>
-                    <input type="text" placeholder="昵称" className="form-control" />
-                </div>
-                <div className="form-group">
-                    <input ref="genderInput" type="hidden" />
-                    <label>性别</label>
-                    <div className="gender-group">
-                        <div ref="maleGender" onClick={() => this.changeGender("male")} className="tab selected male">
-                            <span>男</span>
-                        </div>
-                        <div ref="femaleGender" onClick={() => this.changeGender("female")} className="tab female">
-                            <span>女</span>
-                        </div>
-                    </div>
-                </div>
-                <div className="head">
-                    头像
-                </div>
-
-                <div className="user-img">
-                    <img ref="userImg" onClick={this.uploadImg} src="http://i1.piimg.com/573251/970594a863d7aeb9.png" />
-                    <input ref="imgInput" type="file" />
-                </div>
-
-                <div className="btn-update">
-                    更新资料
-                </div>
-
-
-            </div>
-        );
+        selectedGender: 1
     }
 
     componentDidMount()
@@ -73,9 +37,20 @@ export default class UserInfoPanel extends Component {
         this.imgInput.onchange = this.changeImg;
     }
 
+    componentWillReceiveProps(nextProps)
+    {
+
+    }
+
+    componentDidUpdate()
+    {
+        const gender = this.state.selectedGender;
+        this.changeGender(gender)
+    }
+
     changeGender(gender)
     {
-        if (gender === "male")
+        if (gender !== 2 )
         {
             if (!this.maleGender.classList.contains("selected"))
             {
@@ -95,10 +70,51 @@ export default class UserInfoPanel extends Component {
         }
     }
 
+    handleGenderSelect(gender)
+    {
+        this.setState({
+            selectedGender: gender
+        });
+    }
+
     uploadImg()
     {
         console.log("uploadImg");
         this.imgInput.click();
+    }
+
+    render()
+    {
+        const user = this.props.user;
+        const icon = "http://i1.piimg.com/573251/970594a863d7aeb9.png";
+
+        return (
+            <div className="cp-user-userinfo">
+                <div className="title"><span>基本资料</span></div>
+                <div className="form-group">
+                    <label>昵称</label>
+                    <input type="text" placeholder="昵称" className="form-control" value={user.nickname}/>
+                </div>
+                <div className="form-group">
+                    <input ref="genderInput" type="hidden" />
+                    <label>性别</label>
+                    <div className="gender-group">
+                        <div ref="maleGender" onClick={() => this.handleGenderSelect(1)} className="tab male">
+                            <span>男</span>
+                        </div>
+                        <div ref="femaleGender" onClick={() => this.handleGenderSelect(2)} className="tab female">
+                            <span>女</span>
+                        </div>
+                    </div>
+                </div>
+                <div className="head">头像</div>
+                <div className="user-img">
+                    <img ref="userImg" onClick={this.uploadImg} src={user.icon ? user.icon : icon} />
+                    <input ref="imgInput" type="file" />
+                </div>
+                <div className="btn-update">更新资料</div>
+            </div>
+        );
     }
 
 }

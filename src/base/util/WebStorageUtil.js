@@ -58,6 +58,11 @@ export default class WebStorageUtil
         }
         return false;
     }
+
+    static removeToken()
+    {
+        _removeCookie(KEY_TOKEN);
+    }
 }
 
 function _setCookie(key, value)
@@ -80,9 +85,14 @@ function _getCookie(c_name)
             }　　
             return unescape(document.cookie.substring(c_start, c_end))
         }
-　　　　}
-　　　　return ""
 　　}
+　　　　return ""
+}
+
+function _removeCookie(name)
+{
+    document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+}
 
 function _getLocalStorage(key)
 {

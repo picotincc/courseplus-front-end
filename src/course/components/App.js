@@ -13,7 +13,6 @@ export default class App extends Component {
 
     constructor (props) {
         super(props);
-        console.log("Courseplus course is running......");
 
         this.handleDialogShow = this.handleDialogShow.bind(this);
         this.handleDialogHide = this.handleDialogHide.bind(this);
@@ -45,33 +44,22 @@ export default class App extends Component {
     autoLogin()
     {
         let isLogin = false;
-        const user = WebStorageUtil.getUserStorage();
 
-        if (user)
-        {
-            ServiceClient.getInstance().login({
-                phone: user.phone,
-                password: user.password
-            }).then(res => {
-                if (res.textStatus === "success")
-                {
-                    isLogin = true;
-                    WebStorageUtil.setToken(res.token);
-                    this.loadCourseData(isLogin, res);
-                }
-                else
-                {
-                    this.loadCourseData(isLogin);
-                }
-            });
-        }
-        else
-        {
-            this.loadCourseData(isLogin);
-        }
+        ServiceClient.getInstance().autoLogin().then(res => {
+            if (res.status === 0)
+            {
+                isLogin = true;
+                WebStorageUtil.setToken(res.token);
+                this.loadCourseData(isLogin, res);
+            }
+            else
+            {
+                this.loadCourseData(isLogin);
+            }
+        });
     }
 
-    loadCourseData(isLogin, user = null,)
+    loadCourseData(isLogin, user = null)
     {
         const courseId = WebStorageUtil.getCourseStorage();
         ServiceClient.getInstance().getCourseDetail(courseId).then(res => {

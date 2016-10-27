@@ -83,7 +83,7 @@ export default class Forum extends Component {
                     }
                     else
                     {
-                        alert("发布失败");
+                        alert("请重新登录");
                     }
                 });
             }

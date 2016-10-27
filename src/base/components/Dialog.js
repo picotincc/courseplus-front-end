@@ -72,7 +72,6 @@ export default class Dialog extends Component {
                 phone: info.phone,
                 password: info.password
             });
-            WebStorageUtil.setToken(info.token);
         }
         this.hide();
         this.props.onLogin(info);

@@ -52,31 +52,20 @@ export default class App extends Component {
 
     autoLogin()
     {
-        const user = WebStorageUtil.getUserStorage();
         let isLogin = false;
 
-        if (user)
-        {
-            ServiceClient.getInstance().login({
-                phone: user.phone,
-                password: user.password
-            }).then(res => {
-                if (res.textStatus === "success")
-                {
-                    isLogin = true;
-                    WebStorageUtil.setToken(res.token);
-                    this.loadHomeData(isLogin, res);
-                }
-                else
-                {
-                    this.loadHomeData(isLogin);
-                }
-            });
-        }
-        else
-        {
-            this.loadHomeData(isLogin);
-        }
+        ServiceClient.getInstance().autoLogin().then(res => {
+            if (res.status === 0)
+            {
+                isLogin = true;
+                WebStorageUtil.setToken(res.token);
+                this.loadHomeData(isLogin, res);
+            }
+            else
+            {
+                this.loadHomeData(isLogin);
+            }
+        });
     }
 
     loadHomeData(isLogin, user = null)

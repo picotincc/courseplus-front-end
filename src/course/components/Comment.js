@@ -116,7 +116,7 @@ export default class Comment extends Component {
                     }
                     else
                     {
-                        alert("回复失败");
+                        alert("请重新登录");
                     }
                 });
             }

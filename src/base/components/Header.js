@@ -50,6 +50,7 @@ export default class Header extends Component {
     logout()
     {
         WebStorageUtil.removeUserStorage();
+        WebStorageUtil.removeToken();
         location.href = HOST + "/home.html";
     }
 

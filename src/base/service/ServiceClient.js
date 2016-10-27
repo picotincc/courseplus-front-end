@@ -30,63 +30,62 @@ export default class ServiceClient
         const token = WebStorageUtil.getToken();
         const userStorage = WebStorageUtil.getUserStorage();
         const self = this;
-
-        if (token)
-        {
-            self.getUserInfo(token).then(res => {
-                if (res.textStatus === "success")
-                {
-                    const info = Object.assign(res, { status:0 });
-                    resolve(info);
-                }
-                else
-                {
-                    if (userStorage)
-                    {
-                        self.login(userStorage).then(result => {
-                            if (result.textStatus === "success")
-                            {
-                                const info = Object.assign(result, { status:0 });
-                                resolve(info);
-                            }
-                            else
-                            {
-                                const info = Object.assign(result, { status:-1 });
-                                resolve(info);
-                            }
-                        });
-                    }
-                    else
-                    {
-                        resolve( {status: -1} );
-                    }
-                }
-            });
-        }
-        else
-        {
-            if (userStorage)
+        return new Promise((resolve, reject) => {
+            if (token)
             {
-                self.login(userStorage).then(result => {
-                    if (result.textStatus === "success")
+                self.getUserInfo(token).then(res => {
+                    if (res.textStatus === "success")
                     {
-                        const info = Object.assign(result, { code:0 });
+                        let info = Object.assign(res, { status:0 });
+                        info.token = token;
                         resolve(info);
                     }
                     else
                     {
-                        const info = Object.assign(result, { code:-1 });
-                        resolve(info);
+                        if (userStorage)
+                        {
+                            self.login(userStorage).then(result => {
+                                if (result.textStatus === "success")
+                                {
+                                    const info = Object.assign(result, { status:0 });
+                                    resolve(info);
+                                }
+                                else
+                                {
+                                    const info = Object.assign(result, { status:-1 });
+                                    resolve(info);
+                                }
+                            });
+                        }
+                        else
+                        {
+                            resolve( {status: -1} );
+                        }
                     }
                 });
             }
             else
             {
-                resolve( {code: -1} );
+                if (userStorage)
+                {
+                    self.login(userStorage).then(result => {
+                        if (result.textStatus === "success")
+                        {
+                            const info = Object.assign(result, { status:0 });
+                            resolve(info);
+                        }
+                        else
+                        {
+                            const info = Object.assign(result, { status:-1 });
+                            resolve(info);
+                        }
+                    });
+                }
+                else
+                {
+                    resolve( {status: -1} );
+                }
             }
-        }
-        return new Promise((resolve, reject) => {
-
         });
     }
 
@@ -99,12 +98,15 @@ export default class ServiceClient
                 contentType: "application/json",
                 headers: {
                     "Authorization": "Basic " + btoa(token + ":")
-                }
+                },
             }).then((data, textStatus, jqXHR) => {
                 const res = Object.assign(data, {textStatus});
                 resolve(res);
             }, (jqXHR, textStatus, errorThrown) => {
-                const res = Object.assign(jqXHR.responseJSON, {textStatus});
+                const res = {
+                    statusCode: jqXHR.status,
+                    textStatus,
+                }
                 resolve(res);
             });
         });
@@ -160,6 +162,7 @@ export default class ServiceClient
                 data: sendData
             }).then((data, textStatus, jqXHR) => {
                 const res = Object.assign(data, {textStatus});
+                WebStorageUtil.setToken(res.token);
                 resolve(res);
             }, (jqXHR, textStatus, errorThrown) => {
                 const res = Object.assign(jqXHR.responseJSON, {textStatus});
@@ -182,6 +185,7 @@ export default class ServiceClient
                 data: sendData
             }).then((data, textStatus, jqXHR) => {
                 const res = Object.assign(data, {textStatus});
+                WebStorageUtil.setToken(res.token);
                 resolve(res);
             }, (jqXHR, textStatus, errorThrown) => {
                 const res = Object.assign(jqXHR.responseJSON, {textStatus});
@@ -300,57 +304,6 @@ export default class ServiceClient
         });
     }
 
-    postComment(comment, token)
-    {
-        const sendData = JSON.stringify({
-            "topicId": comment.topicId,
-            "content": comment.content
-        });
-        return new Promise((resolve, reject) => {
-            $.ajax({
-                url: `${CP_API_URL}/user/comment/postComment`,
-                type: "POST",
-                contentType: "application/json",
-                headers: {
-                    "Authorization": "Basic " + btoa(token + ":")
-                },
-                data: sendData
-            }).then((data, textStatus, jqXHR) => {
-                const res = Object.assign(data, {textStatus});
-                resolve(res);
-            }, (jqXHR, textStatus, errorThrown) => {
-                const res = Object.assign(jqXHR.responseJSON, {textStatus});
-                resolve(res);
-            });
-        });
-    }
-
-    replyComment(reply, token)
-    {
-        const sendData = JSON.stringify({
-            "topicId": reply.topicId,
-            "replyId": reply.replyId,
-            "content": reply.content
-        });
-        return new Promise((resolve, reject) => {
-            $.ajax({
-                url: `${CP_API_URL}/user/comment/postComment`,
-                type: "POST",
-                contentType: "application/json",
-                headers: {
-                    "Authorization": "Basic " + btoa(token + ":")
-                },
-                data: sendData
-            }).then((data, textStatus, jqXHR) => {
-                const res = Object.assign(data, {textStatus});
-                resolve(res);
-            }, (jqXHR, textStatus, errorThrown) => {
-                const res = Object.assign(jqXHR.responseJSON, {textStatus});
-                resolve(res);
-            });
-        });
-    }
-
     getReplyList(paras)
     {
         return new Promise((resolve, reject) => {
@@ -371,5 +324,225 @@ export default class ServiceClient
         });
     }
 
+    postComment(comment, token)
+    {
+        const self = this;
+        const sendData = JSON.stringify({
+            "topicId": comment.topicId,
+            "content": comment.content
+        });
+        return new Promise((resolve, reject) => {
+            $.ajax({
+                url: `${CP_API_URL}/user/comment/postComment`,
+                type: "POST",
+                contentType: "application/json",
+                headers: {
+                    "Authorization": "Basic " + btoa(token + ":")
+                },
+                data: sendData
+            }).then((data, textStatus, jqXHR) => {
+                const res = Object.assign(data, {textStatus});
+                resolve(res);
+            }, (jqXHR, textStatus, errorThrown) => {
+                if (jqXHR.status === 403)
+                {
+                    self.loginFortoken().then(res => {
+                        if (res.status === 0)
+                        {
+                            $.ajax({
+                                url: `${CP_API_URL}/user/comment/postComment`,
+                                type: "POST",
+                                contentType: "application/json",
+                                headers: {
+                                    "Authorization": "Basic " + btoa(res.token + ":")
+                                },
+                                data: sendData
+                            }).then((data, textStatus, jqXHR) => {
+                                const res = Object.assign(data, {textStatus});
+                                resolve(res);
+                            });
+                        }
+                        else
+                        {
+                            resolve({textStatus: "error"});
+                        }
+                    });
+                }
+            });
+        });
+    }
 
+    replyComment(reply, token)
+    {
+        const self = this;
+        const sendData = JSON.stringify({
+            "topicId": reply.topicId,
+            "replyId": reply.replyId,
+            "content": reply.content
+        });
+        return new Promise((resolve, reject) => {
+            $.ajax({
+                url: `${CP_API_URL}/user/comment/postComment`,
+                type: "POST",
+                contentType: "application/json",
+                headers: {
+                    "Authorization": "Basic " + btoa(token + ":")
+                },
+                data: sendData
+            }).then((data, textStatus, jqXHR) => {
+                const res = Object.assign(data, {textStatus});
+                resolve(res);
+            }, (jqXHR, textStatus, errorThrown) => {
+                if (jqXHR.status === 403)
+                {
+                    self.loginFortoken().then(res => {
+                        if (res.status === 0)
+                        {
+                            $.ajax({
+                                url: `${CP_API_URL}/user/comment/postComment`,
+                                type: "POST",
+                                contentType: "application/json",
+                                headers: {
+                                    "Authorization": "Basic " + btoa(res.token + ":")
+                                },
+                                data: sendData
+                            }).then((data, textStatus, jqXHR) => {
+                                const res = Object.assign(data, {textStatus});
+                                resolve(res);
+                            });
+                        }
+                        else
+                        {
+                            resolve({textStatus: "error"});
+                        }
+                    });
+                }
+            });
+        });
+    }
+
+    updateUserInfo(userInfo, token)
+    {
+        const self = this;
+        const sendData = JSON.stringify({
+            "nickname": userInfo.nickname,
+            "avatar": userInfo.avatar,
+            "gender": userInfo.gender
+        });
+        return new Promise((resolve, reject) => {
+            $.ajax({
+                url: `${CP_API_URL}/user/user/updateUserInfo`,
+                type: "POST",
+                contentType: "application/json",
+                headers: {
+                    "Authorization": "Basic " + btoa(token + ":")
+                },
+                data: sendData
+            }).then((data, textStatus, jqXHR) => {
+                const res = Object.assign(data, {textStatus});
+                resolve(res);
+            }, (jqXHR, textStatus, errorThrown) => {
+                if (jqXHR.status === 403)
+                {
+                    self.loginFortoken().then(res => {
+                        if (res.status === 0)
+                        {
+                            $.ajax({
+                                url: `${CP_API_URL}//user/user/updateUserInfo`,
+                                type: "POST",
+                                contentType: "application/json",
+                                headers: {
+                                    "Authorization": "Basic " + btoa(res.token + ":")
+                                },
+                                data: sendData
+                            }).then((data, textStatus, jqXHR) => {
+                                const res = Object.assign(data, {textStatus});
+                                resolve(res);
+                            });
+                        }
+                        else
+                        {
+                            resolve({textStatus: "error"});
+                        }
+                    });
+                }
+            });
+        });
+    }
+
+    changePassword(passwords, token)
+    {
+        const self = this;
+        const sendData = JSON.stringify({
+            "oldPassword": passwords.oldPassword,
+            "newPassword": passwords.newPassword
+        });
+        return new Promise((resolve, reject) => {
+            $.ajax({
+                url: `${CP_API_URL}/user/user/changePassword`,
+                type: "POST",
+                contentType: "application/json",
+                headers: {
+                    "Authorization": "Basic " + btoa(token + ":")
+                },
+                data: sendData
+            }).then((data, textStatus, jqXHR) => {
+                const res = Object.assign(data, {textStatus});
+                resolve(res);
+            }, (jqXHR, textStatus, errorThrown) => {
+                if (jqXHR.status === 403)
+                {
+                    self.loginFortoken().then(res => {
+                        if (res.status === 0)
+                        {
+                            $.ajax({
+                                url: `${CP_API_URL}//user/user/changePassword`,
+                                type: "POST",
+                                contentType: "application/json",
+                                headers: {
+                                    "Authorization": "Basic " + btoa(res.token + ":")
+                                },
+                                data: sendData
+                            }).then((data, textStatus, jqXHR) => {
+                                const res = Object.assign(data, {textStatus});
+                                resolve(res);
+                            });
+                        }
+                        else
+                        {
+                            resolve({textStatus: "error"});
+                        }
+                    });
+                }
+            });
+        });
+    }
+
+
+
+    loginFortoken()
+    {
+        const userStorage = WebStorageUtil.getUserStorage();
+        const self = this;
+        return new Promise((resolve, reject) => {
+            if (userStorage)
+            {
+                self.login(userStorage).then(result => {
+                    if (result.textStatus === "success")
+                    {
+                        resolve({token: result.token, status: 0});
+                    }
+                    else
+                    {
+                        const info = Object.assign(result, { status:-1 });
+                        resolve(info);
+                    }
+                });
+            }
+            else
+            {
+                resolve({status: -1});
+            }
+        });
+    }
 }

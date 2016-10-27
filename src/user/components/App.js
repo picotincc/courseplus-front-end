@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 import Header from "../../base/components/Header";
-
+import ServiceClient from "../../base/service/ServiceClient";
 import WebStorageUtil from "../../base/util/WebStorageUtil";
 
 import ChangePasswordPanel from "./ChangePasswordPanel";
@@ -29,7 +29,11 @@ export default class App extends Component {
 
     state = {
         isLogin: false,
-        user: null,
+        user: {
+            nickname: "",
+            gender: 1,
+            icon: null
+        },
         selectedTab: "info"
     }
 
@@ -59,35 +63,23 @@ export default class App extends Component {
     autoLogin()
     {
         let isLogin = false;
-        const user = WebStorageUtil.getUserStorage();
 
-        if (user)
-        {
-            ServiceClient.getInstance().login({
-                phone: user.phone,
-                password: user.password
-            }).then(res => {
-                if (res.textStatus === "success")
-                {
-                    isLogin = true;
-                    WebStorageUtil.setToken(res.token);
-                    this.setState({
-                        isLogin,
-                        user: res
-                    });
-                }
-                else
-                {
-                    alert("登录失败");
-                    location.href = `${HOST}/home.html`;
-                }
-            });
-        }
-        else
-        {
-            alert("请先登录");
-            location.href = `${HOST}/home.html`;
-        }
+        ServiceClient.getInstance().autoLogin().then(res => {
+            if (res.status === 0)
+            {
+                isLogin = true;
+                WebStorageUtil.setToken(res.token);
+                this.setState({
+                    isLogin,
+                    user: res
+                });
+            }
+            else
+            {
+                alert("请先登录");
+                location.href = `${HOST}/home.html`;
+            }
+        });
     }
 
     tabChange(tab)
@@ -103,11 +95,10 @@ export default class App extends Component {
     render()
     {
         const state = this.state;
-
         let sectionPanel = null;
         if (state.selectedTab === "info")
         {
-            sectionPanel = (<UserInfoPanel />);
+            sectionPanel = (<UserInfoPanel user={state.user} />);
         }
         else
         {
