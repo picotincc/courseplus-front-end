@@ -16,6 +16,7 @@ export default class App extends Component {
 
         this.tabChange = this.tabChange.bind(this);
         this.handleUserUpdate = this.handleUserUpdate.bind(this);
+        this.handlePasswordChange = this.handlePasswordChange.bind(this);
 
         this.autoLogin();
     }
@@ -35,7 +36,8 @@ export default class App extends Component {
             gender: 1,
             icon: null
         },
-        selectedTab: "info"
+        selectedTab: "info",
+        tag: 0
     }
 
     componentDidMount()
@@ -123,6 +125,37 @@ export default class App extends Component {
 
     }
 
+    handlePasswordChange(passwords)
+    {
+        const token = WebStorageUtil.getToken();
+        let user = WebStorageUtil.getUserStorage();
+        if (token)
+        {
+            ServiceClient.getInstance().changePassword({
+                oldPassword: passwords.oldPassword,
+                newPassword: passwords.newPassword
+            }, token).then(res => {
+                if (res.textStatus === "success")
+                {
+                    user.password = passwords.newPassword;
+                    WebStorageUtil.setUserStorage(user);
+                    alert("修改成功");
+                    this.setState({
+                        tag: 1
+                    });
+                }
+                else
+                {
+                    alert("请重新登录");
+                }
+            });
+        }
+        else
+        {
+            alert("请先登录");
+        }
+    }
+
     render()
     {
         const state = this.state;
@@ -136,7 +169,7 @@ export default class App extends Component {
         }
         else
         {
-            sectionPanel = (<ChangePasswordPanel />);
+            sectionPanel = (<ChangePasswordPanel tag={state.tag} onPasswordChange={this.handlePasswordChange} />);
         }
 
         return (
