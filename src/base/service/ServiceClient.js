@@ -27,7 +27,67 @@ export default class ServiceClient
 
     autoLogin()
     {
+        const token = WebStorageUtil.getToken();
+        const userStorage = WebStorageUtil.getUserStorage();
+        const self = this;
 
+        if (token)
+        {
+            self.getUserInfo(token).then(res => {
+                if (res.textStatus === "success")
+                {
+                    const info = Object.assign(res, { status:0 });
+                    resolve(info);
+                }
+                else
+                {
+                    if (userStorage)
+                    {
+                        self.login(userStorage).then(result => {
+                            if (result.textStatus === "success")
+                            {
+                                const info = Object.assign(result, { status:0 });
+                                resolve(info);
+                            }
+                            else
+                            {
+                                const info = Object.assign(result, { status:-1 });
+                                resolve(info);
+                            }
+                        });
+                    }
+                    else
+                    {
+                        resolve( {status: -1} );
+                    }
+                }
+            });
+        }
+        else
+        {
+            if (userStorage)
+            {
+                self.login(userStorage).then(result => {
+                    if (result.textStatus === "success")
+                    {
+                        const info = Object.assign(result, { code:0 });
+                        resolve(info);
+                    }
+                    else
+                    {
+                        const info = Object.assign(result, { code:-1 });
+                        resolve(info);
+                    }
+                });
+            }
+            else
+            {
+                resolve( {code: -1} );
+            }
+        }
+        return new Promise((resolve, reject) => {
+
+        });
     }
 
     getUserInfo(token)
