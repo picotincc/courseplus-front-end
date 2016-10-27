@@ -15,6 +15,7 @@ export default class App extends Component {
         super(props);
 
         this.tabChange = this.tabChange.bind(this);
+        this.handleUserUpdate = this.handleUserUpdate.bind(this);
 
         this.autoLogin();
     }
@@ -92,13 +93,46 @@ export default class App extends Component {
         }
     }
 
+    handleUserUpdate(user)
+    {
+        const token = WebStorageUtil.getToken();
+        if (token)
+        {
+            ServiceClient.getInstance().updateUserInfo({
+                gender: user.gender,
+                nickname: user.nickname,
+                avatar: user.avatar
+            }, token).then(res => {
+                if (res.textStatus === "success")
+                {
+                    alert("修改成功");
+                    this.setState({
+                        user
+                    });
+                }
+                else
+                {
+                    alert("请重新登录");
+                }
+            });
+        }
+        else
+        {
+            alert("请先登录");
+        }
+
+    }
+
     render()
     {
         const state = this.state;
         let sectionPanel = null;
         if (state.selectedTab === "info")
         {
-            sectionPanel = (<UserInfoPanel user={state.user} />);
+            sectionPanel = (<UserInfoPanel
+                                user={state.user}
+                                onUserUpdate={this.handleUserUpdate}
+                            />);
         }
         else
         {

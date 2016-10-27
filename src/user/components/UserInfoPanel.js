@@ -6,6 +6,8 @@ export default class UserInfoPanel extends Component {
         super(props);
 
         this.handleGenderSelect = this.handleGenderSelect.bind(this);
+        this.handleInfoUpdate = this.handleInfoUpdate.bind(this);
+        this.changeGender = this.changeGender.bind(this);
         this.uploadImg = this.uploadImg.bind(this);
     }
 
@@ -34,7 +36,6 @@ export default class UserInfoPanel extends Component {
         const user = this.props.user;
         this.genderInput.value = user.gender;
         this.nicknameInput.value = user.nickname;
-        this.imgInput.value = user.icon;
 
         if (user.gender !== 2)
         {
@@ -51,19 +52,11 @@ export default class UserInfoPanel extends Component {
         const user = this.props.user;
         this.genderInput.value = user.gender;
         this.nicknameInput.value = user.nickname;
-        this.imgInput.value = user.icon;
 
-        if (user.gender !== 2)
-        {
-            this.maleGender.classList.add("selected");
-        }
-        else
-        {
-            this.maleGender.classList.remove("selected");
-        }
+        this.changeGender(user.gender);
     }
 
-    handleGenderSelect(gender)
+    changeGender(gender)
     {
         if (gender !== 2 )
         {
@@ -83,6 +76,23 @@ export default class UserInfoPanel extends Component {
                 this.genderInput.value = 2;
             }
         }
+    }
+
+    handleGenderSelect(gender)
+    {
+        this.changeGender(gender);
+    }
+
+    handleInfoUpdate()
+    {
+        const gender = this.genderInput.value;
+        const nickname = this.nicknameInput.value;
+        const avatar = this.imgInput.value;
+        this.props.onUserUpdate({
+            gender,
+            nickname,
+            avatar
+        });
     }
 
     uploadImg()
@@ -120,7 +130,7 @@ export default class UserInfoPanel extends Component {
                     <img ref="userImg" onClick={this.uploadImg} src={user.icon ? user.icon : icon} />
                     <input ref="imgInput" type="file" />
                 </div>
-                <div className="btn-update">更新资料</div>
+                <div onClick={this.handleInfoUpdate} className="btn-update">更新资料</div>
             </div>
         );
     }

@@ -80,7 +80,7 @@ export default class Header extends Component {
         if (this.props.isLogin) {
             const user = this.props.user;
             let userImg = "http://i1.piimg.com/573251/970594a863d7aeb9.png";
-            if (user.icon !== "")
+            if (user.icon !== "" && user.icon)
             {
                 userImg = user.icon;
             }
