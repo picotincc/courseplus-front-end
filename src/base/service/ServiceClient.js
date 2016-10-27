@@ -171,6 +171,30 @@ export default class ServiceClient
         });
     }
 
+    resetPassword(user)
+    {
+        const sendData = JSON.stringify({
+            "phone": user.phone,
+            "password": user.password,
+            "verifyCode": user.code
+        });
+        return new Promise((resolve, reject) => {
+            $.ajax({
+                url: `${CP_API_URL}/web/user/resetPassword`,
+                type: "POST",
+                contentType: "application/json",
+                data: sendData
+            }).then((data, textStatus, jqXHR) => {
+                const res = Object.assign(data, {textStatus});
+                WebStorageUtil.setToken(res.token);
+                resolve(res);
+            }, (jqXHR, textStatus, errorThrown) => {
+                const res = Object.assign(jqXHR.responseJSON, {textStatus});
+                resolve(res);
+            });
+        });
+    }
+
     login(user)
     {
         const sendData = JSON.stringify({

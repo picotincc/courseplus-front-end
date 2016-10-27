@@ -11,13 +11,18 @@ export default class Dialog extends Component {
         super(props);
 
         this.hide = this.hide.bind(this);
+        this.clear = this.clear.bind(this);
         this.navToRegister = this.navToRegister.bind(this);
         this.navToLogin = this.navToLogin.bind(this);
+        this.navToReset = this.navToReset.bind(this);
+        this.handleChange = this.handleChange.bind(this);
         this.setUserInfoToStorage = this.setUserInfoToStorage.bind(this);
 
         this.sendAuthCode = this.sendAuthCode.bind(this);
+        this.sendResetCode = this.sendResetCode.bind(this);
         this.register = this.register.bind(this);
         this.login = this.login.bind(this);
+        this.reset = this.reset.bind(this);
     }
 
     static defaultProps = {
@@ -29,13 +34,14 @@ export default class Dialog extends Component {
     }
 
     state = {
-
+        isSave: true
     }
 
     componentDidMount()
     {
         this.loginBox = this.refs["loginBox"];
         this.registerBox = this.refs["registerBox"];
+        this.resetBox = this.refs["resetBox"];
 
         this.r_phoneInput = this.refs["r_phoneInput"];
         this.r_codeInput = this.refs["r_codeInput"];
@@ -43,6 +49,9 @@ export default class Dialog extends Component {
         this.l_phoneInput = this.refs["l_phoneInput"];
         this.l_passwordInput = this.refs["l_passwordInput"];
         this.l_isSave = this.refs["l_isSave"];
+        this.re_phoneInput = this.refs["re_phoneInput"];
+        this.re_codeInput = this.refs["re_codeInput"];
+        this.re_passwordInput = this.refs["re_passwordInput"];
     }
 
     //内部交互方法
@@ -50,6 +59,7 @@ export default class Dialog extends Component {
     {
         this.props.onDialogHide();
         this.navToLogin();
+        this.clear();
     }
 
     navToRegister()
@@ -58,10 +68,25 @@ export default class Dialog extends Component {
         this.registerBox.classList.add("active");
     }
 
+    navToReset()
+    {
+        this.loginBox.classList.add("inactive");
+        this.resetBox.classList.add("active");
+    }
+
     navToLogin()
     {
         this.loginBox.classList.remove("inactive");
         this.registerBox.classList.remove("active");
+        this.resetBox.classList.remove("active");
+    }
+
+    handleChange(e)
+    {
+        let isSave = this.state.isSave;
+        this.setState({
+            isSave: !isSave
+        });
     }
 
     setUserInfoToStorage(info, isSave)
@@ -111,6 +136,42 @@ export default class Dialog extends Component {
         }
     }
 
+    sendResetCode()
+    {
+        const phone = this.re_phoneInput.value;
+        const checked = FormatUtil.isPhoneNumber(phone);
+        if (checked)
+        {
+            ServiceClient.getInstance().sendAuthCode(phone).then(res => {
+                if (res.textStatus === "success")
+                {
+                    alert(res.message);
+                }
+                else
+                {
+                    alert(res.message)
+                }
+            });
+        }
+        else
+        {
+            alert("请输入正确格式的手机号");
+        }
+    }
+
+    clear()
+    {
+        this.r_phoneInput.value = "";
+        this.r_codeInput.value = "";
+        this.r_passwordInput.value = "";
+        this.l_phoneInput.value = "";
+        this.l_passwordInput.value = "";
+        this.l_isSave.checked = true;
+        this.re_phoneInput.value = "";
+        this.re_codeInput.value = "";
+        this.re_passwordInput.value = "";
+    }
+
     register()
     {
         const phone = this.r_phoneInput.value;
@@ -157,7 +218,7 @@ export default class Dialog extends Component {
     {
         const phone = this.l_phoneInput.value;
         const password = this.l_passwordInput.value;
-        const isSave = this.l_isSave.checked;
+        const isSave = this.state.isSave;
         const p_checked = FormatUtil.isPhoneNumber(phone);
 
         const self = this;
@@ -179,6 +240,48 @@ export default class Dialog extends Component {
                     alert(res.message);
                 }
             });
+        }
+        else
+        {
+            alert("请输入正确格式的手机号码");
+        }
+    }
+
+    reset()
+    {
+        const phone = this.re_phoneInput.value;
+        const code = this.re_codeInput.value;
+        const password = this.re_passwordInput.value;
+        const p_checked = FormatUtil.isPhoneNumber(phone);
+        const c_checked = FormatUtil.isCodeNumber(code);
+
+        const self = this;
+        if (p_checked)
+        {
+            if (c_checked)
+            {
+                ServiceClient.getInstance().resetPassword({
+                    phone,
+                    password,
+                    code
+                }).then(res => {
+                    if (res.textStatus === "success")
+                    {
+                        alert("重置成功");
+                        this.navToLogin();
+                        this.clear();
+                    }
+                    else
+                    {
+                        console.log("error", res);
+                        alert(res.message);
+                    }
+                });
+            }
+            else
+            {
+                alert("请输入正确的验证码");
+            }
         }
         else
         {
@@ -211,9 +314,9 @@ export default class Dialog extends Component {
                         <input ref="l_passwordInput" type="password" className="form-control" placeholder="密码" />
                     </div>
                     <div className="save-bar">
-                        <input ref="l_isSave" className="save-checkbox" type="checkbox" />
+                        <input ref="l_isSave" checked={this.state.isSave} onChange={this.handleChange} className="save-checkbox" type="checkbox"/>
                         <span className="remember-me">记住我</span>
-                        <span className="forget-password">忘记密码？</span>
+                        <span onClick={this.navToReset} className="forget-password">忘记密码？</span>
                     </div>
                     <div className="login-bar">
                         <div onClick={this.login} className="btn-login">
@@ -225,7 +328,7 @@ export default class Dialog extends Component {
                     </div>
 
                 </div>
-                <div ref="registerBox" className="register-box">
+                <div ref="registerBox" className="register-box next-box">
                     <div className="top-bar">
                         <span onClick={this.navToLogin} className="icon iconfont icon-return"></span>
                         <div className="title">
@@ -259,6 +362,43 @@ export default class Dialog extends Component {
                     <div className="register-bar">
                         <div onClick={this.register} className="btn-register">
                             <span>注册</span>
+                        </div>
+                    </div>
+                </div>
+                <div ref="resetBox" className="reset-box next-box">
+                    <div className="top-bar">
+                        <span onClick={this.navToLogin} className="icon iconfont icon-return"></span>
+                        <div className="title">
+                            找回密码
+                        </div>
+                        <span onClick={this.hide} className="icon iconfont icon-close"></span>
+                    </div>
+                    <div className="phone input-group">
+                        <span className="input-group-addon">
+                            <span className="icon iconfont icon-phone"></span>
+                        </span>
+                        <input ref="re_phoneInput" type="text" className="form-control" placeholder="手机号" />
+                    </div>
+                    <div className="code-bar">
+                        <div className="code input-group">
+                            <span className="input-group-addon">
+                                <span className="icon iconfont icon-code"></span>
+                            </span>
+                            <input ref="re_codeInput" type="text" className="form-control" placeholder="验证码" />
+                        </div>
+                        <div onClick={this.sendResetCode} className="send-codes">
+                            <span>发送验证码</span>
+                        </div>
+                    </div>
+                    <div className="password input-group">
+                        <span className="input-group-addon custom">
+                            <span className="icon iconfont icon-password"></span>
+                        </span>
+                        <input type="password" ref="re_passwordInput" className="form-control" placeholder="重置密码" />
+                    </div>
+                    <div className="register-bar">
+                        <div onClick={this.reset} className="btn-register">
+                            <span>重置密码</span>
                         </div>
                     </div>
                 </div>
