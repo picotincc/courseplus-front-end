@@ -42,10 +42,11 @@ export default class Course extends Component {
 
     componentWillReceiveProps(nextProps)
     {
-        if (!this.state.selectedContributor && nextProps)
+        if (nextProps.returnInfo)
         {
+            const returnInfo = nextProps.returnInfo;
             const course = nextProps.course;
-            const author = course.authors[0];
+            const author = returnInfo.authorId ? course.authors.find(item => item.id === returnInfo.authorId) : course.authors[0];
             const topic = course.topics[author.id][0];
             const expandedTopics = FormatUtil.expandTopics(course.topics);
             this.setState({
@@ -53,19 +54,35 @@ export default class Course extends Component {
                 selectedTopic: topic,
                 expandedTopics: expandedTopics
             });
+            window.open(returnInfo.attatchmentUrl);
         }
-
-        if (this.state.selectedContributor && nextProps)
+        else
         {
-            const course = nextProps.course;
-            const author = this.state.selectedContributor;
-            const topic = course.topics[author.id][0];
-            const expandedTopics = FormatUtil.expandTopics(course.topics);
-            this.setState({
-                selectedContributor: author,
-                selectedTopic: topic,
-                expandedTopics: expandedTopics
-            });
+            if (!this.state.selectedContributor && nextProps)
+            {
+                const course = nextProps.course;
+                const author = course.authors[0];
+                const topic = course.topics[author.id][0];
+                const expandedTopics = FormatUtil.expandTopics(course.topics);
+                this.setState({
+                    selectedContributor: author,
+                    selectedTopic: topic,
+                    expandedTopics: expandedTopics
+                });
+            }
+
+            if (this.state.selectedContributor && nextProps)
+            {
+                const course = nextProps.course;
+                const author = this.state.selectedContributor;
+                const topic = course.topics[author.id][0];
+                const expandedTopics = FormatUtil.expandTopics(course.topics);
+                this.setState({
+                    selectedContributor: author,
+                    selectedTopic: topic,
+                    expandedTopics: expandedTopics
+                });
+            }
         }
     }
 
@@ -132,20 +149,21 @@ export default class Course extends Component {
         }
     }
 
-    handleAuthorResourceDownload()
+    handleAuthorResourceDownload(resourceId, cost)
     {
         const courseId = this.props.course.id;
-        console.log();
+        const authorId = this.state.selectedContributor.id;
 
-        // ServiceClient.getInstance().getCharge({
-        //     channel: "alipay_pc_direct",
-        //     amount: 1,
-        //     resourceId: 1,
-        //     courseId: 1
-        // }).then(res => {
-        //     console.log(res);
-        //     pingpp.createPayment(res);
-        // });
+        ServiceClient.getInstance().getCharge({
+            channel: "alipay_pc_direct",
+            amount: cost,
+            resourceId: resourceId,
+            courseId: courseId,
+            authorId: authorId
+        }).then(res => {
+            console.log(res);
+            pingpp.createPayment(res);
+        });
     }
 
     render()
@@ -200,7 +218,7 @@ export default class Course extends Component {
                         <Contributor
                             info={state.selectedContributor}
                             onCourseSelect={onCourseSelect}
-                            onResourceDownload={this.handleResourceDownload}
+                            onResourceDownload={this.handleAuthorResourceDownload}
                         />
                     </div>
                     <div className="topic">

@@ -31,7 +31,8 @@ export default class App extends Component {
     state = {
         isLogin: false,
         user: null,
-        courseInfo: null
+        courseInfo: null,
+        returnPayInfo: null
     }
 
     componentDidMount()
@@ -61,12 +62,22 @@ export default class App extends Component {
 
     loadCourseData(isLogin, user = null)
     {
-        const courseId = WebStorageUtil.getCourseStorage();
+        let courseId = WebStorageUtil.getCourseStorage();
+        const returnInfo = WebStorageUtil.getReturnPayStorage();
+        let info = this.state.returnPayInfo;
+
+        if (returnInfo)
+        {
+            courseId = returnInfo.courseId;
+            info = returnInfo;
+            WebStorageUtil.removeReturnPayStorage();
+        }
         ServiceClient.getInstance().getCourseDetail(courseId).then(res => {
             this.setState({
                 isLogin,
                 user,
-                courseInfo: res
+                courseInfo: res,
+                returnPayInfo: info
             });
         });
 
@@ -101,7 +112,8 @@ export default class App extends Component {
             WebStorageUtil.setCourseStorage(courseId);
             ServiceClient.getInstance().getCourseDetail(courseId).then(res => {
                 this.setState({
-                    courseInfo: res
+                    courseInfo: res,
+                    returnPayInfo: null
                 });
             });
         }
@@ -131,6 +143,7 @@ export default class App extends Component {
                     <div className="container">
                         <Course
                             course={state.courseInfo}
+                            returnInfo={state.returnPayInfo}
                             onCourseSelect={this.handleCourseSelect}
                          />
                     </div>

@@ -37,7 +37,7 @@ export default class Contributor extends Component {
             const info = this.props.info;
             const cost = (info.resourceCost / 100);
             const name = info.name;
-            const self = this;
+            const onResourceDownload = this.props.onResourceDownload;
             ServiceClient.getInstance().getDownloadUrl(info.attachmentId).then(res => {
                 if (res.code === 0)
                 {
@@ -59,6 +59,7 @@ export default class Contributor extends Component {
                         if (isConfirm)
                         {
                             console.log("想支付");
+                            onResourceDownload(info.attachmentId, info.resourceCost);
                         }
                         else
                         {

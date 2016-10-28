@@ -2,6 +2,7 @@ import FormatUtil from "../base/util/FormatUtil";
 import WebStorageUtil from "../base/util/WebStorageUtil";
 import ServiceClient from "../base/service/ServiceClient";
 
+const HOST = "/public";
 const btnFail = document.getElementById("fail");
 btnFail.onclick = function(){
     alert("fail");
@@ -20,7 +21,8 @@ function checkOrderStatus()
     ServiceClient.getInstance().checkOrderStatus(orderId).then(res => {
         if (res.textStatus === "success")
         {
-            console.log(res);
+            WebStorageUtil.setReturnPayStorage(res);
+            location.href = HOST + "/course.html";
         }
         else
         {
