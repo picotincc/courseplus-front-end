@@ -32,7 +32,8 @@ export default class App extends Component {
         isLogin: false,
         user: null,
         courseInfo: null,
-        returnPayInfo: null
+        returnPayInfo: null,
+        isQuestioned: false
     }
 
     componentDidMount()

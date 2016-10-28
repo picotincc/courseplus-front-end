@@ -3,6 +3,7 @@ const KEY_ISSAVE = "COURSEPLUS_ISSAVE";
 const KEY_TOKEN = "COURSEPLUS_TOKEN";
 const KEY_COURSE_ID = "COURSEPLUS_COURSE_ID";
 const KEY_RETURN_PAY = "COURSEPLUS_RETURN_PAY";
+const KEY_RETURN_QA = "COURSEPLUS_RETURN_QA";
 
 export default class WebStorageUtil
 {
@@ -84,6 +85,26 @@ export default class WebStorageUtil
     static removeReturnPayStorage()
     {
         _removeSessionStorage(KEY_RETURN_PAY);
+    }
+
+    static setQuestionStorage(isQuestioned)
+    {
+        _setSessionStorage(KEY_RETURN_QA, isQuestioned);
+    }
+
+    static getQuestionStorage()
+    {
+        const res = _getSessionStorage(KEY_RETURN_QA);
+        if (res)
+        {
+            return res;
+        }
+        return false;
+    }
+
+    static removeQuestionStorage()
+    {
+        _removeSessionStorage(KEY_RETURN_QA);
     }
 
     static setToken(value)
