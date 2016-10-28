@@ -34,6 +34,11 @@ export default class CourseBox extends Component {
     render()
     {
         const courseInfo = this.props.courseInfo;
+        let authors = [];
+        if (courseInfo.authors.length > 4)
+        {
+            authors = courseInfo.authors.splice(0, 4);
+        }
         return (
             <div onClick={this.handleCourseClick} className="cp-home-course-box box">
                 <div className="course-img">
@@ -51,7 +56,7 @@ export default class CourseBox extends Component {
                     </div>
                     <span className="contributor">作者</span>
                     <div className="contributor-group">
-                        {courseInfo.authors.map(item => {
+                        {authors.map(item => {
                             return (
                                 <div key={item.id} className="img">
                                     <img src={item.icon} />
