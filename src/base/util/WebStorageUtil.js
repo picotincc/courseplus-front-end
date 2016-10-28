@@ -1,4 +1,5 @@
 const KEY_USER = "COURSEPLUS_USER";
+const KEY_ISSAVE = "COURSEPLUS_ISSAVE";
 const KEY_TOKEN = "COURSEPLUS_TOKEN";
 const KEY_COURSE_ID = "COURSEPLUS_COURSE_ID";
 
@@ -22,6 +23,26 @@ export default class WebStorageUtil
     static removeUserStorage()
     {
         _removeLocalStorage(KEY_USER);
+    }
+
+    static setIsSaveStorage(isSave)
+    {
+        _setLocalStorage(KEY_ISSAVE, isSave);
+    }
+
+    static getIsSaveStorage()
+    {
+        const res = _getLocalStorage(KEY_ISSAVE);
+        if (res)
+        {
+            return res;
+        }
+        return false;
+    }
+
+    static removeIsSaveStorage()
+    {
+        _removeLocalStorage(KEY_ISSAVE);
     }
 
     static setCourseStorage(courseId)

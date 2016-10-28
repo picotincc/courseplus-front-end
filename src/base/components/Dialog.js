@@ -52,6 +52,24 @@ export default class Dialog extends Component {
         this.re_phoneInput = this.refs["re_phoneInput"];
         this.re_codeInput = this.refs["re_codeInput"];
         this.re_passwordInput = this.refs["re_passwordInput"];
+
+        // let wait=60;
+        // const time = function (o) {
+        //     if (wait == 0) {
+        //         o.removeAttribute("disabled");
+        //         o.value="免费获取验证码";
+        //         wait = 60;
+        //     } else {
+        //         o.setAttribute("disabled", true);
+        //         o.value="重新发送(" + wait + ")";
+        //         wait--;
+        //         setTimeout(function() {
+        //             time(o)
+        //         },
+        //         1000)
+        //     }
+        // }
+        // this.onclick=function(){time(this);}
     }
 
     //内部交互方法
@@ -91,13 +109,13 @@ export default class Dialog extends Component {
 
     setUserInfoToStorage(info, isSave)
     {
-        if (isSave)
-        {
-            WebStorageUtil.setUserStorage({
-                phone: info.phone,
-                password: info.password
-            });
-        }
+        let save = isSave ? "saved" : "unsaved";
+
+        WebStorageUtil.setUserStorage({
+            phone: info.phone,
+            password: info.password
+        });
+        WebStorageUtil.setIsSaveStorage(save);
         this.hide();
         this.props.onLogin(info);
     }
@@ -158,6 +176,7 @@ export default class Dialog extends Component {
         const checked = FormatUtil.isPhoneNumber(phone);
         if (checked)
         {
+            swal("正在发送......");
             ServiceClient.getInstance().sendAuthCode(phone).then(res => {
                 if (res.textStatus === "success")
                 {
@@ -166,6 +185,8 @@ export default class Dialog extends Component {
                       text: res.message,
                       type: "success"
                     });
+
+
                 }
                 else
                 {

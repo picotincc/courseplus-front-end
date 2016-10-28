@@ -29,10 +29,10 @@ export default class Resources extends Component {
             <div className="cp-course-resources">
                 <div className="top-bar">
                     <div className="title">往年试卷</div>
-                    <div className="package-download">
+                    {/* <div className="package-download">
                         <span className="icon iconfont icon-download"></span>
                         打包下载
-                    </div>
+                    </div> */}
                 </div>
                 <div className="history-resources">
                     <div className="box">
@@ -42,7 +42,7 @@ export default class Resources extends Component {
                         </span>
                     </div>
                     <div className="box">
-                        <span className="icon iconfont icon-pdf"></span> 
+                        <span className="icon iconfont icon-pdf"></span>
                         <span className="year">
                             2015
                         </span>

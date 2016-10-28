@@ -50,8 +50,10 @@ export default class Header extends Component {
     logout()
     {
         WebStorageUtil.removeUserStorage();
+        WebStorageUtil.removeIsSaveStorage();
         WebStorageUtil.removeToken();
-        location.href = HOST + "/home.html";
+        const curPage = location.href;
+        location.href = curPage;
     }
 
     initUserCenter()

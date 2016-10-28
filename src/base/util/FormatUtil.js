@@ -50,6 +50,16 @@ export default class FormatUtil
                 + seperator2 + date.getSeconds();
         return currentdate;
     }
+
+    static  parseQuery(str){
+        return str.split('&').reduce((memo, x) => {
+            let qa = x.split('=');
+            if(!qa[0]) return memo;
+            return Object.assign(memo, {
+              [qa[0]]: qa[1]?qa[1]:""
+            })
+        }, {})
+    }
 }
 
 //判断是否为纯数字

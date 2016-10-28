@@ -60,6 +60,16 @@ export default class App extends Component {
                 isLogin = true;
                 WebStorageUtil.setToken(res.token);
                 this.loadHomeData(isLogin, res);
+
+                // ServiceClient.getInstance().getCharge({
+                //     channel: "alipay_pc_direct",
+                //     amount: 1,
+                //     resourceId: 1,
+                //     courseId: 1
+                // }).then(res => {
+                //     console.log(res);
+                //     pingpp.createPayment(res);
+                // });
             }
             else
             {

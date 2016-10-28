@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
 import FormatUtil from "../../base/util/FormatUtil";
+import ServiceClient from "../../base/service/ServiceClient";
 
 import Contributor from "./Contributor";
 import CourseInfo from "./CourseInfo";
@@ -16,6 +17,7 @@ export default class Course extends Component {
         this.handleTabClick = this.handleTabClick.bind(this);
         this.handleTopicChange = this.handleTopicChange.bind(this);
         this.handleTopicMove = this.handleTopicMove.bind(this);
+        this.handleAuthorResourceDownload = this.handleAuthorResourceDownload.bind(this);
     }
 
     static defaultProps = {
@@ -128,8 +130,22 @@ export default class Course extends Component {
                 selectedTopic: topic
             });
         }
+    }
 
+    handleAuthorResourceDownload()
+    {
+        const courseId = this.props.course.id;
+        console.log();
 
+        // ServiceClient.getInstance().getCharge({
+        //     channel: "alipay_pc_direct",
+        //     amount: 1,
+        //     resourceId: 1,
+        //     courseId: 1
+        // }).then(res => {
+        //     console.log(res);
+        //     pingpp.createPayment(res);
+        // });
     }
 
     render()
@@ -184,6 +200,7 @@ export default class Course extends Component {
                         <Contributor
                             info={state.selectedContributor}
                             onCourseSelect={onCourseSelect}
+                            onResourceDownload={this.handleResourceDownload}
                         />
                     </div>
                     <div className="topic">

@@ -1,11 +1,15 @@
 import React, { Component } from 'react';
 
+import ServiceClient from "../../base/service/ServiceClient";
+import WebStorageUtil from "../../base/util/WebStorageUtil";
+
 export default class Contributor extends Component {
 
     constructor (props) {
         super(props);
 
         this.handleCourseSelect = this.handleCourseSelect.bind(this);
+        this.handleResourceDownload = this.handleResourceDownload.bind(this);
     }
 
     static defaultProps = {
@@ -23,6 +27,55 @@ export default class Contributor extends Component {
     handleCourseSelect(courseId)
     {
         this.props.onCourseSelect(courseId);
+    }
+
+    handleResourceDownload()
+    {
+        const token = WebStorageUtil.getToken();
+        if (token)
+        {
+            const info = this.props.info;
+            const cost = (info.resourceCost / 100);
+            const name = info.name;
+            const self = this;
+            ServiceClient.getInstance().getDownloadUrl(info.attachmentId).then(res => {
+                if (res.code === 0)
+                {
+                    window.open(res.message);
+                }
+                else
+                {
+                    swal({
+                        title: "考研秘籍",
+                        text: `考研秘籍是${name}亲自整理的知识点、题库、真题解析，向${name}支付￥${cost}获取整套秘籍下载资格！`,
+                        showCancelButton: true,
+                        confirmButtonColor: "#038574",
+                        confirmButtonText: "确认支付",
+                        cancelButtonText: "暂不支付",
+                        customClass: "swal-resource-dialog",
+                        closeOnConfirm: true,
+                        closeOnCancel: true
+                    },(isConfirm) => {
+                        if (isConfirm)
+                        {
+                            console.log("想支付");
+                        }
+                        else
+                        {
+                            console.log("不想支付");
+                        }
+                    });
+                }
+            });
+        }
+        else
+        {
+            swal({
+              title: "Something wrong!",
+              text: "请先登录",
+              type: "error"
+            });
+        }
     }
 
     render()
@@ -49,7 +102,7 @@ export default class Contributor extends Component {
                     <span className="icon iconfont icon-message"></span>
                     大神直通车
                 </div>
-                <div className="resource">
+                <div onClick={this.handleResourceDownload} className="resource">
                     <span className="icon iconfont icon-download"></span>
                     考研秘籍
                 </div>

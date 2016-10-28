@@ -28,6 +28,7 @@ export default class ServiceClient
     autoLogin()
     {
         const token = WebStorageUtil.getToken();
+        const isSave = WebStorageUtil.getIsSaveStorage();
         const userStorage = WebStorageUtil.getUserStorage();
         const self = this;
         return new Promise((resolve, reject) => {
@@ -42,7 +43,7 @@ export default class ServiceClient
                     }
                     else
                     {
-                        if (userStorage)
+                        if (userStorage && isSave === "saved")
                         {
                             self.login(userStorage).then(result => {
                                 if (result.textStatus === "success")
@@ -66,7 +67,7 @@ export default class ServiceClient
             }
             else
             {
-                if (userStorage)
+                if (userStorage && isSave === "saved")
                 {
                     self.login(userStorage).then(result => {
                         if (result.textStatus === "success")
@@ -388,7 +389,7 @@ export default class ServiceClient
                         }
                         else
                         {
-                            resolve({textStatus: "error"});
+                            resolve({textStatus: "error", message: "请重新登录"});
                         }
                     });
                 }
@@ -437,7 +438,7 @@ export default class ServiceClient
                         }
                         else
                         {
-                            resolve({textStatus: "error"});
+                            resolve({textStatus: "error", message: "请重新登录"});
                         }
                     });
                 }
@@ -486,7 +487,7 @@ export default class ServiceClient
                         }
                         else
                         {
-                            resolve({textStatus: "error"});
+                            resolve({textStatus: "error", message: "请重新登录"});
                         }
                     });
                 }
@@ -520,7 +521,7 @@ export default class ServiceClient
                         if (res.status === 0)
                         {
                             $.ajax({
-                                url: `${CP_API_URL}//user/user/changePassword`,
+                                url: `${CP_API_URL}/user/user/changePassword`,
                                 type: "POST",
                                 contentType: "application/json",
                                 headers: {
@@ -534,7 +535,7 @@ export default class ServiceClient
                         }
                         else
                         {
-                            resolve({textStatus: "error"});
+                            resolve({textStatus: "error", message: "请重新登录"});
                         }
                     });
                 }
@@ -547,6 +548,7 @@ export default class ServiceClient
     loginFortoken()
     {
         const userStorage = WebStorageUtil.getUserStorage();
+        const isSave = WebStorageUtil.getIsSaveStorage();
         const self = this;
         return new Promise((resolve, reject) => {
             if (userStorage)
@@ -554,6 +556,7 @@ export default class ServiceClient
                 self.login(userStorage).then(result => {
                     if (result.textStatus === "success")
                     {
+                        WebStorageUtil.setToken(result.token);
                         resolve({token: result.token, status: 0});
                     }
                     else
@@ -567,6 +570,181 @@ export default class ServiceClient
             {
                 resolve({status: -1});
             }
+        });
+    }
+
+    getCharge(data)
+    {
+        const token = WebStorageUtil.getToken();
+        let tempData = {
+             channel: data.channel,
+             amount: data.amount,
+             courseId: data.courseId
+        };
+        if (data.resourceId)
+        {
+            tempData.resourceId = data.resourceId;
+        }
+
+        if (data.authorId)
+        {
+            tempData.authorId = data.authorId;
+        }
+
+        const sendData = JSON.stringify(tempData);
+        return new Promise((resolve, reject) => {
+            $.ajax({
+                type: "POST",
+                url: `${CP_API_URL}/user/pay`,
+                contentType: "application/json",
+                headers: {
+                    "Authorization": "Basic " + btoa(token + ":")
+                },
+                data: sendData
+            }).then((data, textStatus, jqXHR) => {
+                const res = Object.assign(data, {textStatus});
+                resolve(res);
+            }, (jqXHR, textStatus, errorThrown) => {
+                if (jqXHR.status === 403)
+                {
+                    self.loginFortoken().then(res => {
+                        if (res.status === 0)
+                        {
+                            $.ajax({
+                                url: `${CP_API_URL}/user/pay`,
+                                type: "POST",
+                                contentType: "application/json",
+                                headers: {
+                                    "Authorization": "Basic " + btoa(res.token + ":")
+                                },
+                                data: sendData
+                            }).then((data, textStatus, jqXHR) => {
+                                const res = Object.assign(data, {textStatus});
+                                resolve(res);
+                            });
+                        }
+                        else
+                        {
+                            resolve({textStatus: "error", message: "请重新登录"});
+                        }
+                    });
+                }
+            });
+        });
+    }
+
+    checkOrderStatus(orderId)
+    {
+        const token = WebStorageUtil.getToken();
+        const self = this;
+        return new Promise((resolve, reject) => {
+            $.ajax({
+                url: `${CP_API_URL}/user/pay/checkOrderStatus`,
+                type: "GET",
+                contentType: "application/json",
+                headers: {
+                    "Authorization": "Basic " + btoa(token + ":")
+                },
+                data: {
+                    id: orderId
+                }
+            }).then((data, textStatus, jqXHR) => {
+                const res = Object.assign(data, {textStatus});
+                resolve(res);
+            }, (jqXHR, textStatus, errorThrown) => {
+                if (jqXHR.status === 403)
+                {
+                    self.loginFortoken().then(res => {
+                        if (res.status === 0)
+                        {
+                            $.ajax({
+                                url: `${CP_API_URL}/user/pay/checkOrderStatus`,
+                                type: "GET",
+                                contentType: "application/json",
+                                headers: {
+                                    "Authorization": "Basic " + btoa(res.token + ":")
+                                },
+                                data: {
+                                    id: orderId
+                                }
+                            }).then((data, textStatus, jqXHR) => {
+                                const res = Object.assign(data, {textStatus});
+                                resolve(res);
+                            });
+                        }
+                        else
+                        {
+                            resolve({textStatus: "error"});
+                        }
+                    });
+                }
+                else
+                {
+                    resolve({textStatus: "error", message: "请重新登录"});
+                }
+            });
+        });
+    }
+
+    getDownloadUrl(resourceId)
+    {
+        const token = WebStorageUtil.getToken();
+        const self = this;
+        return new Promise((resolve, reject) => {
+            $.ajax({
+                url: `${CP_API_URL}/user/resource/getDownloadUrl`,
+                type: "GET",
+                contentType: "application/json",
+                headers: {
+                    "Authorization": "Basic " + btoa(token + ":")
+                },
+                data: {
+                    id: resourceId
+                }
+            }).then((data, textStatus, jqXHR) => {
+                const res = Object.assign(data, {textStatus});
+                resolve(res);
+            }, (jqXHR, textStatus, errorThrown) => {
+                if (jqXHR.status === 400)
+                {
+                    resolve(jqXHR.responseJSON);
+                }
+                if (jqXHR.status === 403)
+                {
+                    self.loginFortoken().then(res => {
+                        if (res.status === 0)
+                        {
+                            $.ajax({
+                                url: `${CP_API_URL}/user/resource/getDownloadUrl`,
+                                type: "GET",
+                                contentType: "application/json",
+                                headers: {
+                                    "Authorization": "Basic " + btoa(res.token + ":")
+                                },
+                                data: {
+                                    id: resourceId
+                                }
+                            }).then((data, textStatus, jqXHR) => {
+                                const res = Object.assign(data, {textStatus});
+                                resolve(res);
+                            },(jqXHR, textStatus, errorThrown) => {
+                                if (jqXHR.status === 400)
+                                {
+                                    resolve(data);
+                                }
+                            });
+                        }
+                        else
+                        {
+                            resolve({textStatus: "error"});
+                        }
+                    });
+                }
+                else
+                {
+                    resolve({textStatus: "error", message: "请重新登录"});
+                }
+            });
         });
     }
 }
