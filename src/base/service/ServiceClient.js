@@ -730,13 +730,13 @@ export default class ServiceClient
                             },(jqXHR, textStatus, errorThrown) => {
                                 if (jqXHR.status === 400)
                                 {
-                                    resolve(data);
+                                    resolve(jqXHR.responseJSON);
                                 }
                             });
                         }
                         else
                         {
-                            resolve({textStatus: "error"});
+                            resolve({textStatus: "error", code: -1});
                         }
                     });
                 }

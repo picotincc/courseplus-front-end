@@ -18,6 +18,7 @@ export default class Course extends Component {
         this.handleTopicChange = this.handleTopicChange.bind(this);
         this.handleTopicMove = this.handleTopicMove.bind(this);
         this.handleAuthorResourceDownload = this.handleAuthorResourceDownload.bind(this);
+        this.handleResourceDownload = this.handleResourceDownload.bind(this);
     }
 
     static defaultProps = {
@@ -166,6 +167,20 @@ export default class Course extends Component {
         });
     }
 
+    handleResourceDownload(resourceId, cost)
+    {
+        const courseId = this.props.course.id;
+
+        ServiceClient.getInstance().getCharge({
+            channel: "alipay_pc_direct",
+            amount: cost,
+            resourceId: resourceId,
+            courseId: courseId
+        }).then(res => {
+            pingpp.createPayment(res);
+        });
+    }
+
     render()
     {
         const {course, user, onCourseSelect} = this.props;
@@ -236,7 +251,10 @@ export default class Course extends Component {
                     />
                 </div>
                 <div className="related-resources">
-                    <Resources />
+                    <Resources
+                        resources={resources}
+                        onResourceDownload={this.handleResourceDownload}
+                    />
                 </div>
             </div>
         );
