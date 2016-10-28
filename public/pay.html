@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>CoursePlus Paying</title>
+</head>
+
+<style>
+    html, body
+    {
+        height: 100%;
+    }
+
+    .container
+    {
+        width: 100%;
+        height: 100%;
+        font-family: "PingFangSC-Regular","Microsoft YaHei";
+        background: #EDEEF0;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .pay-box
+    {
+        width: 500px;
+        height: 300px;
+        background: #FFFFFF;
+        display: flex;
+        flex-direction: column;
+        border: 1px solid #979797;
+        border-radius: 5px;
+    }
+
+    .title
+    {
+        flex: 0 0 150px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        font-size: 26px;
+    }
+
+    .btn
+    {
+        border: 1px solid #ccc;
+        border-radius: 16px;
+        width: 200px;
+        height: 40px;
+        cursor: pointer;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 18px;
+    }
+
+    .btn-group
+    {
+        flex: 0 0 150px;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+    }
+
+    .success
+    {
+        background: #038574;
+        color: #FFFFFF;
+    }
+
+    .fail
+    {
+        background: #EDEEF0;
+    }
+
+
+</style>
+
+<body>
+    <div class="container">
+        <div class="pay-box">
+            <div class="title">Course+ 正在支付中</div>
+            <div class="btn-group">
+                <div id="fail" class="btn fail">
+                    <span>遇到问题</span>
+                </div>
+                <div id="success" class="btn success">
+                    <span>支付成功</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript">
+    var btnFail = document.getElementById("fail");
+    btnFail.onclick = function(){
+        alert("fail");
+    };
+
+    var btnSuccess = document.getElementById("success");
+    btnSuccess.onclick = function(){
+        alert("success");
+    };
+</script>
+
+</html>
