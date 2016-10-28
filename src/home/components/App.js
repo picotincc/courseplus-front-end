@@ -1,24 +1,28 @@
 import React, { Component } from 'react';
 
+import Dialog from "../../base/components/Dialog";
 import Header from "../../base/components/Header";
+import ServiceClient from "../../base/service/ServiceClient";
+import WebStorageUtil from "../../base/util/WebStorageUtil";
 
 import CourseContent from "./CourseContent";
-import Dialog from "./Dialog";
 import SearchBar from "./SearchBar";
-import ServiceClient from "../service/ServiceClient";
+
+
+const HOST = "/public";
 
 export default class App extends Component {
 
     constructor (props) {
         super(props);
-        console.log("Courseplus home is running......");
 
-        this.showDialog = this.showDialog.bind(this);
-        this.handleSelectMajor = this.handleSelectMajor.bind(this);
+        this.handleDialogShow = this.handleDialogShow.bind(this);
+        this.handleDialogHide = this.handleDialogHide.bind(this);
+        this.handleMajorSelect = this.handleMajorSelect.bind(this);
         this.handleSearch = this.handleSearch.bind(this);
-        this.hideDialog = this.hideDialog.bind(this);
+        this.handleLogin = this.handleLogin.bind(this);
+        this.handleCourseClick = this.handleCourseClick.bind(this);
 
-        this.loadInitialData();
     }
 
     static defaultProps = {
@@ -30,6 +34,7 @@ export default class App extends Component {
     }
 
     state = {
+        user: null,
         isLogin: false,
         selectedSchool: "",
         majors: [],
@@ -38,52 +43,51 @@ export default class App extends Component {
         content: []
     }
 
-    render()
-    {
-        const state = this.state;
-        return (
-            <div className="cp-home-app">
-                <div ref="dialogContainer" className="dialog-container">
-                    <Dialog hideDialog={this.hideDialog}/>
-                </div>
-                <div ref="homeApp" className="app-container">
-                    <header>
-                        <Header
-                            isLogin={state.isLogin}
-                            showDialog={this.showDialog}
-                        />
-                    </header>
-                    <main>
-                        <div className="tool-bar">
-                            <SearchBar
-                                school={state.selectedSchool}
-                                majors={state.majors}
-                                selectedMajor={state.selectedMajor}
-                                isSearched={state.isSearched}
-                                handleSelect={this.handleSelectMajor}
-                                handleSearch={this.handleSearch}
-                            /></div>
-                        <div className="content"><CourseContent courses={state.content}/></div>
-                    </main>
-                </div>
-            </div>
-        );
-    }
-
     componentDidMount()
     {
-        this.homeApp = this.refs["homeApp"];
+        this.appContainer = this.refs["appContainer"];
         this.dialogContainer = this.refs["dialogContainer"];
+        this.autoLogin();
     }
 
-    loadInitialData()
+    autoLogin()
     {
-        ServiceClient.getInstance().getHomeData().then(data => {
-            const school = data.school;
-            const majors = data.majors;
-            ServiceClient.getInstance().getCoursesByMajor(majors[0]).then(courses => {
+        let isLogin = false;
+
+        ServiceClient.getInstance().autoLogin().then(res => {
+            if (res.status === 0)
+            {
+                isLogin = true;
+                WebStorageUtil.setToken(res.token);
+                this.loadHomeData(isLogin, res);
+
+                // ServiceClient.getInstance().getCharge({
+                //     channel: "alipay_pc_direct",
+                //     amount: 1,
+                //     resourceId: 1,
+                //     courseId: 1
+                // }).then(res => {
+                //     console.log(res);
+                //     pingpp.createPayment(res);
+                // });
+            }
+            else
+            {
+                this.loadHomeData(isLogin);
+            }
+        });
+    }
+
+    loadHomeData(isLogin, user = null)
+    {
+        ServiceClient.getInstance().getCourseSpeciality().then(data => {
+            const school = data["南京大学"];
+            const majors = school.specialities;
+            ServiceClient.getInstance().getCourseList(majors[0].id).then(courses => {
                 this.setState({
-                    selectedSchool :school,
+                    isLogin,
+                    user,
+                    selectedSchool :"南京大学",
                     majors,
                     selectedMajor: majors[0],
                     content: courses
@@ -92,21 +96,29 @@ export default class App extends Component {
         });
     }
 
-    showDialog()
+    handleLogin(user)
     {
-        this.homeApp.classList.add("app-blur");
+        this.setState({
+            isLogin: true,
+            user: user
+        });
+    }
+
+    handleDialogShow()
+    {
+        this.appContainer.classList.add("app-blur");
         this.dialogContainer.style.zIndex = 20;
     }
 
-    hideDialog()
+    handleDialogHide()
     {
-        this.homeApp.classList.remove("app-blur");
+        this.appContainer.classList.remove("app-blur");
         this.dialogContainer.style.zIndex = 0;
     }
 
-    handleSelectMajor(major)
+    handleMajorSelect(major)
     {
-        ServiceClient.getInstance().getCoursesByMajor(major.name).then(res => {
+        ServiceClient.getInstance().getCourseList(major.id).then(res => {
             this.setState({
                 isSearched: false,
                 selectedMajor: major,
@@ -124,4 +136,54 @@ export default class App extends Component {
             });
         });
     }
+
+    handleCourseClick(courseId)
+    {
+        WebStorageUtil.setCourseStorage(courseId);
+        location.href = `${HOST}/course.html`;
+    }
+
+    render()
+    {
+        const state = this.state;
+        return (
+            <div className="cp-home-app">
+                <div ref="dialogContainer" className="dialog-container">
+                    <Dialog
+                        onDialogHide={this.handleDialogHide}
+                        onLogin={this.handleLogin}
+                    />
+                </div>
+                <div ref="appContainer" className="app-container">
+                    <header>
+                        <Header
+                            isLogin={state.isLogin}
+                            user={state.user}
+                            onDialogShow={this.handleDialogShow}
+                        />
+                    </header>
+                    <main>
+                        <div className="tool-bar">
+                            <SearchBar
+                                school={state.selectedSchool}
+                                majors={state.majors}
+                                selectedMajor={state.selectedMajor}
+                                isSearched={state.isSearched}
+                                onMajorSelect={this.handleMajorSelect}
+                                onSearch={this.handleSearch}
+                            /></div>
+                        <div className="content">
+                            <CourseContent
+                                courses={state.content}
+                                onCourseClick={this.handleCourseClick}
+                            />
+                        </div>
+                    </main>
+                </div>
+            </div>
+        );
+    }
+
+
+
 }

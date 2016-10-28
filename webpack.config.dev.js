@@ -8,10 +8,11 @@ module.exports = {
     context: path.resolve("./src"),
 
     entry: {
-        vendor: [ "jquery", "./base/lib/bootstrap.min.js" ],
+        vendor: [ "jquery", "./base/lib/bootstrap.min.js", "sweetalert", "pingpp-js" ],
         user: [ "./user/index.js", "./user/resource/index.less" ],
         home: [ "./home/index.js", "./home/resource/index.less" ],
-        course: [ "./course/index.js", "./course/resource/index.less" ]
+        course: [ "./course/index.js", "./course/resource/index.less" ],
+        pay: [ "./pay/index.js" ]
     },
 
     output: {
@@ -51,7 +52,9 @@ module.exports = {
 
         new webpack.ProvidePlugin({
             $: "jquery",
-            jQuery: "jquery"
+            jQuery: "jquery",
+            swal: "sweetalert",
+            pingpp: "pingpp-js"
         }),
 
         new webpack.optimize.CommonsChunkPlugin({
@@ -61,5 +64,23 @@ module.exports = {
         }),
 
         new ExtractTextPlugin("./[name]/resource/bundle.css")
-    ]
+    ],
+
+    devServer: {
+        proxy: {
+            "/api/*": {
+                "target": {
+                  "host": "118.178.137.101",
+                  "protocol": 'http:',
+                  "port": 8000
+                },
+                ignorePath: false,
+                changeOrigin: true,
+                secure: false,
+                // headers: {
+                //     "Referer": "http://music.163.com"
+                // }
+            }
+        }
+    }
 };

@@ -13,9 +13,48 @@
         background: #FFFFFF;
     }
 
-    > .course-contributor
+    > .contributor-tabs
     {
-        flex: 0 0 950px;
+        flex: 0 0 60px;
+        background: @cp-background-color;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        font-size: 14px;
+        color: #4B7385;
+        display: flex;
+
+        > .tab
+        {
+            padding: 12px 12px;
+
+            &.selected
+            {
+                background: @cp-light-green;
+                color: #FFFFFF;
+                border-radius: 5px;
+                cursor: default;
+            }
+
+            cursor: pointer;
+        }
+    }
+
+    > .middle-content
+    {
+        flex: 0 0 900px;
+        display: flex;
+        background: @cp-background-color;
+
+        > .contributor
+        {
+            flex: 0 0 200px;
+            margin-right: 20px;
+        }
+
+        > .topic
+        {
+            flex: 0 0 740px;
+        }
     }
 
     > .discuss-area
