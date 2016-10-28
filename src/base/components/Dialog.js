@@ -116,23 +116,39 @@ export default class Dialog extends Component {
                     ServiceClient.getInstance().sendAuthCode(phone).then(res => {
                         if (res.textStatus === "success")
                         {
-                            alert(res.message);
+                            swal({
+                              title: "Good job!",
+                              text: "发送成功",
+                              type: "success"
+                            });
                         }
                         else
                         {
-                            alert(res.message)
+                            swal({
+                              title: "Something wrong!",
+                              text: res.message,
+                              type: "error"
+                            });
                         }
                     });
                 }
                 else
                 {
-                    alert(res.message);
+                    swal({
+                      title: "Something wrong!",
+                      text: res.message,
+                      type: "error"
+                    });
                 }
             });
         }
         else
         {
-            alert("请输入正确格式的手机号");
+            swal({
+              title: "Something wrong!",
+              text: "请输入正确格式的手机号",
+              type: "error"
+            });
         }
     }
 
@@ -145,17 +161,29 @@ export default class Dialog extends Component {
             ServiceClient.getInstance().sendAuthCode(phone).then(res => {
                 if (res.textStatus === "success")
                 {
-                    alert(res.message);
+                    swal({
+                      title: "Good job!",
+                      text: res.message,
+                      type: "success"
+                    });
                 }
                 else
                 {
-                    alert(res.message)
+                    swal({
+                      title: "Something wrong!",
+                      text: res.message,
+                      type: "error"
+                    });
                 }
             });
         }
         else
         {
-            alert("请输入正确格式的手机号");
+            swal({
+              title: "Something wrong!",
+              text: "请输入正确格式的手机号",
+              type: "error"
+            });
         }
     }
 
@@ -199,18 +227,30 @@ export default class Dialog extends Component {
                     }
                     else
                     {
-                        alert(res.message);
+                        swal({
+                          title: "Something wrong!",
+                          text: res.message,
+                          type: "error"
+                        });
                     }
                 });
             }
             else
             {
-                alert("请输入正确的验证码");
+                swal({
+                  title: "Something wrong!",
+                  text: "验证码格式不正确",
+                  type: "error"
+                });
             }
         }
         else
         {
-            alert("请输入正确格式的手机号码");
+            swal({
+              title: "Something wrong!",
+              text: "请输入正确格式的手机号码",
+              type: "error"
+            });
         }
     }
 
@@ -237,13 +277,21 @@ export default class Dialog extends Component {
                 }
                 else
                 {
-                    alert(res.message);
+                    swal({
+                      title: "Something wrong!",
+                      text: res.message,
+                      type: "error"
+                    });
                 }
             });
         }
         else
         {
-            alert("请输入正确格式的手机号码");
+            swal({
+              title: "Something wrong!",
+              text: "请输入正确格式的手机号码",
+              type: "error"
+            });
         }
     }
 
@@ -267,25 +315,40 @@ export default class Dialog extends Component {
                 }).then(res => {
                     if (res.textStatus === "success")
                     {
-                        alert("重置成功");
+                        swal({
+                          title: "Good job!",
+                          text: res.message,
+                          type: "success"
+                        });
                         this.navToLogin();
                         this.clear();
                     }
                     else
                     {
-                        console.log("error", res);
-                        alert(res.message);
+                        swal({
+                          title: "Something wrong!",
+                          text: res.message,
+                          type: "error"
+                        });
                     }
                 });
             }
             else
             {
-                alert("请输入正确的验证码");
+                swal({
+                  title: "Something wrong!",
+                  text: "请输入正确格式的验证码",
+                  type: "error"
+                });
             }
         }
         else
         {
-            alert("请输入正确格式的手机号码");
+            swal({
+              title: "Something wrong!",
+              text: "请输入正确格式的手机号码",
+              type: "error"
+            });
         }
     }
 

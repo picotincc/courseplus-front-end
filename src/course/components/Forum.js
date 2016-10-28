@@ -76,26 +76,42 @@ export default class Forum extends Component {
                     {
                         this.commentInput.value = "";
                         commentList.push(res);
+                        swal({
+                          title: "Good job!",
+                          text: res.message,
+                          type: "success"
+                        });
                         this.setState({
                             commentList
                         });
-                        alert("发布成功");
                     }
                     else
                     {
-                        alert("请重新登录");
+                        swal({
+                          title: "Something wrong!",
+                          text: "请重新登录",
+                          type: "error"
+                        });
                     }
                 });
             }
             else
             {
-                alert("请先登录");
+                swal({
+                  title: "Something wrong!",
+                  text: "请先登录",
+                  type: "error"
+                });
             }
 
         }
         else
         {
-            alert("请输入评论内容");
+            swal({
+              title: "Something wrong!",
+              text: "请输入评论内容",
+              type: "error"
+            });
         }
     }
 

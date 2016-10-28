@@ -52,7 +52,11 @@ export default class ChangePasswordPanel extends Component {
         }
         else
         {
-            alert("两次密码输入不一致");
+            swal({
+              title: "Something wrong!",
+              text: "两次密码输入不一致",
+              type: "error"
+            });
         }
     }
 

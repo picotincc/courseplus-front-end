@@ -79,7 +79,11 @@ export default class App extends Component {
             }
             else
             {
-                alert("请先登录");
+                swal({
+                  title: "Something wrong!",
+                  text: "请先登录",
+                  type: "error"
+                });
                 location.href = `${HOST}/home.html`;
             }
         });
@@ -107,20 +111,32 @@ export default class App extends Component {
             }, token).then(res => {
                 if (res.textStatus === "success")
                 {
-                    alert("修改成功");
+                    swal({
+                      title: "Good job!",
+                      text: res.message,
+                      type: "success"
+                    });
                     this.setState({
                         user
                     });
                 }
                 else
                 {
-                    alert("请重新登录");
+                    swal({
+                      title: "Something wrong!",
+                      text: res.message,
+                      type: "error"
+                    });
                 }
             });
         }
         else
         {
-            alert("请先登录");
+            swal({
+              title: "Something wrong!",
+              text: "请先登录",
+              type: "error"
+            });
         }
 
     }
@@ -139,20 +155,32 @@ export default class App extends Component {
                 {
                     user.password = passwords.newPassword;
                     WebStorageUtil.setUserStorage(user);
-                    alert("修改成功");
+                    swal({
+                      title: "Good job!",
+                      text: res.message,
+                      type: "success"
+                    });
                     this.setState({
                         tag: 1
                     });
                 }
                 else
                 {
-                    alert("请重新登录");
+                    swal({
+                      title: "Something wrong!",
+                      text: res.message,
+                      type: "error"
+                    });
                 }
             });
         }
         else
         {
-            alert("请先登录");
+            swal({
+              title: "Something wrong!",
+              text: "请先登录",
+              type: "error"
+            });
         }
     }
 

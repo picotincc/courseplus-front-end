@@ -29,6 +29,36 @@ export default class SearchBar extends Component {
         this.input = this.refs["searchInput"];
     }
 
+    onSelectionChange(major)
+    {
+        if (this.props.isSearched || this.props.selectedMajor !== major)
+        {
+            this.props.onMajorSelect(major);
+        }
+    }
+
+    handleSearchClick()
+    {
+        const key = this.input.value;
+        if (key !== "")
+        {
+            this.props.onSearch(key);
+        }
+    }
+
+    handleKeyDown(e)
+    {
+        const key = this.input.value;
+        if (e.keyCode === 13)
+        {
+            if (key !== "")
+            {
+                this.props.onSearch(key);
+            }
+        }
+
+    }
+
     render()
     {
         const { school, majors, selectedMajor} = this.props;
@@ -71,35 +101,7 @@ export default class SearchBar extends Component {
         );
     }
 
-    onSelectionChange(major)
-    {
-        if (this.props.isSearched || this.props.selectedMajor !== major)
-        {
-            this.props.onMajorSelect(major);
-        }
-    }
 
-    handleSearchClick()
-    {
-        const key = this.input.value;
-        if (key !== "")
-        {
-            this.props.onSearch(key);
-        }
-    }
-
-    handleKeyDown(e)
-    {
-        const key = this.input.value;
-        if (e.keyCode === 13)
-        {
-            if (key !== "")
-            {
-                this.props.onSearch(key);
-            }
-        }
-
-    }
 
 
 }
