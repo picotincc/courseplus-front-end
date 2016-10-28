@@ -1,5 +1,9 @@
 import React, { Component } from 'react';
 
+import FormatUtil from "../../base/util/FormatUtil";
+import ServiceClient from "../../base/service/ServiceClient";
+import WebStorageUtil from "../../base/util/WebStorageUtil";
+
 import Reply from "./Reply";
 
 export default class Comment extends Component {
@@ -7,11 +11,20 @@ export default class Comment extends Component {
     constructor (props) {
         super(props);
 
+        this.updateReplyInput = this.updateReplyInput.bind(this);
         this.showReply = this.showReply.bind(this);
+        this.handleCommentReply = this.handleCommentReply.bind(this);
     }
 
     static defaultProps = {
-
+        rootComment: {
+            authorName: "",
+            content: "",
+            replyTime: "",
+            replyCount: "",
+            authorIcon: null
+        },
+        topic: null
     }
 
     static propTypes = {
@@ -23,52 +36,38 @@ export default class Comment extends Component {
         replyList: []
     }
 
-    render()
+    componentDidMount()
     {
-        return (
-            <div className="cp-course-comment">
-                <div className="root-comment">
-                    <div className="commenter-img">
-                        <img src="http://uupaper.oss-cn-qingdao.aliyuncs.com/9c5b17a57bbf9c3279f9e2faf3b3e118.jpeg" />
-                    </div>
-                    <div className="right-section">
-                        <div className="name">高扬最帅</div>
-                        <div className="content">这是一个很长的评论这是一个很长的评论这是一个很长的评论这是一个很长的评论这是一个很长的评论这是一个很长的评论这是一个很长的评论这是一个很长的评论这是一个很长的评论这是一个很长的评论这是一个很长的评论这是一个很长的评论这是一个很长的评论这是一个很长的评论这是一个很长的评论这是一个很长的评论这是一个很长的评论这是一个很长的评论这是一个很长的评论这是一个很长的评论这是一个很长的评论这是一个很长的评论这是一个很长的评论这是一个很长的评论这是一个很长的评论这是一个很长的评论这是一个很长的评论这是一个很长的评论这是一个很长的评论这是一个很长的评论这是一个很长的评论这是一个很长的评论这是一个很长的评论</div>
-                        <div className="bottom-bar">
-                            <div className="comment-date">2016.10.16 15:20</div>
-                            <a ref="btnShowReply" href="#comment1" data-toggle="collapse" onClick={this.showReply} className="show-reply">回复&nbsp;2</a>
-                        </div>
-                    </div>
-                </div>
-                <div id="comment1" ref="replySection" className="reply-section collapse">
-                    <ul className="reply-list">
-                        <li><Reply /></li>
-                        <li><Reply /></li>
-                    </ul>
-                    <div className="reply-input">
-                        <textarea
-                            className="forum-textarea"
-                            placeholder="我要评论"
-                            onFocus={this._replyInput_onfocus}
-                            onBlur={this._replyInput_onblur}
-                        />
-                    </div>
-                    <div className="bar">
-                        <div className="btn-reply">
-                            <span>回复</span>
-                        </div>
-                    </div>
-                </div>
+        this.replyInput = this.refs["replyInput"];
+    }
 
-            </div>
-        );
+    componentWillReceiveProps(nextProps)
+    {
+
+    }
+
+    replyInput_onfocus(e)
+    {
+        e.target.style.height = "120px";
+    }
+
+    replyInput_onblur(e)
+    {
+        e.target.style.height = "auto";
+    }
+
+    updateReplyInput(replyName)
+    {
+        this.replyInput.value = "回复 " + replyName + ":";
     }
 
     showReply()
     {
         const btnShowReply = this.refs.btnShowReply;
+        const replyList = this.state.replyList;
+        const {rootComment, topic} = this.props;
         if (this.state.isExpanded) {
-            btnShowReply.innerHTML = "回复 2";
+            btnShowReply.innerHTML = "回复 " + replyList.length;
             this.setState({
                 isExpanded: false
             });
@@ -77,23 +76,129 @@ export default class Comment extends Component {
         {
             btnShowReply.innerHTML = "收起回复";
 
-            if (this.state.replyList.length === 0) {
-                //请求此评论的回复列表
+            ServiceClient.getInstance().getReplyList({
+                topicId: topic.id,
+                commentId: rootComment.id
+            }).then(res => {
                 this.setState({
                     isExpanded: true,
-                    replyList: []
+                    replyList: res
                 });
-            }
+            });
+
         }
     }
 
-    _replyInput_onfocus(e)
+    handleCommentReply()
     {
-        e.target.style.height = "120px";
+        const text = this.replyInput.value;
+        const replyId = this.props.rootComment.id;
+        const replyList = this.state.replyList;
+        if (text !== "")
+        {
+            const token = WebStorageUtil.getToken();
+            const topic = this.props.topic;
+            if (token)
+            {
+                ServiceClient.getInstance().replyComment({
+                    topicId: topic.id,
+                    replyId,
+                    content: text
+                }, token).then(res => {
+                    if (res.textStatus === "success")
+                    {
+                        this.replyInput.value = "";
+                        replyList.push(res);
+                        swal({
+                          title: "Good job!",
+                          text: res.message,
+                          type: "success"
+                        });
+                        this.setState({
+                            replyList: replyList
+                        })
+                    }
+                    else
+                    {
+                        swal({
+                          title: "Something wrong!",
+                          text: "请重新登录",
+                          type: "error"
+                        });
+                    }
+                });
+            }
+            else
+            {
+                swal({
+                  title: "Something wrong!",
+                  text: "请先登录",
+                  type: "error"
+                });
+            }
+        }
+        else
+        {
+            swal({
+              title: "Something wrong!",
+              text: "请输入评论内容",
+              type: "error"
+            });
+        }
     }
 
-    _replyInput_onblur(e)
+    render()
     {
-        e.target.style.height = "auto";
+        const rootComment = this.props.rootComment;
+        const replyList = this.state.replyList;
+        let authorIcon1 = "http://blog.bzxxg.cn/wp-content/uploads/2013/07/guest.png";
+        let authorIcon2 = "https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcSeiPB1slh_EwpLQzoRaYX7duYX4vVvPDqhVX2MReSVucJhUtEAo3s-UA";
+        return (
+            <div className="cp-course-comment">
+                <div className="root-comment">
+                    <div className="commenter-img">
+                        <img src={rootComment.authorIcon ? rootComment.authorIcon : authorIcon2} />
+                    </div>
+                    <div className="right-section">
+                        <div className="name">{rootComment.authorName}</div>
+                        <div className="content">{rootComment.content}</div>
+                        <div className="bottom-bar">
+                            <div className="comment-date">{rootComment.replyTime}</div>
+                            <a ref="btnShowReply"
+                               href={'#comment' + rootComment.id}
+                               data-toggle="collapse"
+                               onMouseDown={this.showReply}
+                               className="show-reply"
+                             >回复&nbsp;{rootComment.replyCount > 0 ? rootComment.replyCount : ""}</a>
+                        </div>
+                    </div>
+                </div>
+                <div id={'comment' + rootComment.id} ref="replySection" className="reply-section collapse">
+                    <ul className="reply-list">
+                        {replyList.map(item => {
+                            return (
+                                <li key={item.id}>
+                                    <Reply onReplyClick={this.updateReplyInput} reply={item} />
+                                </li>
+                            );
+                        })}
+                    </ul>
+                    <div className="reply-input">
+                        <textarea
+                            ref="replyInput"
+                            className="forum-textarea"
+                            placeholder="我要评论"
+                            onFocus={this.replyInput_onfocus}
+                            onBlur={this.replyInput_onblur}
+                        />
+                    </div>
+                    <div className="bar">
+                        <div onMouseDown={this.handleCommentReply} className="btn-reply">
+                            <span>回复</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        );
     }
 }

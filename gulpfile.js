@@ -27,6 +27,7 @@ gulp.task("dev", [ "clean" ], cb => {
 
     new WebpackDevServer(complier, {
         publicPath: config.output.publicPath,
+        proxy: config.devServer.proxy,
         hot: true,
         historyApiFallback: true,
         stats: { colors: true }
@@ -34,7 +35,7 @@ gulp.task("dev", [ "clean" ], cb => {
         if (err) {
             throw new gutil.PluginError("webpack-dev-server", err);
         }
-        const uri = "http://localhost:3000/public/user.html";
+        const uri = "http://127.0.0.1:3000/public/home.html";
         gutil.log("[webpack-dev-server]", uri);
         gulp.src("").pipe(open({ uri }));
     });

@@ -1,18 +1,23 @@
 import React, { Component } from 'react';
 
+import WebStorageUtil from "../../base/util/WebStorageUtil";
+
+const HOST = "/public";
+
 export default class Header extends Component {
 
     constructor (props) {
         super(props);
 
         this.login = this.login.bind(this);
+        this.logout = this.logout.bind(this);
         this.initUserCenter = this.initUserCenter.bind(this);
         this.dropdownUserCenter = this.dropdownUserCenter.bind(this);
         this.collapseUserCenter = this.collapseUserCenter.bind(this);
     }
 
     static defaultProps = {
-        isLogin: true
+        isLogin: false
     }
 
     static propTypes = {
@@ -21,48 +26,6 @@ export default class Header extends Component {
 
     state = {
 
-    }
-
-    render()
-    {
-        let loginInfo = null;
-        if (this.props.isLogin) {
-            loginInfo = (
-                <div className="user-info" ref="userInfo">
-                    <div className="user-img">
-                        <img src="http://i1.piimg.com/573251/970594a863d7aeb9.png" />
-                    </div>
-                    <span className="user-name">用户1</span>
-                    <ul ref="userDropdown" className="user-dropdown">
-                        <li>
-                            <div className="item user-center">
-                                <span><a href="/public/user.html">个人中心</a></span>
-                            </div>
-                        </li>
-                        <li>
-                            <div className="item logout">
-                                <span>退出登录</span>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-            );
-        }
-        else
-        {
-            loginInfo = (<span onClick={this.login} className="login">登录</span>);
-        }
-
-        return (
-            <div className="cp-app-header">
-                <div className="logo">
-                    <a href="/public/home.html">
-                        <img src="/public/Logo.png" />
-                    </a>
-                </div>
-                {loginInfo}
-            </div>
-        );
     }
 
     componentDidMount()
@@ -81,7 +44,16 @@ export default class Header extends Component {
 
     login()
     {
-        this.props.showDialog();
+        this.props.onDialogShow();
+    }
+
+    logout()
+    {
+        WebStorageUtil.removeUserStorage();
+        WebStorageUtil.removeIsSaveStorage();
+        WebStorageUtil.removeToken();
+        const curPage = location.href;
+        location.href = curPage;
     }
 
     initUserCenter()
@@ -104,5 +76,52 @@ export default class Header extends Component {
         this.userDropdown.style.display = "none";
     }
 
+    render()
+    {
+        let loginInfo = null;
+        if (this.props.isLogin) {
+            const user = this.props.user;
+            let userImg = "http://i1.piimg.com/573251/970594a863d7aeb9.png";
+            if (user.icon !== "" && user.icon)
+            {
+                userImg = user.icon;
+            }
+            loginInfo = (
+                <div className="user-info" ref="userInfo">
+                    <div className="user-img">
+                        <img src={userImg} />
+                    </div>
+                    <span className="user-name">{user.nickname}</span>
+                    <ul ref="userDropdown" className="user-dropdown">
+                        <li>
+                            <div className="item user-center">
+                                <span><a href={HOST + "/user.html"}>个人中心</a></span>
+                            </div>
+                        </li>
+                        <li>
+                            <div className="item logout">
+                                <span onClick={this.logout}>退出登录</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            );
+        }
+        else
+        {
+            loginInfo = (<span onClick={this.login} className="login">登录</span>);
+        }
+
+        return (
+            <div className="cp-app-header">
+                <div className="logo">
+                    <a href="/public/home.html">
+                        <img src="/public/Logo.png" />
+                    </a>
+                </div>
+                {loginInfo}
+            </div>
+        );
+    }
 
 }

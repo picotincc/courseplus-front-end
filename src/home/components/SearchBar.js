@@ -6,6 +6,7 @@ export default class SearchBar extends Component {
         super(props);
 
         this.handleSearchClick = this.handleSearchClick.bind(this);
+        this.handleKeyDown = this.handleKeyDown.bind(this);
     }
 
     static defaultProps = {
@@ -25,6 +26,36 @@ export default class SearchBar extends Component {
 
     componentDidMount()
     {
+        this.input = this.refs["searchInput"];
+    }
+
+    onSelectionChange(major)
+    {
+        if (this.props.isSearched || this.props.selectedMajor !== major)
+        {
+            this.props.onMajorSelect(major);
+        }
+    }
+
+    handleSearchClick()
+    {
+        const key = this.input.value;
+        if (key !== "")
+        {
+            this.props.onSearch(key);
+        }
+    }
+
+    handleKeyDown(e)
+    {
+        const key = this.input.value;
+        if (e.keyCode === 13)
+        {
+            if (key !== "")
+            {
+                this.props.onSearch(key);
+            }
+        }
 
     }
 
@@ -60,7 +91,7 @@ export default class SearchBar extends Component {
                 </div>
                 <div className="empty"></div>
                 <div className="search input-group">
-                  <input ref="searchInput" type="text" className="form-control" placeholder="搜索" />
+                  <input ref="searchInput" onKeyDown={this.handleKeyDown} type="text" className="form-control" placeholder="搜索" />
                   <span className="input-group-addon">
                     <span onClick={this.handleSearchClick} className="iconfont icon-search"></span>
                     </span>
@@ -70,20 +101,7 @@ export default class SearchBar extends Component {
         );
     }
 
-    onSelectionChange(major)
-    {
-        if (this.props.isSearched || this.props.selectedMajor !== major)
-        {
-            this.props.handleSelect(major);
-        }
-    }
 
-    handleSearchClick()
-    {
-        const input = this.refs.searchInput;
-        if (input.value !== "")
-        {
-            this.props.handleSearch(input.value);
-        }
-    }
+
+
 }

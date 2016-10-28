@@ -9,7 +9,7 @@ export default class CourseContent extends Component {
     }
 
     static defaultProps = {
-
+        courses: []
     }
 
     static propTypes = {
@@ -27,11 +27,17 @@ export default class CourseContent extends Component {
 
     render()
     {
-        const courses = this.props.courses;
+        const { courses , onCourseClick } = this.props;
         return (
             <div className="cp-home-course-content">
                 {courses.map(item => {
-                    return (<CourseBox courseInfo={item} />)
+                    return (
+                        <CourseBox
+                            key={item.id}
+                            courseInfo={item}
+                            onCourseClick={onCourseClick}
+                        />
+                    )
                 })}
             </div>
         );
