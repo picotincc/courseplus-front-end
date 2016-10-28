@@ -8,7 +8,7 @@ module.exports = {
     context: path.resolve("./src"),
 
     entry: {
-        vendor: [ "jquery", "./base/lib/bootstrap.min.js" ],
+        vendor: [ "jquery", "./base/lib/bootstrap.min.js", "sweetalert" ],
         user: [ "./user/index.js", "./user/resource/index.less" ],
         home: [ "./home/index.js", "./home/resource/index.less" ],
         course: [ "./course/index.js", "./course/resource/index.less" ]
@@ -51,7 +51,8 @@ module.exports = {
 
         new webpack.ProvidePlugin({
             $: "jquery",
-            jQuery: "jquery"
+            jQuery: "jquery",
+            swal: "sweetalert"
         }),
 
         new webpack.optimize.CommonsChunkPlugin({
