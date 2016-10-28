@@ -11,7 +11,8 @@ module.exports = {
         vendor: [ "jquery", "./base/lib/bootstrap.min.js", "sweetalert", "pingpp-js" ],
         user: [ "./user/index.js", "./user/resource/index.less" ],
         home: [ "./home/index.js", "./home/resource/index.less" ],
-        course: [ "./course/index.js", "./course/resource/index.less" ]
+        course: [ "./course/index.js", "./course/resource/index.less" ],
+        pay: [ "./pay/index.js" ]
     },
 
     output: {
