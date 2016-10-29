@@ -19,6 +19,7 @@ export default class Course extends Component {
         this.handleTopicMove = this.handleTopicMove.bind(this);
         this.handleResourceDownload = this.handleResourceDownload.bind(this);
         this.handleQuestionPublish = this.handleQuestionPublish.bind(this);
+        this.handleQuestionShow = this.handleQuestionShow.bind(this);
     }
 
     static defaultProps = {
@@ -185,6 +186,14 @@ export default class Course extends Component {
         });
     }
 
+    handleQuestionShow(author)
+    {
+        let question = {};
+        question.authorId = author.id;
+        question.topicId = this.state.selectedTopic.id;
+        this.props.onQuestionShow(question);
+    }
+
     render()
     {
         const {course, user, onCourseSelect} = this.props;
@@ -239,7 +248,7 @@ export default class Course extends Component {
                             onCourseSelect={onCourseSelect}
                             onResourceDownload={this.handleResourceDownload}
                             onQuestionPublish={this.handleQuestionPublish}
-                            onQuestionShow={this.props.onQuestionShow}
+                            onQuestionShow={this.handleQuestionShow}
                         />
                     </div>
                     <div className="topic">

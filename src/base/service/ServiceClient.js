@@ -849,7 +849,7 @@ export default class ServiceClient
                         {
                             $.ajax({
                                 url: `${CP_API_URL}/user/author/publishQuestion`,
-                                type: "GET",
+                                type: "POST",
                                 contentType: "application/json",
                                 headers: {
                                     "Authorization": "Basic " + btoa(res.token + ":")

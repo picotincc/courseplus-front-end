@@ -15,7 +15,7 @@ export default class Question extends Component {
     }
 
     static defaultProps = {
-        author: null
+        questionInfo: null
     }
 
     static propTypes = {
@@ -64,14 +64,39 @@ export default class Question extends Component {
     {
         const content = this.questionContent.value;
         const email = this.emailInput.value;
-        const author = this.props.author;
+        const authorId = this.props.questionInfo.authorId;
+        const topicId = this.props.questionInfo.topicId;
 
         let eChecked = FormatUtil.isValidEmail(email);
         if (eChecked)
         {
             if (content !== "")
             {
-                swal("请问");
+                ServiceClient.getInstance().publishQuestion({
+                    content,
+                    email,
+                    authorId,
+                    topicId
+                }).then(res => {
+                    if (res.textStatus === "success")
+                    {
+                        swal({
+                            type: "success",
+                            title: "Good job！",
+                            text: "提问成功，请注意查收邮件！"
+                        }, () => {
+                            this.hide();
+                        });
+                    }
+                    else
+                    {
+                        swal({
+                            type: "error",
+                            title: "Something wrong！",
+                            text: res.message
+                        });
+                    }
+                });
             }
             else
             {

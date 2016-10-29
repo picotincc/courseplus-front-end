@@ -99,10 +99,10 @@ export default class App extends Component {
         this.dialogContainer.style.zIndex = 0;
     }
 
-    handleQuestionShow(author)
+    handleQuestionShow(question)
     {
         this.setState({
-            questionInfo: author,
+            questionInfo: question,
             returnPayInfo: null
         });
         this.appContainer.classList.add("app-blur");
@@ -155,7 +155,7 @@ export default class App extends Component {
                 <div ref="questionContainer" className="question-container">
                     <Question
                         onQuestionHide={this.handleQuestionHide}
-                        author={state.questionInfo}
+                        questionInfo={state.questionInfo}
                     />
                 </div>
                 <div ref="appContainer" className="app-container">
