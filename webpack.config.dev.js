@@ -12,7 +12,7 @@ module.exports = {
         user: [ "./user/index.js", "./user/resource/index.less" ],
         home: [ "./home/index.js", "./home/resource/index.less" ],
         course: [ "./course/index.js", "./course/resource/index.less" ],
-        pay: [ "./pay/index.js" ]
+        pay: [ "./pay/index.js", "./pay/index.less" ]
     },
 
     output: {

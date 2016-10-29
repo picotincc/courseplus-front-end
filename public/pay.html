@@ -4,99 +4,51 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-
+    <link rel="stylesheet" href="http://at.alicdn.com/t/font_cfw52iktato9lik9.css">
+    <link rel="stylesheet" href="/public/assets/pay/resource/bundle.css">
     <title>CoursePlus Paying</title>
     <script src="/public/assets/vendor.js" charset="utf-8"></script>
 </head>
 
-<style>
-    html, body
-    {
-        height: 100%;
-    }
-
-    .container
-    {
-        width: 100%;
-        height: 100%;
-        font-family: "PingFangSC-Regular","Microsoft YaHei";
-        background: #EDEEF0;
-
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-
-    .pay-box
-    {
-        width: 500px;
-        height: 300px;
-        background: #FFFFFF;
-        display: flex;
-        flex-direction: column;
-        border: 1px solid #979797;
-        border-radius: 5px;
-    }
-
-    .title
-    {
-        flex: 0 0 150px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-
-        font-size: 26px;
-    }
-
-    .btn
-    {
-        border: 1px solid #ccc;
-        border-radius: 16px;
-        width: 200px;
-        height: 40px;
-        cursor: pointer;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        font-size: 18px;
-    }
-
-    .btn-group
-    {
-        flex: 0 0 150px;
-        display: flex;
-        justify-content: space-around;
-        align-items: center;
-    }
-
-    .success
-    {
-        background: #038574;
-        color: #FFFFFF;
-    }
-
-    .fail
-    {
-        background: #EDEEF0;
-    }
-
-
-</style>
-
 <body>
+
     <div class="container">
-        <div class="pay-box">
-            <div class="title">Course+ 正在支付中</div>
-            <div class="btn-group">
-                <div id="fail" class="btn fail">
-                    <span>遇到问题</span>
+        <div id="fdContainer" class="feedback-container">
+            <div class="feedback-box">
+                <div class="top-bar">
+                    <div class="empty"></div>
+                    <div class="title">
+                        问题反馈
+                    </div>
+                    <span id="close" class="icon iconfont icon-close"></span>
                 </div>
-                <div id="success" class="btn success">
-                    <span>支付成功</span>
+                <textarea class="content" id="content"></textarea>
+
+                <div class="submit-bar">
+                    <div id="submit" class="btn-submit">
+                        <span>提交</span>
+                    </div>
                 </div>
             </div>
         </div>
+
+        <div id="mainContainer" class="main-container">
+            <div class="pay-box">
+                <div class="title">Course+ 正在支付中</div>
+                <div class="btn-group">
+                    <div id="fail" class="btn fail">
+                        <span>遇到问题</span>
+                    </div>
+                    <div id="success" class="btn success">
+                        <span>支付成功</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
     </div>
+
 </body>
 
 <script src="/public/assets/pay/bundle.js" charset="utf-8"></script>

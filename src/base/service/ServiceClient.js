@@ -875,4 +875,56 @@ export default class ServiceClient
             });
         });
     }
+
+    publishFeedBack(feedback)
+    {
+        const token = WebStorageUtil.getToken();
+        const sendData = JSON.stringify(feedback);
+        const self = this;
+        return new Promise((resolve, reject) => {
+            $.ajax({
+                url: `${CP_API_URL}/user/feedback/publishFeedBack`,
+                type: "POST",
+                contentType: "application/json",
+                headers: {
+                    "Authorization": "Basic " + btoa(token + ":")
+                },
+                data: sendData
+            }).then((data, textStatus, jqXHR) => {
+                const res = Object.assign(data, {textStatus});
+                resolve(res);
+            }, (jqXHR, textStatus, errorThrown) => {
+                if (jqXHR.status === 403)
+                {
+                    self.loginFortoken().then(res => {
+                        if (res.status === 0)
+                        {
+                            $.ajax({
+                                url: `${CP_API_URL}/user/feedback/publishFeedBack`,
+                                type: "POST",
+                                contentType: "application/json",
+                                headers: {
+                                    "Authorization": "Basic " + btoa(res.token + ":")
+                                },
+                                data: sendData
+                            }).then((data, textStatus, jqXHR) => {
+                                const res = Object.assign(data, {textStatus});
+                                resolve(res);
+                            },(jqXHR, textStatus, errorThrown) => {
+                                resolve(Object.assign(jqXHR.responseJSON, {textStatus}));
+                            });
+                        }
+                        else
+                        {
+                            resolve({textStatus: "error", code: -1});
+                        }
+                    });
+                }
+                else
+                {
+                    resolve(Object.assign(jqXHR.responseJSON, {textStatus}));
+                }
+            });
+        });
+    }
 }
