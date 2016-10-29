@@ -385,6 +385,8 @@ export default class ServiceClient
                             }).then((data, textStatus, jqXHR) => {
                                 const res = Object.assign(data, {textStatus});
                                 resolve(res);
+                            }, (jqXHR, textStatus, errorThrown) => {
+                                resolve(Object.assign(jqXHR.responseJSON, {textStatus}));
                             });
                         }
                         else
@@ -392,6 +394,10 @@ export default class ServiceClient
                             resolve({textStatus: "error", message: "请重新登录"});
                         }
                     });
+                }
+                else
+                {
+                    resolve(Object.assign(jqXHR.responseJSON, {textStatus}));
                 }
             });
         });
@@ -434,6 +440,8 @@ export default class ServiceClient
                             }).then((data, textStatus, jqXHR) => {
                                 const res = Object.assign(data, {textStatus});
                                 resolve(res);
+                            }, (jqXHR, textStatus, errorThrown) => {
+                                resolve(Object.assign(jqXHR.responseJSON, {textStatus}));
                             });
                         }
                         else
@@ -441,6 +449,10 @@ export default class ServiceClient
                             resolve({textStatus: "error", message: "请重新登录"});
                         }
                     });
+                }
+                else
+                {
+                    resolve(Object.assign(jqXHR.responseJSON, {textStatus}));
                 }
             });
         });
@@ -483,6 +495,8 @@ export default class ServiceClient
                             }).then((data, textStatus, jqXHR) => {
                                 const res = Object.assign(data, {textStatus});
                                 resolve(res);
+                            }, (jqXHR, textStatus, errorThrown) => {
+                                resolve(Object.assign(jqXHR.responseJSON, {textStatus}));
                             });
                         }
                         else
@@ -490,6 +504,10 @@ export default class ServiceClient
                             resolve({textStatus: "error", message: "请重新登录"});
                         }
                     });
+                }
+                else
+                {
+                    resolve(Object.assign(jqXHR.responseJSON, {textStatus}));
                 }
             });
         });
@@ -531,6 +549,8 @@ export default class ServiceClient
                             }).then((data, textStatus, jqXHR) => {
                                 const res = Object.assign(data, {textStatus});
                                 resolve(res);
+                            },(jqXHR, textStatus, errorThrown) => {
+                                resolve(Object.assign(jqXHR.responseJSON, {textStatus}));
                             });
                         }
                         else
@@ -538,6 +558,10 @@ export default class ServiceClient
                             resolve({textStatus: "error", message: "请重新登录"});
                         }
                     });
+                }
+                else
+                {
+                    resolve(Object.assign(jqXHR.responseJSON, {textStatus}));
                 }
             });
         });
@@ -621,6 +645,8 @@ export default class ServiceClient
                             }).then((data, textStatus, jqXHR) => {
                                 const res = Object.assign(data, {textStatus});
                                 resolve(res);
+                            },(jqXHR, textStatus, errorThrown) => {
+                                resolve(Object.assign(jqXHR.responseJSON, {textStatus}));
                             });
                         }
                         else
@@ -628,6 +654,10 @@ export default class ServiceClient
                             resolve({textStatus: "error", message: "请重新登录"});
                         }
                     });
+                }
+                else
+                {
+                    resolve(Object.assign(jqXHR.responseJSON, {textStatus}));
                 }
             });
         });
@@ -670,6 +700,8 @@ export default class ServiceClient
                             }).then((data, textStatus, jqXHR) => {
                                 const res = Object.assign(data, {textStatus});
                                 resolve(res);
+                            },(jqXHR, textStatus, errorThrown) => {
+                                resolve(Object.assign(jqXHR.responseJSON, {textStatus}));
                             });
                         }
                         else
@@ -680,7 +712,7 @@ export default class ServiceClient
                 }
                 else
                 {
-                    resolve({textStatus: "error", message: "请重新登录"});
+                    resolve(Object.assign(jqXHR.responseJSON, {textStatus}));
                 }
             });
         });
@@ -705,10 +737,6 @@ export default class ServiceClient
                 const res = Object.assign(data, {textStatus});
                 resolve(res);
             }, (jqXHR, textStatus, errorThrown) => {
-                if (jqXHR.status === 400)
-                {
-                    resolve(jqXHR.responseJSON);
-                }
                 if (jqXHR.status === 403)
                 {
                     self.loginFortoken().then(res => {
@@ -728,10 +756,7 @@ export default class ServiceClient
                                 const res = Object.assign(data, {textStatus});
                                 resolve(res);
                             },(jqXHR, textStatus, errorThrown) => {
-                                if (jqXHR.status === 400)
-                                {
-                                    resolve(jqXHR.responseJSON);
-                                }
+                                resolve(Object.assign(jqXHR.responseJSON, {textStatus}));
                             });
                         }
                         else
@@ -742,7 +767,7 @@ export default class ServiceClient
                 }
                 else
                 {
-                    resolve({textStatus: "error", message: "请重新登录"});
+                    resolve(Object.assign(jqXHR.responseJSON, {textStatus}));
                 }
             });
         });
