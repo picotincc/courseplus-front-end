@@ -24,7 +24,7 @@ submit.onclick = () => {
     {
         ServiceClient.getInstance().publishFeedBack({
             content: content.value,
-            tradeId: 1
+            tradeId: orderId
         }).then(res => {
             if (res.code === 0)
             {
@@ -33,7 +33,7 @@ submit.onclick = () => {
                     title: "反馈成功",
                     text: "返回首页"
                 }, () => {
-                    location.href = HOST + "/home.html";                
+                    location.href = HOST + "/home.html";
                 });
             }
             else
@@ -103,4 +103,4 @@ function checkOrderStatus()
     });
 }
 
-// checkOrderStatus();
+checkOrderStatus();
