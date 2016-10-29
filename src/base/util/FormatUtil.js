@@ -60,6 +60,12 @@ export default class FormatUtil
             })
         }, {})
     }
+
+    static isValidEmail(sText)
+    {
+        const reEmail = /^(?:\w+\.?)*\w+@(?:\w+\.)+\w+$/;
+        return reEmail.test(sText);
+    }
 }
 
 //判断是否为纯数字

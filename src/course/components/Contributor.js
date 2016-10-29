@@ -78,8 +78,46 @@ export default class Contributor extends Component {
     handleQuestionPublish()
     {
         const author = this.props.info;
-        console.log(author);
-        this.props.onQuestionShow(author);
+
+        const token = WebStorageUtil.getToken();
+        if (token)
+        {
+            const cost = (author.contactCost / 100);
+            const name = author.name;
+            ServiceClient.getInstance().getQuestionChance(author.id).then(res => {
+                if (res.textStatus === "success")
+                {
+                    this.props.onQuestionShow(author);
+                }
+                else
+                {
+                    swal({
+                        title: "大神直通车",
+                        text: `想要向${name}直接提问？向${name}支付￥${cost}来获得一次140字的提问机会，我们会亲自帮您联系大神，并尽快以邮件的形式给您答复！`,
+                        showCancelButton: true,
+                        confirmButtonColor: "#038574",
+                        confirmButtonText: "确认支付",
+                        cancelButtonText: "暂不支付",
+                        customClass: "swal-resource-dialog",
+                        closeOnConfirm: true,
+                        closeOnCancel: true
+                    },(isConfirm) => {
+                        if (isConfirm)
+                        {
+                            this.props.onQuestionPublish(author.resourceCost);
+                        }
+                    });
+                }
+            });
+        }
+        else
+        {
+            swal({
+              title: "Something wrong!",
+              text: "请先登录",
+              type: "error"
+            });
+        }
     }
 
     render()

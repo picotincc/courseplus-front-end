@@ -102,7 +102,8 @@ export default class App extends Component {
     handleQuestionShow(author)
     {
         this.setState({
-            questionInfo: author
+            questionInfo: author,
+            returnPayInfo: null
         });
         this.appContainer.classList.add("app-blur");
         this.questionContainer.style.zIndex = 20;

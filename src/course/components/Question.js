@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 
 import FormatUtil from "../../base//util/FormatUtil";
-import WebStorageUtil from "../../base/util/WebStorageUtil";
 
 import ServiceClient from "../../base/service/ServiceClient";
 
@@ -12,6 +11,7 @@ export default class Question extends Component {
 
         this.hide = this.hide.bind(this);
         this.clear = this.clear.bind(this);
+        this.handleQuestionSubmit = this.handleQuestionSubmit.bind(this);
     }
 
     static defaultProps = {
@@ -60,6 +60,38 @@ export default class Question extends Component {
         this.wordCount.textContent = 140;
     }
 
+    handleQuestionSubmit()
+    {
+        const content = this.questionContent.value;
+        const email = this.emailInput.value;
+        const author = this.props.author;
+
+        let eChecked = FormatUtil.isValidEmail(email);
+        if (eChecked)
+        {
+            if (content !== "")
+            {
+                swal("请问");
+            }
+            else
+            {
+                swal({
+                    type: "error",
+                    title: "Something wrong！",
+                    text: "请输入提问内容"
+                });
+            }
+        }
+        else
+        {
+            swal({
+                type: "error",
+                title: "Something wrong！",
+                text: "电子邮箱格式不正确"
+            });
+        }
+    }
+
     render()
     {
         const author = this.props.author;
@@ -86,7 +118,7 @@ export default class Question extends Component {
                 </div>
 
                 <div className="submit-bar">
-                    <div className="btn-submit">
+                    <div onClick={this.handleQuestionSubmit} className="btn-submit">
                         <span>提交</span>
                     </div>
                 </div>
