@@ -30,6 +30,7 @@ export default class Question extends Component {
     {
         this.questionContent = this.refs["questionContent"];
         this.wordCount = this.refs["wordCount"];
+        this.emailInput = this.refs["emailInput"];
 
         this.questionContent.onkeydown = (e) => {
             if(e.keyCode !== 8 && e.target.value.length >= 140)
@@ -54,7 +55,9 @@ export default class Question extends Component {
 
     clear()
     {
-
+        this.questionContent.value = "";
+        this.emailInput.value = "";
+        this.wordCount.textContent = 140;
     }
 
     render()
