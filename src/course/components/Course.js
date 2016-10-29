@@ -55,7 +55,14 @@ export default class Course extends Component {
                 selectedTopic: topic,
                 expandedTopics: expandedTopics
             });
-            window.open(returnInfo.attatchmentUrl);
+            if (returnInfo.attachmentUrl)
+            {
+                window.open(returnInfo.attachmentUrl);
+            }
+            else
+            {
+                nextProps.onQuestionShow(author);
+            }
         }
         else
         {
@@ -234,6 +241,7 @@ export default class Course extends Component {
                             info={state.selectedContributor}
                             onCourseSelect={onCourseSelect}
                             onResourceDownload={this.handleAuthorResourceDownload}
+                            onQuestionShow={this.props.onQuestionShow}
                         />
                     </div>
                     <div className="topic">

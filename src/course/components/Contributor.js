@@ -10,6 +10,7 @@ export default class Contributor extends Component {
 
         this.handleCourseSelect = this.handleCourseSelect.bind(this);
         this.handleResourceDownload = this.handleResourceDownload.bind(this);
+        this.handleQuestionPublish = this.handleQuestionPublish.bind(this);
     }
 
     static defaultProps = {
@@ -58,12 +59,7 @@ export default class Contributor extends Component {
                     },(isConfirm) => {
                         if (isConfirm)
                         {
-                            console.log("想支付");
                             onResourceDownload(info.attachmentId, info.resourceCost);
-                        }
-                        else
-                        {
-                            console.log("不想支付");
                         }
                     });
                 }
@@ -77,6 +73,13 @@ export default class Contributor extends Component {
               type: "error"
             });
         }
+    }
+
+    handleQuestionPublish()
+    {
+        const author = this.props.info;
+        console.log(author);
+        this.props.onQuestionShow(author);
     }
 
     render()
@@ -99,7 +102,7 @@ export default class Contributor extends Component {
                 <div className="intro">
                     {info ? info.description : ""}
                 </div>
-                <div className="contact">
+                <div onClick={this.handleQuestionPublish} className="contact">
                     <span className="icon iconfont icon-message"></span>
                     大神直通车
                 </div>
