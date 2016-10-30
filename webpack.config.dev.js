@@ -25,7 +25,7 @@ module.exports = {
         extensions: [ "", ".js", ".less" ]
     },
 
-    devtool: "source-map",
+    // devtool: "source-map",
 
     module: {
         loaders: [

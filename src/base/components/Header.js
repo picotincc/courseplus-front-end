@@ -115,7 +115,7 @@ export default class Header extends Component {
         return (
             <div className="cp-app-header">
                 <div className="logo">
-                    <a href="/public/home.html">
+                    <a href="/public/index.html">
                         <img src="/public/Logo.png" />
                     </a>
                 </div>

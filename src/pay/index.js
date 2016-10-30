@@ -1,7 +1,7 @@
 import FormatUtil from "../base/util/FormatUtil";
 import WebStorageUtil from "../base/util/WebStorageUtil";
 import ServiceClient from "../base/service/ServiceClient";
-import { HOST } from "../../base/util/ConstantUtil";
+import { HOST } from "../base/util/ConstantUtil";
 
 
 const fdContainer = document.getElementById("fdContainer");
@@ -33,7 +33,7 @@ submit.onclick = () => {
                     title: "反馈成功",
                     text: "返回首页"
                 }, () => {
-                    location.href = HOST + "/home.html";
+                    location.href = HOST + "/index.html";
                 });
             }
             else

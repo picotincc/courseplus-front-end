@@ -83,7 +83,7 @@ export default class App extends Component {
                   text: "请先登录",
                   type: "error"
                 });
-                location.href = `${HOST}/home.html`;
+                location.href = `${HOST}/index.html`;
             }
         });
     }
