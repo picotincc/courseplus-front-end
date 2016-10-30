@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import ReactQiniu from "react-qiniu";
 
 export default class UserInfoPanel extends Component {
 
@@ -8,7 +9,8 @@ export default class UserInfoPanel extends Component {
         this.handleGenderSelect = this.handleGenderSelect.bind(this);
         this.handleInfoUpdate = this.handleInfoUpdate.bind(this);
         this.changeGender = this.changeGender.bind(this);
-        this.uploadImg = this.uploadImg.bind(this);
+        this.onDrop = this.onDrop.bind(this);
+        this.onUpload = this.onUpload.bind(this);
     }
 
     static defaultProps = {
@@ -20,7 +22,8 @@ export default class UserInfoPanel extends Component {
     }
 
     state = {
-
+        files: [],
+        token: "FZ6CCJAqIIoKRp4ygVT8Mu3qzNxARTdtvhWUn-JA:c77syBSsmrr1E84tgg9Zf03yD3I=:eyJzY29wZSI6ImNjLXFpbml1IiwiZGVhZGxpbmUiOjE0Nzc4Nzc1MzR9"
     }
 
     componentDidMount()
@@ -28,11 +31,9 @@ export default class UserInfoPanel extends Component {
         this.maleGender = this.refs["maleGender"];
         this.femaleGender = this.refs["femaleGender"];
         this.genderInput = this.refs["genderInput"];
-        this.imgInput = this.refs["imgInput"];
         this.nicknameInput = this.refs["nicknameInput"];
-        this.userImg = this.refs["userImg"];
+        this.imgPreview = this.refs["imgPreview"];
 
-        this.imgInput.onchange = this.changeImg;
         const user = this.props.user;
         this.genderInput.value = user.gender;
         this.nicknameInput.value = user.nickname;
@@ -87,18 +88,29 @@ export default class UserInfoPanel extends Component {
     {
         const gender = this.genderInput.value;
         const nickname = this.nicknameInput.value;
-        const avatar = this.imgInput.value;
         this.props.onUserUpdate({
             gender,
-            nickname,
-            avatar
+            nickname
         });
     }
 
-    uploadImg()
+    onUpload(files)
     {
-        console.log("uploadImg");
-        this.imgInput.click();
+        files.map(function (f) {
+            f.onprogress = function(e) {
+                // console.log(e.percent);
+            };
+        });
+    }
+
+    onDrop(files)
+    {
+        let newFiles = [files[0]];
+
+        this.setState({
+            files: newFiles
+        });
+        this.imgPreview.src = files[0].preview;
     }
 
     render()
@@ -127,8 +139,14 @@ export default class UserInfoPanel extends Component {
                 </div>
                 <div className="head">头像</div>
                 <div className="user-img">
-                    <img ref="userImg" onClick={this.uploadImg} src={user.icon ? user.icon : icon} />
-                    <input ref="imgInput" type="file" />
+                    <ReactQiniu
+                        onDrop={this.onDrop}
+                        size={150}
+                        onUpload={this.onUpload}
+                        token={this.state.token}
+                    >
+                    <img ref="imgPreview" width="144" height="144" src={user.icon ? user.icon : icon} />
+                    </ReactQiniu>
                 </div>
                 <div onClick={this.handleInfoUpdate} className="btn-update">更新资料</div>
             </div>
