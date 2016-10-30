@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 
-import WebStorageUtil from "../../base/util/WebStorageUtil";
+import WebStorageUtil from "../util/WebStorageUtil";
+import { HOST } from "../util/ConstantUtil";
 
-const HOST = "/public";
 
 export default class Header extends Component {
 
@@ -115,8 +115,8 @@ export default class Header extends Component {
         return (
             <div className="cp-app-header">
                 <div className="logo">
-                    <a href="/public/home.html">
-                        <img src="/public/Logo.png" />
+                    <a href="/index.html">
+                        <img src="/logo.png" />
                     </a>
                 </div>
                 {loginInfo}
