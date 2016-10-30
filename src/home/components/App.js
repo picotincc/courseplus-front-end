@@ -4,12 +4,11 @@ import Dialog from "../../base/components/Dialog";
 import Header from "../../base/components/Header";
 import ServiceClient from "../../base/service/ServiceClient";
 import WebStorageUtil from "../../base/util/WebStorageUtil";
+import { HOST } from "../../base/util/ConstantUtil";
+
 
 import CourseContent from "./CourseContent";
 import SearchBar from "./SearchBar";
-
-
-const HOST = "/public";
 
 export default class App extends Component {
 

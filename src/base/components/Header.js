@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 
-import WebStorageUtil from "../../base/util/WebStorageUtil";
+import WebStorageUtil from "../util/WebStorageUtil";
+import { HOST } from "../util/ConstantUtil";
 
-const HOST = "/public";
 
 export default class Header extends Component {
 

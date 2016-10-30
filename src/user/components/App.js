@@ -3,11 +3,10 @@ import React, { Component } from 'react';
 import Header from "../../base/components/Header";
 import ServiceClient from "../../base/service/ServiceClient";
 import WebStorageUtil from "../../base/util/WebStorageUtil";
+import { HOST } from "../../base/util/ConstantUtil";
 
 import ChangePasswordPanel from "./ChangePasswordPanel";
 import UserInfoPanel from "./UserInfoPanel";
-
-const HOST = "/public";
 
 export default class App extends Component {
 
