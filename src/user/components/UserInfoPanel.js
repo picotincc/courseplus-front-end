@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import ReactQiniu from "react-qiniu";
 
+import ServiceClient from "../../base/service/ServiceClient";
+
 export default class UserInfoPanel extends Component {
 
     constructor (props) {
@@ -23,7 +25,8 @@ export default class UserInfoPanel extends Component {
 
     state = {
         files: [],
-        token: "FZ6CCJAqIIoKRp4ygVT8Mu3qzNxARTdtvhWUn-JA:c77syBSsmrr1E84tgg9Zf03yD3I=:eyJzY29wZSI6ImNjLXFpbml1IiwiZGVhZGxpbmUiOjE0Nzc4Nzc1MzR9"
+        uploadKey: "",
+        token: ""
     }
 
     componentDidMount()
@@ -57,6 +60,23 @@ export default class UserInfoPanel extends Component {
         this.changeGender(user.gender);
     }
 
+    componentWillReceiveProps(nextProps)
+    {
+        if (nextProps.user)
+        {
+            const uploadKey = "user_avatar_" + nextProps.user.id;
+            ServiceClient.getInstance().getFileToken(uploadKey).then(res => {
+                if (res.code === 0)
+                {
+                    this.setState({
+                        uploadKey,
+                        token: res.message
+                    });
+                }
+            });
+        }
+    }
+
     changeGender(gender)
     {
         if (gender !== 2 )
@@ -88,19 +108,35 @@ export default class UserInfoPanel extends Component {
     {
         const gender = this.genderInput.value;
         const nickname = this.nicknameInput.value;
-        this.props.onUserUpdate({
-            gender,
-            nickname
-        });
+        const files = this.state.files;
+        if (files.length > 0)
+        {
+            files[0].request.promise().then(res => {
+                this.props.onUserUpdate({
+                    gender,
+                    nickname,
+                    avatar: res.body.key
+                });
+            });
+        }
+        else
+        {
+            this.props.onUserUpdate({
+                gender,
+                nickname
+            });
+        }
+
     }
 
     onUpload(files)
     {
-        files.map(function (f) {
-            f.onprogress = function(e) {
-                // console.log(e.percent);
-            };
-        });
+        //上传过程中的交互方法
+        // files.map(function (f) {
+        //     f.onprogress = function(e) {
+        //         // console.log(e.percent);
+        //     };
+        // });
     }
 
     onDrop(files)
@@ -144,6 +180,7 @@ export default class UserInfoPanel extends Component {
                         size={150}
                         onUpload={this.onUpload}
                         token={this.state.token}
+                        uploadKey={this.state.uploadKey}
                     >
                     <img ref="imgPreview" width="144" height="144" src={user.icon ? user.icon : icon} />
                     </ReactQiniu>

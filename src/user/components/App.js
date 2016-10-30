@@ -116,9 +116,12 @@ export default class App extends Component {
                       text: res.message,
                       type: "success"
                     });
-                    this.setState({
-                        user
+                    ServiceClient.getInstance().getUserInfo(token).then(res => {
+                        this.setState({
+                            user: res
+                        });
                     });
+
                 }
                 else
                 {
@@ -188,6 +191,7 @@ export default class App extends Component {
     {
         const state = this.state;
         let sectionPanel = null;
+        console.log("app render", state.user);
         if (state.selectedTab === "info")
         {
             sectionPanel = (<UserInfoPanel

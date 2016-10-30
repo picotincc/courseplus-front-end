@@ -927,4 +927,23 @@ export default class ServiceClient
             });
         });
     }
+
+
+    getFileToken(key)
+    {
+        return new Promise((resolve, reject) => {
+            $.ajax({
+                url: `${CP_API_URL}/web/file/getFileToken`,
+                type: "GET",
+                data: {
+                    key: key
+                }
+            }).then((data, textStatus, jqXHR) => {
+                resolve(data);
+            }, (jqXHR, textStatus, errorThrown) => {
+                console.log(jqXHR.responseJSON);
+            });
+        });
+    }
+
 }
