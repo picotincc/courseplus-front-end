@@ -30,7 +30,8 @@ gulp.task("dev", [ "clean" ], cb => {
         proxy: config.devServer.proxy,
         hot: true,
         historyApiFallback: true,
-        stats: { colors: true }
+        stats: { colors: true },
+        contentBase: "./public"
     }).listen(3000, "localhost", err => {
         if (err) {
             throw new gutil.PluginError("webpack-dev-server", err);
