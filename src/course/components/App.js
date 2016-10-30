@@ -4,10 +4,10 @@ import Dialog from "../../base/components/Dialog";
 import Header from "../../base/components/Header";
 import ServiceClient from "../../base/service/ServiceClient";
 import WebStorageUtil from "../../base/util/WebStorageUtil";
+import { HOST } from "../../base/util/ConstantUtil";
 
 import Course from "./Course";
-
-const HOST = "/public";
+import Question from "./Question";
 
 export default class App extends Component {
 
@@ -18,6 +18,8 @@ export default class App extends Component {
         this.handleDialogHide = this.handleDialogHide.bind(this);
         this.handleLogin = this.handleLogin.bind(this);
         this.handleCourseSelect = this.handleCourseSelect.bind(this);
+        this.handleQuestionShow = this.handleQuestionShow.bind(this);
+        this.handleQuestionHide = this.handleQuestionHide.bind(this);
     }
 
     static defaultProps = {
@@ -33,13 +35,14 @@ export default class App extends Component {
         user: null,
         courseInfo: null,
         returnPayInfo: null,
-        isQuestioned: false
+        questionInfo: null
     }
 
     componentDidMount()
     {
         this.appContainer = this.refs["appContainer"];
         this.dialogContainer = this.refs["dialogContainer"];
+        this.questionContainer = this.refs["questionContainer"];
         this.autoLogin();
     }
 
@@ -81,7 +84,6 @@ export default class App extends Component {
                 returnPayInfo: info
             });
         });
-
     }
 
     handleDialogShow()
@@ -94,6 +96,22 @@ export default class App extends Component {
     {
         this.appContainer.classList.remove("app-blur");
         this.dialogContainer.style.zIndex = 0;
+    }
+
+    handleQuestionShow(question)
+    {
+        this.setState({
+            questionInfo: question,
+            returnPayInfo: null
+        });
+        this.appContainer.classList.add("app-blur");
+        this.questionContainer.style.zIndex = 20;
+    }
+
+    handleQuestionHide()
+    {
+        this.appContainer.classList.remove("app-blur");
+        this.questionContainer.style.zIndex = 0;
     }
 
 
@@ -133,6 +151,12 @@ export default class App extends Component {
                         onLogin={this.handleLogin}
                     />
                 </div>
+                <div ref="questionContainer" className="question-container">
+                    <Question
+                        onQuestionHide={this.handleQuestionHide}
+                        questionInfo={state.questionInfo}
+                    />
+                </div>
                 <div ref="appContainer" className="app-container">
                     <header>
                         <Header
@@ -146,6 +170,7 @@ export default class App extends Component {
                             course={state.courseInfo}
                             returnInfo={state.returnPayInfo}
                             onCourseSelect={this.handleCourseSelect}
+                            onQuestionShow={this.handleQuestionShow}
                          />
                     </div>
                 </div>

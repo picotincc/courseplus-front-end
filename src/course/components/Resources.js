@@ -56,12 +56,7 @@ export default class Resources extends Component {
                     },(isConfirm) => {
                         if (isConfirm)
                         {
-                            console.log("想支付");
                             onResourceDownload(item.id, item.cost);
-                        }
-                        else
-                        {
-                            console.log("不想支付");
                         }
                     });
                 }

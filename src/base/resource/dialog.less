@@ -241,12 +241,19 @@
                 flex: 0 0 124px;
                 background: #038574;
                 border-radius: 5px;
+                border: 1px solid #CCCCCC;
                 display: flex;
                 justify-content: center;
                 align-items: center;
                 font-size: 18px;
                 color: #FFFFFF;
                 cursor: pointer;
+
+                &.disabled
+                {
+                    background: #EDEEF0;
+                    color: #738484;
+                }
             }
         }
 

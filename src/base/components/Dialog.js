@@ -4,6 +4,7 @@ import FormatUtil from "../../base/util/FormatUtil";
 import WebStorageUtil from "../../base/util/WebStorageUtil";
 
 import ServiceClient from "../service/ServiceClient";
+import VerifyCodeBtn from "../components/VerifyCodeBtn";
 
 export default class Dialog extends Component {
 
@@ -52,24 +53,6 @@ export default class Dialog extends Component {
         this.re_phoneInput = this.refs["re_phoneInput"];
         this.re_codeInput = this.refs["re_codeInput"];
         this.re_passwordInput = this.refs["re_passwordInput"];
-
-        // let wait=60;
-        // const time = function (o) {
-        //     if (wait == 0) {
-        //         o.removeAttribute("disabled");
-        //         o.value="免费获取验证码";
-        //         wait = 60;
-        //     } else {
-        //         o.setAttribute("disabled", true);
-        //         o.value="重新发送(" + wait + ")";
-        //         wait--;
-        //         setTimeout(function() {
-        //             time(o)
-        //         },
-        //         1000)
-        //     }
-        // }
-        // this.onclick=function(){time(this);}
     }
 
     //内部交互方法
@@ -120,92 +103,102 @@ export default class Dialog extends Component {
         this.props.onLogin(info);
     }
 
-
     //api请求
     sendAuthCode()
     {
         const phone = this.r_phoneInput.value;
         const checked = FormatUtil.isPhoneNumber(phone);
-        if (checked)
-        {
-            ServiceClient.getInstance().checkUserIsValid(phone).then(res => {
-                if (res.textStatus === "success" )
-                {
-                    ServiceClient.getInstance().sendAuthCode(phone).then(res => {
-                        if (res.textStatus === "success")
-                        {
-                            swal({
-                              title: "Good job!",
-                              text: "发送成功",
-                              type: "success"
-                            });
-                        }
-                        else
-                        {
-                            swal({
-                              title: "Something wrong!",
-                              text: res.message,
-                              type: "error"
-                            });
-                        }
-                    });
-                }
-                else
-                {
-                    swal({
-                      title: "Something wrong!",
-                      text: res.message,
-                      type: "error"
-                    });
-                }
-            });
-        }
-        else
-        {
-            swal({
-              title: "Something wrong!",
-              text: "请输入正确格式的手机号",
-              type: "error"
-            });
-        }
+
+        return new Promise((resolve, reject) => {
+            if (checked)
+            {
+                ServiceClient.getInstance().checkUserIsValid(phone).then(res => {
+                    if (res.textStatus === "success" )
+                    {
+                        ServiceClient.getInstance().sendAuthCode(phone).then(res => {
+                            if (res.textStatus === "success")
+                            {
+                                swal({
+                                  title: "Good job!",
+                                  text: "发送成功",
+                                  type: "success"
+                                });
+
+                            }
+                            else
+                            {
+                                swal({
+                                  title: "Something wrong!",
+                                  text: res.message,
+                                  type: "error"
+                                });
+                            }
+                            resolve(true);
+                        });
+                    }
+                    else
+                    {
+                        swal({
+                          title: "Something wrong!",
+                          text: res.message,
+                          type: "error"
+                        });
+                        resolve(true);
+                    }
+                });
+            }
+            else
+            {
+                swal({
+                  title: "Something wrong!",
+                  text: "请输入正确格式的手机号",
+                  type: "error"
+                });
+                resolve(true);
+            }
+        });
+
     }
 
     sendResetCode()
     {
         const phone = this.re_phoneInput.value;
         const checked = FormatUtil.isPhoneNumber(phone);
-        if (checked)
-        {
-            swal("正在发送......");
-            ServiceClient.getInstance().sendAuthCode(phone).then(res => {
-                if (res.textStatus === "success")
-                {
-                    swal({
-                      title: "Good job!",
-                      text: res.message,
-                      type: "success"
-                    });
 
+        return new Promise((resolve, reject) => {
+            if (checked)
+            {
+                ServiceClient.getInstance().sendAuthCode(phone).then(res => {
+                    if (res.textStatus === "success")
+                    {
+                        swal({
+                            title: "Good job!",
+                            text: res.message,
+                            type: "success"
+                        });
+                    }
+                    else
+                    {
+                        swal({
+                            title: "Something wrong!",
+                            text: res.message,
+                            type: "error"
+                        });
+                    }
+                    resolve(true);
+                });
+            }
+            else
+            {
+                swal({
+                  title: "Something wrong!",
+                  text: "请输入正确格式的手机号",
+                  type: "error"
+                });
+                resolve(false);
+            }
+        });
 
-                }
-                else
-                {
-                    swal({
-                      title: "Something wrong!",
-                      text: res.message,
-                      type: "error"
-                    });
-                }
-            });
-        }
-        else
-        {
-            swal({
-              title: "Something wrong!",
-              text: "请输入正确格式的手机号",
-              type: "error"
-            });
-        }
     }
 
     clear()
@@ -433,9 +426,7 @@ export default class Dialog extends Component {
                             </span>
                             <input ref="r_codeInput" type="text" className="form-control" placeholder="验证码" />
                         </div>
-                        <div onClick={this.sendAuthCode} className="send-codes">
-                            <span>发送验证码</span>
-                        </div>
+                        <VerifyCodeBtn onCodeSend={this.sendAuthCode}/>
                     </div>
                     <div className="password input-group">
                         <span className="input-group-addon custom">
@@ -470,9 +461,7 @@ export default class Dialog extends Component {
                             </span>
                             <input ref="re_codeInput" type="text" className="form-control" placeholder="验证码" />
                         </div>
-                        <div onClick={this.sendResetCode} className="send-codes">
-                            <span>发送验证码</span>
-                        </div>
+                        <VerifyCodeBtn onCodeSend={this.sendResetCode}/>
                     </div>
                     <div className="password input-group">
                         <span className="input-group-addon custom">

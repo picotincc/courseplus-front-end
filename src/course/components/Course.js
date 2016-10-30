@@ -17,8 +17,9 @@ export default class Course extends Component {
         this.handleTabClick = this.handleTabClick.bind(this);
         this.handleTopicChange = this.handleTopicChange.bind(this);
         this.handleTopicMove = this.handleTopicMove.bind(this);
-        this.handleAuthorResourceDownload = this.handleAuthorResourceDownload.bind(this);
         this.handleResourceDownload = this.handleResourceDownload.bind(this);
+        this.handleQuestionPublish = this.handleQuestionPublish.bind(this);
+        this.handleQuestionShow = this.handleQuestionShow.bind(this);
     }
 
     static defaultProps = {
@@ -48,14 +49,21 @@ export default class Course extends Component {
             const returnInfo = nextProps.returnInfo;
             const course = nextProps.course;
             const author = returnInfo.authorId ? course.authors.find(item => item.id === returnInfo.authorId) : course.authors[0];
-            const topic = course.topics[author.id][0];
             const expandedTopics = FormatUtil.expandTopics(course.topics);
+            const topic = expandedTopics.find(item => item.id === returnInfo.topicId);
             this.setState({
                 selectedContributor: author,
                 selectedTopic: topic,
                 expandedTopics: expandedTopics
             });
-            window.open(returnInfo.attatchmentUrl);
+            if (returnInfo.attachmentUrl)
+            {
+                window.open(returnInfo.attachmentUrl);
+            }
+            else
+            {
+                nextProps.onQuestionShow(author);
+            }
         }
         else
         {
@@ -150,35 +158,40 @@ export default class Course extends Component {
         }
     }
 
-    handleAuthorResourceDownload(resourceId, cost)
+    handleResourceDownload(resourceId, cost)
     {
         const courseId = this.props.course.id;
-        const authorId = this.state.selectedContributor.id;
+        const topicId = this.state.selectedTopic.id;
 
         ServiceClient.getInstance().getCharge({
             channel: "alipay_pc_direct",
             amount: cost,
             resourceId: resourceId,
-            courseId: courseId,
-            authorId: authorId
+            topicId: topicId
         }).then(res => {
-            console.log(res);
             pingpp.createPayment(res);
         });
     }
 
-    handleResourceDownload(resourceId, cost)
+    handleQuestionPublish(cost)
     {
-        const courseId = this.props.course.id;
+        const topicId = this.state.selectedTopic.id;
 
         ServiceClient.getInstance().getCharge({
             channel: "alipay_pc_direct",
             amount: cost,
-            resourceId: resourceId,
-            courseId: courseId
+            topicId: topicId
         }).then(res => {
             pingpp.createPayment(res);
         });
+    }
+
+    handleQuestionShow(author)
+    {
+        let question = {};
+        question.authorId = author.id;
+        question.topicId = this.state.selectedTopic.id;
+        this.props.onQuestionShow(question);
     }
 
     render()
@@ -233,7 +246,9 @@ export default class Course extends Component {
                         <Contributor
                             info={state.selectedContributor}
                             onCourseSelect={onCourseSelect}
-                            onResourceDownload={this.handleAuthorResourceDownload}
+                            onResourceDownload={this.handleResourceDownload}
+                            onQuestionPublish={this.handleQuestionPublish}
+                            onQuestionShow={this.handleQuestionShow}
                         />
                     </div>
                     <div className="topic">

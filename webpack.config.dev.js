@@ -12,12 +12,12 @@ module.exports = {
         user: [ "./user/index.js", "./user/resource/index.less" ],
         home: [ "./home/index.js", "./home/resource/index.less" ],
         course: [ "./course/index.js", "./course/resource/index.less" ],
-        pay: [ "./pay/index.js" ]
+        pay: [ "./pay/index.js", "./pay/index.less" ]
     },
 
     output: {
         path: path.resolve("./public/assets"),
-        publicPath: "/public/assets",
+        publicPath: "/assets",
         filename: "[name]/bundle.js"
     },
 
@@ -25,7 +25,7 @@ module.exports = {
         extensions: [ "", ".js", ".less" ]
     },
 
-    devtool: "source-map",
+    // devtool: "source-map",
 
     module: {
         loaders: [
@@ -66,21 +66,21 @@ module.exports = {
         new ExtractTextPlugin("./[name]/resource/bundle.css")
     ],
 
-    devServer: {
-        proxy: {
-            "/api/*": {
-                "target": {
-                  "host": "118.178.137.101",
-                  "protocol": 'http:',
-                  "port": 8000
-                },
-                ignorePath: false,
-                changeOrigin: true,
-                secure: false,
-                // headers: {
-                //     "Referer": "http://music.163.com"
-                // }
-            }
-        }
-    }
+    // devServer: {
+    //     proxy: {
+    //         "/api/*": {
+    //             "target": {
+    //               "host": "118.178.137.101",
+    //               "protocol": 'http:',
+    //               "port": 8000
+    //             },
+    //             ignorePath: false,
+    //             changeOrigin: true,
+    //             secure: false,
+    //             // headers: {
+    //             //     "Referer": "http://music.163.com"
+    //             // }
+    //         }
+    //     }
+    // }
 };

@@ -3,11 +3,10 @@ import React, { Component } from 'react';
 import Header from "../../base/components/Header";
 import ServiceClient from "../../base/service/ServiceClient";
 import WebStorageUtil from "../../base/util/WebStorageUtil";
+import { HOST } from "../../base/util/ConstantUtil";
 
 import ChangePasswordPanel from "./ChangePasswordPanel";
 import UserInfoPanel from "./UserInfoPanel";
-
-const HOST = "/public";
 
 export default class App extends Component {
 
@@ -84,7 +83,7 @@ export default class App extends Component {
                   text: "请先登录",
                   type: "error"
                 });
-                location.href = `${HOST}/home.html`;
+                location.href = `${HOST}/index.html`;
             }
         });
     }
@@ -116,9 +115,12 @@ export default class App extends Component {
                       text: res.message,
                       type: "success"
                     });
-                    this.setState({
-                        user
+                    ServiceClient.getInstance().getUserInfo(token).then(res => {
+                        this.setState({
+                            user: res
+                        });
                     });
+
                 }
                 else
                 {
@@ -188,6 +190,7 @@ export default class App extends Component {
     {
         const state = this.state;
         let sectionPanel = null;
+        console.log("app render", state.user);
         if (state.selectedTab === "info")
         {
             sectionPanel = (<UserInfoPanel

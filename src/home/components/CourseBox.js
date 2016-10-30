@@ -39,6 +39,10 @@ export default class CourseBox extends Component {
         {
             authors = courseInfo.authors.splice(0, 4);
         }
+        else
+        {
+            authors = courseInfo.authors;
+        }
         return (
             <div onClick={this.handleCourseClick} className="cp-home-course-box box">
                 <div className="course-img">

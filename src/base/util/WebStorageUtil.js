@@ -87,9 +87,9 @@ export default class WebStorageUtil
         _removeSessionStorage(KEY_RETURN_PAY);
     }
 
-    static setQuestionStorage(isQuestioned)
+    static setQuestionStorage(data)
     {
-        _setSessionStorage(KEY_RETURN_QA, isQuestioned);
+        _setSessionStorage(KEY_RETURN_QA, data);
     }
 
     static getQuestionStorage()
