@@ -1,3 +1,3 @@
-const HOST = "/public";
+const HOST = "";
 
 export {HOST};
