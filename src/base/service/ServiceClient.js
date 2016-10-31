@@ -1,7 +1,7 @@
 import WebStorageUtil from "../util/WebStorageUtil";
 
-// const CP_API_URL = "http://118.178.137.101:8000/api";
-const CP_API_URL = "/api";
+const CP_API_URL = "http://118.178.137.101:8000/api";
+// const CP_API_URL = "/api";
 
 export default class ServiceClient
 {
@@ -101,10 +101,19 @@ export default class ServiceClient
                 headers: {
                     "Authorization": "Basic " + btoa(token + ":")
                 },
+                timeout: 5000
             }).then((data, textStatus, jqXHR) => {
                 const res = Object.assign(data, {textStatus});
                 resolve(res);
             }, (jqXHR, textStatus, errorThrown) => {
+                if(textStatus=='timeout')
+                {
+                    console.log("timeout", jqXHR, errorThrown);
+                }
+                else
+                {
+                    console.log(jqXHR.responseJSON);
+                }
                 const res = {
                     statusCode: jqXHR.status,
                     textStatus,

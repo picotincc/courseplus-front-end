@@ -104,7 +104,7 @@ export default class Contributor extends Component {
                     },(isConfirm) => {
                         if (isConfirm)
                         {
-                            this.props.onQuestionPublish(author.resourceCost);
+                            this.props.onQuestionPublish(author.contactCost);
                         }
                     });
                 }
