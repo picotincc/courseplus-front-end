@@ -41,7 +41,9 @@ module.exports = {
             {
                 test: /\.(png|jpg)$/,
                 loader: 'url-loader?limit=8192'
-            }
+            },
+            { test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: "url-loader?limit=10000&minetype=application/font-woff" },
+            { test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: "file-loader" }
         ]
     },
 
@@ -66,21 +68,21 @@ module.exports = {
         new ExtractTextPlugin("./[name]/resource/bundle.css")
     ],
 
-    // devServer: {
-    //     proxy: {
-    //         "/api/*": {
-    //             "target": {
-    //               "host": "118.178.137.101",
-    //               "protocol": 'http:',
-    //               "port": 8000
-    //             },
-    //             ignorePath: false,
-    //             changeOrigin: true,
-    //             secure: false,
-    //             // headers: {
-    //             //     "Referer": "http://music.163.com"
-    //             // }
-    //         }
-    //     }
-    // }
+    devServer: {
+        proxy: {
+            "/api/*": {
+                "target": {
+                  "host": "118.178.137.101",
+                  "protocol": 'http:',
+                  "port": 8000
+                },
+                ignorePath: false,
+                changeOrigin: true,
+                secure: false,
+                // headers: {
+                //     "Referer": "http://music.163.com"
+                // }
+            }
+        }
+    }
 };

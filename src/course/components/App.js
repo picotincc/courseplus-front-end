@@ -43,6 +43,7 @@ export default class App extends Component {
         this.appContainer = this.refs["appContainer"];
         this.dialogContainer = this.refs["dialogContainer"];
         this.questionContainer = this.refs["questionContainer"];
+        this.loadCourseData();
         this.autoLogin();
     }
 
@@ -55,16 +56,15 @@ export default class App extends Component {
             {
                 isLogin = true;
                 WebStorageUtil.setToken(res.token);
-                this.loadCourseData(isLogin, res);
-            }
-            else
-            {
-                this.loadCourseData(isLogin);
+                this.setState({
+                    isLogin,
+                    user: res
+                });
             }
         });
     }
 
-    loadCourseData(isLogin, user = null)
+    loadCourseData()
     {
         let courseId = WebStorageUtil.getCourseStorage();
         const returnInfo = WebStorageUtil.getReturnPayStorage();
@@ -78,8 +78,6 @@ export default class App extends Component {
         }
         ServiceClient.getInstance().getCourseDetail(courseId).then(res => {
             this.setState({
-                isLogin,
-                user,
                 courseInfo: res,
                 returnPayInfo: info
             });
