@@ -46,7 +46,24 @@ export default class App extends Component {
     {
         this.appContainer = this.refs["appContainer"];
         this.dialogContainer = this.refs["dialogContainer"];
+        this.loadHomeData();
         this.autoLogin();
+    }
+
+    loadHomeData(isLogin, user = null)
+    {
+        ServiceClient.getInstance().getCourseSpeciality().then(data => {
+            const school = data["南京大学"];
+            const majors = school.specialities;
+            ServiceClient.getInstance().getCourseList(majors[0].id).then(courses => {
+                this.setState({
+                    selectedSchool :"南京大学",
+                    majors,
+                    selectedMajor: majors[0],
+                    content: courses
+                });
+            });
+        });
     }
 
     autoLogin()
@@ -58,40 +75,12 @@ export default class App extends Component {
             {
                 isLogin = true;
                 WebStorageUtil.setToken(res.token);
-                this.loadHomeData(isLogin, res);
-
-                // ServiceClient.getInstance().getCharge({
-                //     channel: "alipay_pc_direct",
-                //     amount: 1,
-                //     resourceId: 1,
-                //     courseId: 1
-                // }).then(res => {
-                //     console.log(res);
-                //     pingpp.createPayment(res);
-                // });
-            }
-            else
-            {
-                this.loadHomeData(isLogin);
-            }
-        });
-    }
-
-    loadHomeData(isLogin, user = null)
-    {
-        ServiceClient.getInstance().getCourseSpeciality().then(data => {
-            const school = data["南京大学"];
-            const majors = school.specialities;
-            ServiceClient.getInstance().getCourseList(majors[0].id).then(courses => {
                 this.setState({
                     isLogin,
-                    user,
-                    selectedSchool :"南京大学",
-                    majors,
-                    selectedMajor: majors[0],
-                    content: courses
+                    user: res
                 });
-            });
+            }
+
         });
     }
 
