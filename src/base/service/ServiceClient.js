@@ -1,7 +1,7 @@
 import WebStorageUtil from "../util/WebStorageUtil";
 
-const CP_API_URL = "http://118.178.137.101:8000/api";
-// const CP_API_URL = "/api";
+// const CP_API_URL = "http://118.178.137.101:8000/api";
+const CP_API_URL = "/api";
 
 export default class ServiceClient
 {
@@ -226,11 +226,20 @@ export default class ServiceClient
         return new Promise((resolve, reject) => {
             $.ajax({
                 url: `${CP_API_URL}/web/course/speciality`,
-                type: "GET"
+                type: "GET",
+                timeout: 5000,
+                cache: true
             }).then((data, textStatus, jqXHR) => {
                 resolve(data);
             }, (jqXHR, textStatus, errorThrown) => {
-                console.log(jqXHR.responseJSON);
+                if(textStatus=='timeout')
+                {
+                    console.log("timeout", jqXHR, errorThrown);
+                }
+                else
+                {
+                    console.log(jqXHR.responseJSON);
+                }
             });
         });
     }
@@ -246,11 +255,19 @@ export default class ServiceClient
                     page: 1,
                     limit: 100,
                     specialityId: id
-                }
+                },
+                cache: true,
+                timeout: 5000
             }).then((data, textStatus, jqXHR) => {
                 resolve(JSON.parse(data));
             }, (jqXHR, textStatus, errorThrown) => {
-                console.log(jqXHR.responseJSON);
+                if(textStatus=='timeout')
+                {
+                    console.log("timeout", jqXHR, errorThrown);
+                }
+                else{
+                    console.log(jqXHR.responseJSON);
+                }
             });
         });
     }
