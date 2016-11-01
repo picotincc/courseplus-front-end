@@ -67,7 +67,7 @@ export default class Course extends Component {
         }
         else
         {
-            if (!this.state.selectedContributor && nextProps)
+            if (!this.state.selectedContributor && nextProps.course)
             {
                 const course = nextProps.course;
                 const author = course.authors[0];
