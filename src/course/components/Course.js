@@ -62,7 +62,7 @@ export default class Course extends Component {
             }
             else
             {
-                nextProps.onQuestionShow(author);
+                nextProps.onQuestionShow(returnInfo);
             }
         }
         else

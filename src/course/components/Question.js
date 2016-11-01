@@ -62,6 +62,7 @@ export default class Question extends Component {
 
     handleQuestionSubmit()
     {
+        console.log(questionInfo);
         const content = this.questionContent.value;
         const email = this.emailInput.value;
         const authorId = this.props.questionInfo.authorId;

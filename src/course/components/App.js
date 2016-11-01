@@ -130,7 +130,8 @@ export default class App extends Component {
             ServiceClient.getInstance().getCourseDetail(courseId).then(res => {
                 this.setState({
                     courseInfo: res,
-                    returnPayInfo: null
+                    returnPayInfo: null,
+                    questionInfo: null
                 });
             });
         }
