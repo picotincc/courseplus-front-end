@@ -4,8 +4,43 @@ const gulp = require("gulp");
 const gutil = require("gulp-util");
 const open = require("gulp-open");
 const rimraf = require("rimraf");
+const rev = require("gulp-rev");
+const revReplace = require("gulp-rev-replace");
 const webpack = require("webpack");
 const WebpackDevServer = require("webpack-dev-server");
+
+
+gulp.task("revision", function(){
+  return gulp.src(["./public/assets/**/*.js", "./public/assets/**/*.css"])
+    .pipe(rev())
+    .pipe(gulp.dest("./output/assets"))
+    .pipe(rev.manifest())
+    .pipe(gulp.dest("./output"))
+});
+
+gulp.task("copy", cb => {
+    return gulp.src([
+        "./public/assets/*.woff2",
+        "./public/assets/*.woff",
+        "./public/assets/*.svg",
+        "./public/assets/*.ttf",
+        "./public/assets/*.eot"
+    ])
+    .pipe(gulp.dest("./output/assets"))
+});
+
+gulp.task("output-clean", cb => {
+    rimraf("./output", cb);
+});
+
+
+gulp.task("revreplace", ["output-clean", "copy", "revision"], function(){
+  const manifest = gulp.src("./output/rev-manifest.json");
+
+  return gulp.src("./public/*.html")
+    .pipe(revReplace({manifest: manifest}))
+    .pipe(gulp.dest("./output"));
+});
 
 
 gulp.task("clean", cb => {
