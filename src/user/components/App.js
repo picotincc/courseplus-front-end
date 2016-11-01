@@ -115,10 +115,9 @@ export default class App extends Component {
                       text: res.message,
                       type: "success"
                     });
-                    ServiceClient.getInstance().getUserInfo(token).then(res => {
-                        this.setState({
-                            user: res
-                        });
+                    console.log("updateUserInfo",res);
+                    this.setState({
+                        user: res
                     });
 
                 }
