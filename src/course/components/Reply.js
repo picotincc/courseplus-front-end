@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 
+import { DEFAULT_AVATOR } from "../../base/util/ConstantUtil";
+
 export default class Reply extends Component {
 
     constructor (props) {
@@ -39,12 +41,11 @@ export default class Reply extends Component {
     render()
     {
         const reply = this.props.reply;
-        let authorIcon = "http://uupaper.oss-cn-qingdao.aliyuncs.com/9c5b17a57bbf9c3279f9e2faf3b3e118.jpeg";
 
         return (
             <div className="cp-course-reply">
                 <div className="replyer-img">
-                    <img src={reply.authorIcon ? reply.authorIcon : authorIcon} />
+                    <img src={reply.authorIcon ? reply.authorIcon : DEFAULT_AVATOR} />
                 </div>
                 <div className="right-section">
                     <div className="name">{reply.authorName}</div>

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 import WebStorageUtil from "../util/WebStorageUtil";
-import { HOST } from "../util/ConstantUtil";
+import { HOST, DEFAULT_AVATOR } from "../util/ConstantUtil";
 
 
 export default class Header extends Component {
@@ -81,15 +81,10 @@ export default class Header extends Component {
         let loginInfo = null;
         if (this.props.isLogin) {
             const user = this.props.user;
-            let userImg = "http://i1.piimg.com/573251/970594a863d7aeb9.png";
-            if (user.icon !== "" && user.icon)
-            {
-                userImg = user.icon;
-            }
             loginInfo = (
                 <div className="user-info" ref="userInfo">
                     <div className="user-img">
-                        <img src={userImg} />
+                        <img src={user.icon ? user.icon : DEFAULT_AVATOR} />
                     </div>
                     <span className="user-name">{user.nickname}</span>
                     <ul ref="userDropdown" className="user-dropdown">
