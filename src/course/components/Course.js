@@ -71,7 +71,7 @@ export default class Course extends Component {
             {
                 const course = nextProps.course;
                 const author = course.authors[0];
-                const topic = course.topics[author.id][0];
+                const topic = author ? course.topics[author.id][0] : {};
                 const expandedTopics = FormatUtil.expandTopics(course.topics);
                 this.setState({
                     selectedContributor: author,
@@ -84,7 +84,7 @@ export default class Course extends Component {
             {
                 const course = nextProps.course;
                 const author = this.state.selectedContributor;
-                const topic = course.topics[author.id][0];
+                const topic = author ? course.topics[author.id][0] : {};
                 const expandedTopics = FormatUtil.expandTopics(course.topics);
                 this.setState({
                     selectedContributor: author,
