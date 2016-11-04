@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 
 import FormatUtil from "../../base/util/FormatUtil";
 import ServiceClient from "../../base/service/ServiceClient";
+import { ORDER_TYPE, PAY_CHANNEL } from "../../base/util/ConstantUtil";
 
 import Contributor from "./Contributor";
 import CourseInfo from "./CourseInfo";
@@ -174,7 +175,8 @@ export default class Course extends Component {
         const topicId = this.state.selectedTopic.id;
 
         ServiceClient.getInstance().getCharge({
-            channel: "alipay_pc_direct",
+            type: ORDER_TYPE.RESOURCE,
+            channel: PAY_CHANNEL.ALIPAY,
             amount: cost,
             resourceId: resourceId,
             topicId: topicId
@@ -188,7 +190,8 @@ export default class Course extends Component {
         const topicId = this.state.selectedTopic.id;
 
         ServiceClient.getInstance().getCharge({
-            channel: "alipay_pc_direct",
+            type: ORDER_TYPE.QUESTION,
+            channel: PAY_CHANNEL.ALIPAY,
             amount: cost,
             topicId: topicId
         }).then(res => {
