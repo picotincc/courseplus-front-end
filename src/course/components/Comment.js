@@ -58,7 +58,7 @@ export default class Comment extends Component {
 
     updateReplyInput(replyName)
     {
-        this.replyInput.value = "回复 " + replyName + ":";
+        this.replyInput.value = "回复 " + replyName + " : ";
     }
 
     showReply()
@@ -67,7 +67,7 @@ export default class Comment extends Component {
         const replyList = this.state.replyList;
         const {rootComment, topic} = this.props;
         if (this.state.isExpanded) {
-            btnShowReply.innerHTML = "回复 " + replyList.length;
+            btnShowReply.innerHTML = "回复 " + (replyList.length > 0 ? replyList.length : "");
             this.setState({
                 isExpanded: false
             });
