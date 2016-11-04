@@ -66,6 +66,29 @@ export default class FormatUtil
         const reEmail = /^(?:\w+\.?)*\w+@(?:\w+\.)+\w+$/;
         return reEmail.test(sText);
     }
+
+    static isValidImage(file)
+    {
+        if(typeof FileReader != 'undefined')
+        {
+             if((file.type).indexOf("image/")==-1)
+             {
+                 return false;
+             }
+        }
+        else
+        {
+            var fileName=file.name;
+            var suffixIndex=fileName.lastIndexOf(".");
+            var suffix=fileName.substring(suffixIndex+1).toUpperCase();
+            if(suffix!="BMP"&&suffix!="JPG"&&suffix!="JPEG"&&suffix!="PNG"&&suffix!="GIF")
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
 }
 
 //判断是否为纯数字

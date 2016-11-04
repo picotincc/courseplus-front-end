@@ -16,7 +16,7 @@
 
     > .school-dropdown
     {
-        flex: 0 0 128px;
+        flex: 0 0 auto;
         height: 100%;
 
         > .btn-school
@@ -25,10 +25,31 @@
             width: 100%;
             font-size: @font-size-base;
             color: @text-color;
+            padding-left: 16px;
 
             > span
             {
                 margin-left: 10px;
+            }
+        }
+
+        > ul
+        {
+            width: 100%;
+            max-height: 168px;
+            overflow: auto;
+
+            > li > a
+            {
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                cursor: pointer;
+
+                &:hover
+                {
+                    white-space: normal;
+                }
             }
         }
     }
@@ -43,7 +64,7 @@
 
     > .major-dropdown
     {
-        flex: 0 0 128px;
+        flex: 0 0 auto;
         height: 100%;
 
         > .btn-major
@@ -52,10 +73,31 @@
             width: 100%;
             font-size: @font-size-base;
             color: @text-color;
+            padding-left: 16px;
 
             > span
             {
                 margin-left: 10px;
+            }
+        }
+
+        > ul
+        {
+            width: 100%;
+            max-height: 168px;
+            overflow: auto;
+
+            > li > a
+            {
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                cursor: pointer;
+
+                &:hover
+                {
+                    white-space: normal;
+                }
             }
         }
     }

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import ReactQiniu from "react-qiniu";
 
 import ServiceClient from "../../base/service/ServiceClient";
+import FormatUtil from "../../base/util/FormatUtil";
 
 export default class UserInfoPanel extends Component {
 
@@ -64,7 +65,7 @@ export default class UserInfoPanel extends Component {
     {
         if (nextProps.user)
         {
-            const uploadKey = "user_avatar_" + nextProps.user.id;
+            const uploadKey = "user_avatar_" + nextProps.user.id + "_" + Date.now();
             ServiceClient.getInstance().getFileToken(uploadKey).then(res => {
                 if (res.code === 0)
                 {
@@ -109,10 +110,11 @@ export default class UserInfoPanel extends Component {
         const gender = this.genderInput.value;
         const nickname = this.nicknameInput.value;
         const files = this.state.files;
+        const self = this;
         if (files.length > 0)
         {
             files[0].request.promise().then(res => {
-                this.props.onUserUpdate({
+                self.props.onUserUpdate({
                     gender,
                     nickname,
                     avatar: res.body.key
@@ -131,22 +133,40 @@ export default class UserInfoPanel extends Component {
 
     onUpload(files)
     {
-        //上传过程中的交互方法
-        // files.map(function (f) {
-        //     f.onprogress = function(e) {
-        //         // console.log(e.percent);
-        //     };
-        // });
+        files[0].onprogress = function(e) {
+
+                console.log(e.percent);
+
+        };
     }
 
     onDrop(files)
     {
-        let newFiles = [files[0]];
-
+        let newFiles = [];
+        if (!FormatUtil.isValidImage(files[0]))
+        {
+            swal({
+                title: "Something wrong!",
+                type: "error",
+                text: "请上传正确格式的图片"
+            });
+        }
+        else if (files[0].size > 2000000)
+        {
+            swal({
+                title: "Something wrong!",
+                type: "error",
+                text: "上传的图片请不要超过2MB"
+            });
+        }
+        else
+        {
+            this.imgPreview.src = files[0].preview;
+            newFiles.push(files[0]);
+        }
         this.setState({
             files: newFiles
         });
-        this.imgPreview.src = files[0].preview;
     }
 
     render()

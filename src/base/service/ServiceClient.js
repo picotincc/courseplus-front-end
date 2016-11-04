@@ -115,7 +115,7 @@ export default class ServiceClient
                     console.log(jqXHR.responseJSON);
                 }
                 const res = {
-                    statusCode: jqXHR.status,
+                    status: jqXHR.status,
                     textStatus,
                 }
                 resolve(res);
@@ -133,7 +133,15 @@ export default class ServiceClient
                 const res = Object.assign(data, {textStatus});
                 resolve(res);
             }, (jqXHR, textStatus, errorThrown) => {
-                const res = Object.assign(jqXHR.responseJSON, {textStatus});
+                let res = null;
+                if (jqXHR.status === 500)
+                {
+                    res={textStatus, message: "服务器500错误"}
+                }
+                else
+                {
+                    res = Object.assign(jqXHR.responseJSON, {textStatus});
+                }
                 resolve(res);
             });
         });
@@ -152,7 +160,15 @@ export default class ServiceClient
                 const res = Object.assign(data, {textStatus});
                 resolve(res);
             }, (jqXHR, textStatus, errorThrown) => {
-                const res = Object.assign(jqXHR.responseJSON, {textStatus});
+                let res = null;
+                if (jqXHR.status === 500)
+                {
+                    res={textStatus, message: "服务器500错误"}
+                }
+                else
+                {
+                    res = Object.assign(jqXHR.responseJSON, {textStatus});
+                }
                 resolve(res);
             });
         });
@@ -176,7 +192,15 @@ export default class ServiceClient
                 WebStorageUtil.setToken(res.token);
                 resolve(res);
             }, (jqXHR, textStatus, errorThrown) => {
-                const res = Object.assign(jqXHR.responseJSON, {textStatus});
+                let res = null;
+                if (jqXHR.status === 500)
+                {
+                    res={textStatus, message: "服务器500错误"}
+                }
+                else
+                {
+                    res = Object.assign(jqXHR.responseJSON, {textStatus});
+                }
                 resolve(res);
             });
         });
@@ -200,7 +224,15 @@ export default class ServiceClient
                 WebStorageUtil.setToken(res.token);
                 resolve(res);
             }, (jqXHR, textStatus, errorThrown) => {
-                const res = Object.assign(jqXHR.responseJSON, {textStatus});
+                let res = null;
+                if (jqXHR.status === 500)
+                {
+                    res={textStatus, message: "服务器500错误"}
+                }
+                else
+                {
+                    res = Object.assign(jqXHR.responseJSON, {textStatus});
+                }
                 resolve(res);
             });
         });
@@ -223,7 +255,15 @@ export default class ServiceClient
                 WebStorageUtil.setToken(res.token);
                 resolve(res);
             }, (jqXHR, textStatus, errorThrown) => {
-                const res = Object.assign(jqXHR.responseJSON, {textStatus});
+                let res = null;
+                if (jqXHR.status === 500)
+                {
+                    res={textStatus, message: "服务器500错误"}
+                }
+                else
+                {
+                    res = Object.assign(jqXHR.responseJSON, {textStatus});
+                }
                 resolve(res);
             });
         });
@@ -413,7 +453,16 @@ export default class ServiceClient
                                 const res = Object.assign(data, {textStatus});
                                 resolve(res);
                             }, (jqXHR, textStatus, errorThrown) => {
-                                resolve(Object.assign(jqXHR.responseJSON, {textStatus}));
+                                let res = null;
+                                if (jqXHR.status === 500)
+                                {
+                                    res={textStatus, message: "服务器500错误"}
+                                }
+                                else
+                                {
+                                    res = Object.assign(jqXHR.responseJSON, {textStatus});
+                                }
+                                resolve(res);
                             });
                         }
                         else
@@ -424,7 +473,16 @@ export default class ServiceClient
                 }
                 else
                 {
-                    resolve(Object.assign(jqXHR.responseJSON, {textStatus}));
+                    let res = null;
+                    if (jqXHR.status === 500)
+                    {
+                        res={textStatus, message: "服务器500错误"}
+                    }
+                    else
+                    {
+                        res = Object.assign(jqXHR.responseJSON, {textStatus});
+                    }
+                    resolve(res);
                 }
             });
         });
@@ -468,7 +526,16 @@ export default class ServiceClient
                                 const res = Object.assign(data, {textStatus});
                                 resolve(res);
                             }, (jqXHR, textStatus, errorThrown) => {
-                                resolve(Object.assign(jqXHR.responseJSON, {textStatus}));
+                                let res = null;
+                                if (jqXHR.status === 500)
+                                {
+                                    res={textStatus, message: "服务器500错误"}
+                                }
+                                else
+                                {
+                                    res = Object.assign(jqXHR.responseJSON, {textStatus});
+                                }
+                                resolve(res);
                             });
                         }
                         else
@@ -479,7 +546,16 @@ export default class ServiceClient
                 }
                 else
                 {
-                    resolve(Object.assign(jqXHR.responseJSON, {textStatus}));
+                    let res = null;
+                    if (jqXHR.status === 500)
+                    {
+                        res={textStatus, message: "服务器500错误"}
+                    }
+                    else
+                    {
+                        res = Object.assign(jqXHR.responseJSON, {textStatus});
+                    }
+                    resolve(res);
                 }
             });
         });
@@ -523,7 +599,16 @@ export default class ServiceClient
                                 const res = Object.assign(data, {textStatus});
                                 resolve(res);
                             }, (jqXHR, textStatus, errorThrown) => {
-                                resolve(Object.assign(jqXHR.responseJSON, {textStatus}));
+                                let res = null;
+                                if (jqXHR.status === 500)
+                                {
+                                    res={textStatus, message: "服务器500错误"}
+                                }
+                                else
+                                {
+                                    res = Object.assign(jqXHR.responseJSON, {textStatus});
+                                }
+                                resolve(res);
                             });
                         }
                         else
@@ -577,7 +662,16 @@ export default class ServiceClient
                                 const res = Object.assign(data, {textStatus});
                                 resolve(res);
                             },(jqXHR, textStatus, errorThrown) => {
-                                resolve(Object.assign(jqXHR.responseJSON, {textStatus}));
+                                let res = null;
+                                if (jqXHR.status === 500)
+                                {
+                                    res={textStatus, message: "服务器500错误"}
+                                }
+                                else
+                                {
+                                    res = Object.assign(jqXHR.responseJSON, {textStatus});
+                                }
+                                resolve(res);
                             });
                         }
                         else
@@ -588,7 +682,16 @@ export default class ServiceClient
                 }
                 else
                 {
-                    resolve(Object.assign(jqXHR.responseJSON, {textStatus}));
+                    let res = null;
+                    if (jqXHR.status === 500)
+                    {
+                        res={textStatus, message: "服务器500错误"}
+                    }
+                    else
+                    {
+                        res = Object.assign(jqXHR.responseJSON, {textStatus});
+                    }
+                    resolve(res);
                 }
             });
         });
@@ -668,7 +771,16 @@ export default class ServiceClient
                                 const res = Object.assign(data, {textStatus});
                                 resolve(res);
                             },(jqXHR, textStatus, errorThrown) => {
-                                resolve(Object.assign(jqXHR.responseJSON, {textStatus}));
+                                let res = null;
+                                if (jqXHR.status === 500)
+                                {
+                                    res={textStatus, message: "服务器500错误"}
+                                }
+                                else
+                                {
+                                    res = Object.assign(jqXHR.responseJSON, {textStatus});
+                                }
+                                resolve(res);
                             });
                         }
                         else
@@ -679,7 +791,16 @@ export default class ServiceClient
                 }
                 else
                 {
-                    resolve(Object.assign(jqXHR.responseJSON, {textStatus}));
+                    let res = null;
+                    if (jqXHR.status === 500)
+                    {
+                        res={textStatus, message: "服务器500错误"}
+                    }
+                    else
+                    {
+                        res = Object.assign(jqXHR.responseJSON, {textStatus});
+                    }
+                    resolve(res);
                 }
             });
         });
@@ -723,7 +844,16 @@ export default class ServiceClient
                                 const res = Object.assign(data, {textStatus});
                                 resolve(res);
                             },(jqXHR, textStatus, errorThrown) => {
-                                resolve(Object.assign(jqXHR.responseJSON, {textStatus}));
+                                let res = null;
+                                if (jqXHR.status === 500)
+                                {
+                                    res={textStatus, message: "服务器500错误"}
+                                }
+                                else
+                                {
+                                    res = Object.assign(jqXHR.responseJSON, {textStatus});
+                                }
+                                resolve(res);
                             });
                         }
                         else
@@ -734,7 +864,16 @@ export default class ServiceClient
                 }
                 else
                 {
-                    resolve(Object.assign(jqXHR.responseJSON, {textStatus}));
+                    let res = null;
+                    if (jqXHR.status === 500)
+                    {
+                        res={textStatus, message: "服务器500错误"}
+                    }
+                    else
+                    {
+                        res = Object.assign(jqXHR.responseJSON, {textStatus});
+                    }
+                    resolve(res);
                 }
             });
         });
@@ -778,7 +917,16 @@ export default class ServiceClient
                                 const res = Object.assign(data, {textStatus});
                                 resolve(res);
                             },(jqXHR, textStatus, errorThrown) => {
-                                resolve(Object.assign(jqXHR.responseJSON, {textStatus}));
+                                let res = null;
+                                if (jqXHR.status === 500)
+                                {
+                                    res={textStatus, message: "服务器500错误"}
+                                }
+                                else
+                                {
+                                    res = Object.assign(jqXHR.responseJSON, {textStatus});
+                                }
+                                resolve(res);
                             });
                         }
                         else
@@ -789,7 +937,16 @@ export default class ServiceClient
                 }
                 else
                 {
-                    resolve(Object.assign(jqXHR.responseJSON, {textStatus}));
+                    let res = null;
+                    if (jqXHR.status === 500)
+                    {
+                        res={textStatus, message: "服务器500错误"}
+                    }
+                    else
+                    {
+                        res = Object.assign(jqXHR.responseJSON, {textStatus});
+                    }
+                    resolve(res);
                 }
             });
         });
@@ -833,7 +990,16 @@ export default class ServiceClient
                                 const res = Object.assign(data, {textStatus});
                                 resolve(res);
                             },(jqXHR, textStatus, errorThrown) => {
-                                resolve(Object.assign(jqXHR.responseJSON, {textStatus}));
+                                let res = null;
+                                if (jqXHR.status === 500)
+                                {
+                                    res={textStatus, message: "服务器500错误"}
+                                }
+                                else
+                                {
+                                    res = Object.assign(jqXHR.responseJSON, {textStatus});
+                                }
+                                resolve(res);
                             });
                         }
                         else
@@ -844,7 +1010,16 @@ export default class ServiceClient
                 }
                 else
                 {
-                    resolve(Object.assign(jqXHR.responseJSON, {textStatus}));
+                    let res = null;
+                    if (jqXHR.status === 500)
+                    {
+                        res={textStatus, message: "服务器500错误"}
+                    }
+                    else
+                    {
+                        res = Object.assign(jqXHR.responseJSON, {textStatus});
+                    }
+                    resolve(res);
                 }
             });
         });
@@ -886,7 +1061,16 @@ export default class ServiceClient
                                 const res = Object.assign(data, {textStatus});
                                 resolve(res);
                             },(jqXHR, textStatus, errorThrown) => {
-                                resolve(Object.assign(jqXHR.responseJSON, {textStatus}));
+                                let res = null;
+                                if (jqXHR.status === 500)
+                                {
+                                    res={textStatus, message: "服务器500错误"}
+                                }
+                                else
+                                {
+                                    res = Object.assign(jqXHR.responseJSON, {textStatus});
+                                }
+                                resolve(res);
                             });
                         }
                         else
@@ -897,7 +1081,16 @@ export default class ServiceClient
                 }
                 else
                 {
-                    resolve(Object.assign(jqXHR.responseJSON, {textStatus}));
+                    let res = null;
+                    if (jqXHR.status === 500)
+                    {
+                        res={textStatus, message: "服务器500错误"}
+                    }
+                    else
+                    {
+                        res = Object.assign(jqXHR.responseJSON, {textStatus});
+                    }
+                    resolve(res);
                 }
             });
         });
@@ -938,7 +1131,16 @@ export default class ServiceClient
                                 const res = Object.assign(data, {textStatus});
                                 resolve(res);
                             },(jqXHR, textStatus, errorThrown) => {
-                                resolve(Object.assign(jqXHR.responseJSON, {textStatus}));
+                                let res = null;
+                                if (jqXHR.status === 500)
+                                {
+                                    res={textStatus, message: "服务器500错误"}
+                                }
+                                else
+                                {
+                                    res = Object.assign(jqXHR.responseJSON, {textStatus});
+                                }
+                                resolve(res);
                             });
                         }
                         else
@@ -949,7 +1151,16 @@ export default class ServiceClient
                 }
                 else
                 {
-                    resolve(Object.assign(jqXHR.responseJSON, {textStatus}));
+                    let res = null;
+                    if (jqXHR.status === 500)
+                    {
+                        res={textStatus, message: "服务器500错误"}
+                    }
+                    else
+                    {
+                        res = Object.assign(jqXHR.responseJSON, {textStatus});
+                    }
+                    resolve(res);
                 }
             });
         });
@@ -968,7 +1179,16 @@ export default class ServiceClient
             }).then((data, textStatus, jqXHR) => {
                 resolve(data);
             }, (jqXHR, textStatus, errorThrown) => {
-                console.log(jqXHR.responseJSON);
+                let res = null;
+                if (jqXHR.status === 500)
+                {
+                    res={textStatus, message: "服务器500错误"}
+                }
+                else
+                {
+                    res = Object.assign(jqXHR.responseJSON, {textStatus});
+                }
+                resolve(res);
             });
         });
     }

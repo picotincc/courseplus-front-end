@@ -25,7 +25,7 @@ module.exports = {
         extensions: [ "", ".js", ".less" ]
     },
 
-    // devtool: "source-map",
+    devtool: "source-map",
 
     module: {
         loaders: [
@@ -70,7 +70,7 @@ module.exports = {
 
     devServer: {
         proxy: {
-            "/api/*": {
+            "http://118.178.137.101:8000/api/*": {
                 "target": {
                   "host": "118.178.137.101",
                   "protocol": 'http:',
@@ -79,9 +79,6 @@ module.exports = {
                 ignorePath: false,
                 changeOrigin: true,
                 secure: false,
-                // headers: {
-                //     "Referer": "http://music.163.com"
-                // }
             }
         }
     }

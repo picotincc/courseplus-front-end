@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 
+import { DEFAULT_AVATOR } from "../../base/util/ConstantUtil";
 import FormatUtil from "../../base/util/FormatUtil";
 import ServiceClient from "../../base/service/ServiceClient";
 import WebStorageUtil from "../../base/util/WebStorageUtil";
@@ -39,11 +40,10 @@ export default class Comment extends Component {
     componentDidMount()
     {
         this.replyInput = this.refs["replyInput"];
-    }
+        this.replySection = this.refs["replySection"];
 
-    componentWillReceiveProps(nextProps)
-    {
-
+        $(this.replySection).on('hidden.bs.collapse', this.showReply);
+        $(this.replySection).on('shown.bs.collapse', this.showReply);
     }
 
     replyInput_onfocus(e)
@@ -58,7 +58,7 @@ export default class Comment extends Component {
 
     updateReplyInput(replyName)
     {
-        this.replyInput.value = "回复 " + replyName + ":";
+        this.replyInput.value = "回复 " + replyName + " : ";
     }
 
     showReply()
@@ -67,7 +67,7 @@ export default class Comment extends Component {
         const replyList = this.state.replyList;
         const {rootComment, topic} = this.props;
         if (this.state.isExpanded) {
-            btnShowReply.innerHTML = "回复 " + replyList.length;
+            btnShowReply.innerHTML = "回复 " + (replyList.length > 0 ? replyList.length : "");
             this.setState({
                 isExpanded: false
             });
@@ -151,13 +151,11 @@ export default class Comment extends Component {
     {
         const rootComment = this.props.rootComment;
         const replyList = this.state.replyList;
-        let authorIcon1 = "http://blog.bzxxg.cn/wp-content/uploads/2013/07/guest.png";
-        let authorIcon2 = "https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcSeiPB1slh_EwpLQzoRaYX7duYX4vVvPDqhVX2MReSVucJhUtEAo3s-UA";
         return (
             <div className="cp-course-comment">
                 <div className="root-comment">
                     <div className="commenter-img">
-                        <img src={rootComment.authorIcon ? rootComment.authorIcon : authorIcon2} />
+                        <img src={rootComment.authorIcon ? rootComment.authorIcon : DEFAULT_AVATOR} />
                     </div>
                     <div className="right-section">
                         <div className="name">{rootComment.authorName}</div>
@@ -167,7 +165,6 @@ export default class Comment extends Component {
                             <a ref="btnShowReply"
                                href={'#comment' + rootComment.id}
                                data-toggle="collapse"
-                               onMouseDown={this.showReply}
                                className="show-reply"
                              >回复&nbsp;{rootComment.replyCount > 0 ? rootComment.replyCount : ""}</a>
                         </div>

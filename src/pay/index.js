@@ -10,6 +10,21 @@ const btnFail = document.getElementById("fail");
 const close = document.getElementById("close");
 const submit = document.getElementById("submit");
 const content = document.getElementById("content");
+const wordCount = document.getElementById("wordCount");
+
+content.onkeydown = (e) => {
+    if(e.keyCode !== 8 && e.target.value.length >= 200)
+    {
+        event.returnValue = false;
+    }
+};
+
+content.oninput = (e) => {
+    const length = e.target.value.length;
+    let count = 200 - length;
+    wordCount.textContent = count;
+};
+
 btnFail.onclick = () => {
     mainContainer.classList.add("app-blur");
     fdContainer.style.zIndex = 20;

@@ -74,6 +74,7 @@ export default class App extends Component {
         {
             courseId = returnInfo.courseId;
             info = returnInfo;
+            WebStorageUtil.setCourseStorage(courseId);
             WebStorageUtil.removeReturnPayStorage();
         }
         ServiceClient.getInstance().getCourseDetail(courseId).then(res => {
@@ -130,7 +131,8 @@ export default class App extends Component {
             ServiceClient.getInstance().getCourseDetail(courseId).then(res => {
                 this.setState({
                     courseInfo: res,
-                    returnPayInfo: null
+                    returnPayInfo: null,
+                    questionInfo: null
                 });
             });
         }
