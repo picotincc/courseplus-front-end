@@ -173,7 +173,6 @@ export default class Course extends Component {
     {
         const courseId = this.props.course.id;
         const topicId = this.state.selectedTopic.id;
-
         ServiceClient.getInstance().getCharge({
             type: ORDER_TYPE.RESOURCE,
             channel: PAY_CHANNEL.ALIPAY,
