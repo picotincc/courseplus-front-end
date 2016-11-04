@@ -142,7 +142,7 @@ export default class Contributor extends Component {
                 </div>
                 <div onClick={this.handleQuestionPublish} className="contact">
                     <span className="icon iconfont icon-message"></span>
-                    大神直通车
+                    联系大神
                 </div>
                 <div onClick={this.handleResourceDownload} className="resource">
                     <span className="icon iconfont icon-download"></span>
