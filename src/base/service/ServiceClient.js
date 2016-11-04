@@ -343,15 +343,34 @@ export default class ServiceClient
     getCourseDetail(courseId)
     {
         const id = courseId.toString();
-
-        return new Promise((resolve, reject) => {
-            $.ajax({
+        const token = WebStorageUtil.getToken();
+        let paras = null;
+        if (token)
+        {
+            paras = {
+                url: `${CP_API_URL}/web/course/courseDetail`,
+                type: "GET",
+                contentType: "application/json",
+                headers: {
+                    "Authorization": "Basic " + btoa(token + ":")
+                },
+                data: {
+                    id
+                }
+            }
+        }
+        else
+        {
+            paras = {
                 url: `${CP_API_URL}/web/course/courseDetail`,
                 type: "GET",
                 data: {
                     id
                 }
-            }).then((data, textStatus, jqXHR) => {
+            }
+        }
+        return new Promise((resolve, reject) => {
+            $.ajax(paras).then((data, textStatus, jqXHR) => {
                 resolve(data);
             }, (jqXHR, textStatus, errorThrown) => {
                 console.log(jqXHR.responseJSON);
@@ -362,14 +381,34 @@ export default class ServiceClient
     getTopicDetail(topicId)
     {
         const id = topicId.toString();
-        return new Promise((resolve, reject) => {
-            $.ajax({
+        const token = WebStorageUtil.getToken();
+        let paras = null;
+        if (token)
+        {
+            paras = {
+                url: `${CP_API_URL}/web/course/topicDetail`,
+                type: "GET",
+                contentType: "application/json",
+                headers: {
+                    "Authorization": "Basic " + btoa(token + ":")
+                },
+                data: {
+                    id
+                }
+            }
+        }
+        else
+        {
+            paras = {
                 url: `${CP_API_URL}/web/course/topicDetail`,
                 type: "GET",
                 data: {
                     id
                 }
-            }).then((data, textStatus, jqXHR) => {
+            }
+        }
+        return new Promise((resolve, reject) => {
+            $.ajax(paras).then((data, textStatus, jqXHR) => {
                 resolve(data);
             }, (jqXHR, textStatus, errorThrown) => {
                 console.log(jqXHR.responseJSON);
