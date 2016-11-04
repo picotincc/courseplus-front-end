@@ -1,7 +1,7 @@
 import WebStorageUtil from "../util/WebStorageUtil";
 
-// const CP_API_URL = "http://118.178.137.101:8000/api";
-const CP_API_URL = "/api";
+const CP_API_URL = "http://118.178.137.101:8000/api";
+// const CP_API_URL = "/api";
 
 export default class ServiceClient
 {
