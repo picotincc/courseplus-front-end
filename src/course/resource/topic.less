@@ -5,16 +5,85 @@
     background: #FFFFFF;
     border-radius: 5px;
     padding: 15px 15px;
+    position: relative;
+
 
     display: flex;
     flex-direction: column;
 
     > .knowledge-content
     {
-        flex: 1 0 auto;
-        overflow-y: auto;
-        height: 835px;
+        flex: 0 0 835px;
+
+
+        > .content
+        {
+            height: 835px;
+            overflow-y: auto;
+        }
+
+        > .content-pay
+        {
+            height: 785px;
+            overflow-y: auto;
+        }
+
+        > .pay-course-btns
+        {
+            width: 100%;
+            height: auto;
+
+            > .bar
+            {
+                display: flex;
+                padding: 10px 10px;
+                justify-content: center;
+                align-items: center;
+                background: white;
+
+                > .pay-this
+                {
+                    background: #038574;
+                    padding: 6px 12px;
+                    border: 1px solid #FFFFFF;
+                    border-radius: 5px;
+                    font-size: 18px;
+                    color: #FFFFFF;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    cursor: pointer;
+                    margin-right: 20px;
+
+                    > .icon
+                    {
+                        margin-right: 8px;
+                    }
+                }
+
+                > .pay-all
+                {
+                    background: @cp-light-green;
+                    padding: 6px 12px;
+                    border: 1px solid #FFFFFF;
+                    border-radius: 5px;
+                    font-size: 18px;
+                    color: #FFFFFF;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    cursor: pointer;
+
+                    > .icon
+                    {
+                        margin-right: 8px;
+                    }
+                }
+            }
+        }
     }
+
+
 
     > .bottom-controls
     {

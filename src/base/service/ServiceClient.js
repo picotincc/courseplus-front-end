@@ -343,6 +343,7 @@ export default class ServiceClient
     getCourseDetail(courseId)
     {
         const id = courseId.toString();
+
         return new Promise((resolve, reject) => {
             $.ajax({
                 url: `${CP_API_URL}/web/course/courseDetail`,
@@ -730,17 +731,7 @@ export default class ServiceClient
     getCharge(data)
     {
         const token = WebStorageUtil.getToken();
-        let tempData = {
-             channel: data.channel,
-             amount: data.amount,
-             topicId: data.topicId
-        };
-        if (data.resourceId)
-        {
-            tempData.resourceId = data.resourceId;
-        }
-
-        const sendData = JSON.stringify(tempData);
+        const sendData = JSON.stringify(data);
         return new Promise((resolve, reject) => {
             $.ajax({
                 type: "POST",

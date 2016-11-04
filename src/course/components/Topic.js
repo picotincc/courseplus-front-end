@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import ServiceClient from "../../base/service/ServiceClient";
 
-export default class Knowledge extends Component {
+export default class Topic extends Component {
 
     constructor (props) {
         super(props);
@@ -20,7 +20,7 @@ export default class Knowledge extends Component {
     }
 
     state = {
-        topicContent: ""
+        topic: null
     }
 
     componentWillReceiveProps(nextProps)
@@ -30,7 +30,7 @@ export default class Knowledge extends Component {
             const id = nextProps.selectedTopic.id;
             ServiceClient.getInstance().getTopicDetail(id).then(res => {
                 this.setState({
-                    topicContent: res.content
+                    topic: res
                 });
             });
         }
@@ -53,13 +53,42 @@ export default class Knowledge extends Component {
     render()
     {
         const {topics, selectedTopic} = this.props;
-        const content = this.state.topicContent;
-        return (
-            <div className="cp-course-topic">
+        let topic = this.state.topic;
+        topic = topic ? topic : {};
+        let content = null;
+        if (topic &&　topic.type === 2)
+        {
+            content = (
                 <div className="knowledge-content">
-                    <div dangerouslySetInnerHTML={{__html: content}}>
+                    <div className="content-pay" dangerouslySetInnerHTML={{__html: topic.content}}>
+                    </div>
+                    <div className="pay-course-btns">
+                        <div className="bar">
+                            <div className="pay-this">
+                                <span className="icon iconfont icon-people"></span>
+                                {topic.inviteCode ? "报名信息" : "课程报名"}
+                            </div>
+                            <div className="pay-all">
+                                <span className="icon iconfont icon-gouwuche"></span>
+                                购买他的全部课时
+                            </div>
+                        </div>
                     </div>
                 </div>
+            );
+        }
+        else
+        {
+            content = (
+                <div className="knowledge-content">
+                    <div className="content" dangerouslySetInnerHTML={{__html: topic.content}}>
+                    </div>
+                </div>
+            );
+        }
+        return (
+            <div className="cp-course-topic">
+                {content}
                 <div className="bottom-controls">
                     <div onClick={() => this.handleTopicMove(0)} className="previous">
                         <span>上一条</span>
