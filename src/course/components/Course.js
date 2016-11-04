@@ -33,6 +33,7 @@ export default class Course extends Component {
     state = {
         selectedContributor: null,
         selectedTopic: null,
+        sortedAuthors: [],
         expandedTopics: [],
         forumInfo: []
     }
@@ -48,12 +49,15 @@ export default class Course extends Component {
         {
             const returnInfo = nextProps.returnInfo;
             const course = nextProps.course;
+            const result = FormatUtil.expandTopics(course.topics, course.authors);
             const author = returnInfo.authorId ? course.authors.find(item => item.id === returnInfo.authorId) : course.authors[0];
-            const expandedTopics = FormatUtil.expandTopics(course.topics);
+            const expandedTopics = result.topics;
             const topic = expandedTopics.find(item => item.id === returnInfo.topicId);
             this.setState({
                 selectedContributor: author,
                 selectedTopic: topic,
+                sortedAuthors: result.authors,
+                sortedTopics: result.sortedTopics,
                 expandedTopics: expandedTopics
             });
             if (returnInfo.attachmentUrl)
@@ -70,12 +74,15 @@ export default class Course extends Component {
             if (!this.state.selectedContributor && nextProps.course)
             {
                 const course = nextProps.course;
-                const author = course.authors[0];
-                const topic = author ? course.topics[author.id][0] : {};
-                const expandedTopics = FormatUtil.expandTopics(course.topics);
+                const result = FormatUtil.expandTopics(course.topics, course.authors);
+                const author = result.authors[0];
+                const expandedTopics = result.topics;
+                const topic = author? result.sortedTopics[author.id][0] : {};
                 this.setState({
                     selectedContributor: author,
                     selectedTopic: topic,
+                    sortedAuthors: result.authors,
+                    sortedTopics: result.sortedTopics,
                     expandedTopics: expandedTopics
                 });
             }
@@ -83,12 +90,15 @@ export default class Course extends Component {
             if (this.state.selectedContributor && nextProps)
             {
                 const course = nextProps.course;
+                const result = FormatUtil.expandTopics(course.topics, course.authors);
+                const expandedTopics = result.topics;
                 const author = this.state.selectedContributor;
-                const topic = author ? course.topics[author.id][0] : {};
-                const expandedTopics = FormatUtil.expandTopics(course.topics);
+                const topic = result.sortedTopics[author.id][0];
                 this.setState({
                     selectedContributor: author,
                     selectedTopic: topic,
+                    sortedAuthors: result.authors,
+                    sortedTopics: result.sortedTopics,
                     expandedTopics: expandedTopics
                 });
             }
@@ -100,7 +110,7 @@ export default class Course extends Component {
         if (item.id !== this.state.selectedContributor.id)
         {
             const course = this.props.course;
-            const topic = course.topics[item.id][0];
+            const topic = this.state.sortedTopics[item.id][0];
             this.setState({
                 selectedContributor: item,
                 selectedTopic: topic
@@ -215,7 +225,7 @@ export default class Course extends Component {
                 specialityName: course.specialityName
             };
 
-            contributors = course.authors;
+            contributors = state.sortedAuthors;
             topics = state.expandedTopics;
             resources = course.resources;
         }
