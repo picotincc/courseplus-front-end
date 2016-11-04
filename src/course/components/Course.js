@@ -21,6 +21,8 @@ export default class Course extends Component {
         this.handleResourceDownload = this.handleResourceDownload.bind(this);
         this.handleQuestionPublish = this.handleQuestionPublish.bind(this);
         this.handleQuestionShow = this.handleQuestionShow.bind(this);
+        this.handleTopicPay = this.handleTopicPay.bind(this);
+        this.handleCourseAuthorPay = this.handleCourseAuthorPay.bind(this);
     }
 
     static defaultProps = {
@@ -61,11 +63,11 @@ export default class Course extends Component {
                 sortedTopics: result.sortedTopics,
                 expandedTopics: expandedTopics
             });
-            if (returnInfo.attachmentUrl)
+            if (returnInfo.type === 1)
             {
                 window.open(returnInfo.attachmentUrl);
             }
-            else
+            else if (returnInfo.type === 2)
             {
                 nextProps.onQuestionShow(returnInfo);
             }
@@ -198,6 +200,36 @@ export default class Course extends Component {
         });
     }
 
+    handleTopicPay()
+    {
+        const topic = this.state.selectedTopic;
+
+        ServiceClient.getInstance().getCharge({
+            type: ORDER_TYPE.SINGLE_COURSE,
+            channel: PAY_CHANNEL.ALIPAY,
+            amount: topic.cost,
+            topicId: topic.id
+        }).then(res => {
+            pingpp.createPayment(res);
+        });
+    }
+
+    handleCourseAuthorPay()
+    {
+        const topic = this.state.selectedTopic;
+        const author = this.state.selectedContributor;
+
+        ServiceClient.getInstance().getCharge({
+            type: ORDER_TYPE.SINGLE_COURSE,
+            channel: PAY_CHANNEL.ALIPAY,
+            amount: topic.cost,
+            topicId: topic.id,
+            authorCourseId: author.authorCourseId
+        }).then(res => {
+            pingpp.createPayment(res);
+        });
+    }
+
     handleQuestionShow(author)
     {
         let question = {};
@@ -266,9 +298,12 @@ export default class Course extends Component {
                     <div className="topic">
                         <Topic
                             topics={topics}
+                            author={state.selectedContributor}
                             selectedTopic={state.selectedTopic}
                             onTopicChange={this.handleTopicChange}
                             onTopicMove={this.handleTopicMove}
+                            onTopicPay={this.handleTopicPay}
+                            onCourseAuthorPay={this.handleCourseAuthorPay}
                         />
                     </div>
                 </div>
