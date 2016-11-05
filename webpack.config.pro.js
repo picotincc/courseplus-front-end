@@ -20,4 +20,6 @@ config.plugins.push(
     })
 );
 
+config.devServer = undefined;
+
 module.exports = config;
