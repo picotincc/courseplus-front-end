@@ -63,14 +63,14 @@ export default class Topic extends Component {
                 type: "success",
                 title: "邀请码",
                 customClass: "swal-inviteCode",
-                text: `根据邀请码：${topicInfo.inviteCode}加入QQ群：${topicInfo.qqGroupId}`
+                text: `邀请码：${topicInfo.inviteCode}加入QQ群：${topicInfo.qqGroupId}`
             });
         }
         else
         {
             swal({
                 title: "课程报名",
-                text: `报名此课程需支付￥${cost}！`,
+                text: ` 您需要支付￥${cost}来报名此次课程，支付完成后，我们将告知您课程的qq群以及您的专属邀请码。`,
                 showCancelButton: true,
                 confirmButtonColor: "#038574",
                 confirmButtonText: "确认支付",
@@ -97,14 +97,14 @@ export default class Topic extends Component {
                 type: "success",
                 title: "邀请码",
                 customClass: "swal-inviteCode",
-                text: `根据邀请码：${author.inviteCode}加入QQ群：${author.qqGroupId}`
+                text: `邀请码：${author.inviteCode}加入QQ群：${author.qqGroupId}`
             });
         }
         else
         {
             swal({
-                title: "报名全部课程",
-                text: `报名全部课程需支付￥${cost}！`,
+                title: "买断他的课程",
+                text: `您需要支付￥${cost}来买断该作者关于这门课的全部课程，买断后，您可以直接参加他的所有现有课程以及新开课程。我们将告知您课程的qq群以及您的专属邀请码。请在加群的时候在验证信息中输入您的专属邀请码，管理员验证后即可通过。 支付完成后，我们将告知您课程的qq群以及您的专属邀请码。`,
                 showCancelButton: true,
                 confirmButtonColor: "#038574",
                 confirmButtonText: "确认支付",

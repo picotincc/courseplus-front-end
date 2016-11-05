@@ -71,6 +71,15 @@ export default class Course extends Component {
             {
                 nextProps.onQuestionShow(returnInfo);
             }
+            else
+            {
+                swal({
+                    type: "success",
+                    title: "邀请码",
+                    customClass: "swal-inviteCode",
+                    text: `邀请码：${returnInfo.inviteCode} 加入QQ群：${returnInfo.qqGroupId}`
+                });
+            }
         }
         else
         {
