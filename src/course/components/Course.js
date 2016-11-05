@@ -220,9 +220,9 @@ export default class Course extends Component {
         const author = this.state.selectedContributor;
 
         ServiceClient.getInstance().getCharge({
-            type: ORDER_TYPE.SINGLE_COURSE,
+            type: ORDER_TYPE.ALL_COURSE,
             channel: PAY_CHANNEL.ALIPAY,
-            amount: topic.cost,
+            amount: author.courseCost,
             topicId: topic.id,
             authorCourseId: author.authorCourseId
         }).then(res => {

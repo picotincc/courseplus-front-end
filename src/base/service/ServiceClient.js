@@ -771,6 +771,7 @@ export default class ServiceClient
     {
         const token = WebStorageUtil.getToken();
         const sendData = JSON.stringify(data);
+        const self = this;
         return new Promise((resolve, reject) => {
             $.ajax({
                 type: "POST",

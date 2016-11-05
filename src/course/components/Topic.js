@@ -10,6 +10,7 @@ export default class Topic extends Component {
         this.handleTopicSelect = this.handleTopicSelect.bind(this);
         this.handleTopicMove = this.handleTopicMove.bind(this);
         this.handleTopicPay = this.handleTopicPay.bind(this);
+        this.handleCourseAuthorPay = this.handleCourseAuthorPay.bind(this);
     }
 
     static defaultProps = {
@@ -55,6 +56,7 @@ export default class Topic extends Component {
     {
         const topic = this.props.selectedTopic;
         const topicInfo = this.state.topicInfo;
+        let cost = (topic.cost / 100);
         if (topicInfo.inviteCode)
         {
             swal({
@@ -67,7 +69,7 @@ export default class Topic extends Component {
         {
             swal({
                 title: "课程报名",
-                text: `报名此课程需支付￥${topic.cost}！`,
+                text: `报名此课程需支付￥${cost}！`,
                 showCancelButton: true,
                 confirmButtonColor: "#038574",
                 confirmButtonText: "确认支付",
@@ -86,12 +88,40 @@ export default class Topic extends Component {
 
     handleCourseAuthorPay()
     {
-
+        const author = this.props.author;
+        let cost = (author.courseCost / 100);
+        if (author.inviteCode)
+        {
+            swal({
+                type: "success",
+                title: "邀请码",
+                text: `根据邀请码：${author.inviteCode}加入QQ群：${author.qqGroupId}`
+            });
+        }
+        else
+        {
+            swal({
+                title: "报名全部课程",
+                text: `报名全部课程需支付￥${cost}！`,
+                showCancelButton: true,
+                confirmButtonColor: "#038574",
+                confirmButtonText: "确认支付",
+                cancelButtonText: "暂不支付",
+                customClass: "swal-resource-dialog",
+                closeOnConfirm: true,
+                closeOnCancel: true
+            },(isConfirm) => {
+                if (isConfirm)
+                {
+                    this.props.onCourseAuthorPay();
+                }
+            });
+        }
     }
 
     render()
     {
-        const {topics, selectedTopic} = this.props;
+        const {topics, author, selectedTopic} = this.props;
         let topic = this.state.topicInfo;
         topic = topic ? topic : {};
         let content = null;
@@ -109,7 +139,7 @@ export default class Topic extends Component {
                             </div>
                             <div onClick={this.handleCourseAuthorPay} className="pay-all">
                                 <span className="icon iconfont icon-gouwuche"></span>
-                                购买他的全部课时
+                                {author.inviteCode ? "课程买断信息" : "购买他的全部课时" }
                             </div>
                         </div>
                     </div>
