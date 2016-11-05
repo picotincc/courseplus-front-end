@@ -62,6 +62,7 @@ export default class Topic extends Component {
             swal({
                 type: "success",
                 title: "邀请码",
+                customClass: "swal-inviteCode",
                 text: `根据邀请码：${topicInfo.inviteCode}加入QQ群：${topicInfo.qqGroupId}`
             });
         }
@@ -95,6 +96,7 @@ export default class Topic extends Component {
             swal({
                 type: "success",
                 title: "邀请码",
+                customClass: "swal-inviteCode",
                 text: `根据邀请码：${author.inviteCode}加入QQ群：${author.qqGroupId}`
             });
         }
