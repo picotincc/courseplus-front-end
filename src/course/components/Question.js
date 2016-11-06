@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
+import { EVENT_NAME } from "../../base/util/ConstantUtil";
 import FormatUtil from "../../base//util/FormatUtil";
-
 import ServiceClient from "../../base/service/ServiceClient";
 
 export default class Question extends Component {
@@ -12,10 +12,11 @@ export default class Question extends Component {
         this.hide = this.hide.bind(this);
         this.clear = this.clear.bind(this);
         this.handleQuestionSubmit = this.handleQuestionSubmit.bind(this);
+        this.addQuestionInfo = this.addQuestionInfo.bind(this);
     }
 
     static defaultProps = {
-        questionInfo: null
+
     }
 
     static propTypes = {
@@ -23,7 +24,7 @@ export default class Question extends Component {
     }
 
     state = {
-
+        questionInfo: null
     }
 
     componentDidMount()
@@ -44,6 +45,20 @@ export default class Question extends Component {
             let count = 140 - length;
             this.wordCount.textContent = count;
         };
+
+        PubSub.subscribe(EVENT_NAME.ADD_QUESTION_INFO, this.addQuestionInfo);
+    }
+
+    componentWillUnmount()
+    {
+        PubSub.unsubscribe(this.addQuestionInfo);
+    }
+
+    addQuestionInfo(msg, data)
+    {
+        this.setState({
+            questionInfo: data
+        });
     }
 
     //内部交互方法
@@ -64,8 +79,8 @@ export default class Question extends Component {
     {
         const content = this.questionContent.value;
         const email = this.emailInput.value;
-        const authorId = this.props.questionInfo.authorId;
-        const topicId = this.props.questionInfo.topicId;
+        const authorId = this.state.questionInfo.authorId;
+        const topicId = this.state.questionInfo.topicId;
 
         let eChecked = FormatUtil.isValidEmail(email);
         if (eChecked)
@@ -119,7 +134,6 @@ export default class Question extends Component {
 
     render()
     {
-        const author = this.props.author;
         return (
             <div className="cp-course-question">
                 <div className="top-bar">

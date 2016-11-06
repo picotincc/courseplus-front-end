@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import FormatUtil from "../../base/util/FormatUtil";
 import ServiceClient from "../../base/service/ServiceClient";
-import { ORDER_TYPE, PAY_CHANNEL } from "../../base/util/ConstantUtil";
+import { ORDER_TYPE, PAY_CHANNEL, EVENT_NAME } from "../../base/util/ConstantUtil";
 
 import Contributor from "./Contributor";
 import CourseInfo from "./CourseInfo";
@@ -69,7 +69,11 @@ export default class Course extends Component {
             }
             else if (returnInfo.type === 2)
             {
-                nextProps.onQuestionShow(returnInfo);
+                PubSub.publish(EVENT_NAME.ADD_QUESTION_INFO, {
+                    authorId: returnInfo.authorId,
+                    topicId: returnInfo.topicId
+                });
+                nextProps.onQuestionShow();
             }
             else
             {
@@ -244,7 +248,8 @@ export default class Course extends Component {
         let question = {};
         question.authorId = author.id;
         question.topicId = this.state.selectedTopic.id;
-        this.props.onQuestionShow(question);
+        PubSub.publish(EVENT_NAME.ADD_QUESTION_INFO, question);
+        this.props.onQuestionShow();
     }
 
     render()

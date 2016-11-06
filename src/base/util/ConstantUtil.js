@@ -14,9 +14,14 @@ const ORDER_TYPE = {
     "ALL_COURSE": 4
 };
 
+const EVENT_NAME = {
+    "ADD_QUESTION_INFO": "dispatch question info"
+}
+
 export {
     HOST,
     DEFAULT_AVATOR,
     ORDER_TYPE,
-    PAY_CHANNEL
+    PAY_CHANNEL,
+    EVENT_NAME
 };
