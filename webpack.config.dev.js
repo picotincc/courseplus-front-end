@@ -8,7 +8,7 @@ module.exports = {
     context: path.resolve("./src"),
 
     entry: {
-        vendor: [ "jquery", "./base/lib/bootstrap.min.js", "sweetalert", "pingpp-js" ],
+        vendor: [ "jquery", "./base/lib/bootstrap.min.js", "sweetalert", "pingpp-js", "pubsub-js" ],
         user: [ "./user/index.js", "./user/resource/index.less" ],
         home: [ "./home/index.js", "./home/resource/index.less" ],
         course: [ "./course/index.js", "./course/resource/index.less" ],
@@ -56,7 +56,8 @@ module.exports = {
             $: "jquery",
             jQuery: "jquery",
             swal: "sweetalert",
-            pingpp: "pingpp-js"
+            pingpp: "pingpp-js",
+            PubSub: "pubsub-js"
         }),
 
         new webpack.optimize.CommonsChunkPlugin({

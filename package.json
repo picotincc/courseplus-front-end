@@ -37,6 +37,7 @@
     "less": "^2.7.1",
     "less-loader": "^2.2.3",
     "pingpp-js": "^2.1.5",
+    "pubsub-js": "^1.5.4",
     "react-qiniu": "^1.5.0",
     "react-transform-catch-errors": "^1.0.2",
     "react-transform-hmr": "^1.0.4",
