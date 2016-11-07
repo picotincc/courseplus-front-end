@@ -48,7 +48,7 @@ export default class Contributor extends Component {
                 {
                     swal({
                         title: "考研秘籍",
-                        text: `考研秘籍是${name}亲自整理的知识点、题库、真题解析，向${name}支付￥${cost}获取整套秘籍下载资格！`,
+                        text: `考研秘籍是${name}亲自整理的真题答案和详解、历年真题分析、教材及重点整理、冲刺期间备考策略、应试答题技巧，向${name}支付￥${cost}获取整套秘籍下载资格！`,
                         showCancelButton: true,
                         confirmButtonColor: "#038574",
                         confirmButtonText: "确认支付",
