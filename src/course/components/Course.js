@@ -303,6 +303,7 @@ export default class Course extends Component {
                     <div className="contributor">
                         <Contributor
                             info={state.selectedContributor}
+                            curCourse={course}
                             onCourseSelect={onCourseSelect}
                             onResourceDownload={this.handleResourceDownload}
                             onQuestionPublish={this.handleQuestionPublish}

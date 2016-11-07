@@ -123,10 +123,11 @@ export default class Contributor extends Component {
     render()
     {
         const info = this.props.info;
+        const course = this.props.curCourse;
         let relatedCourses = [];
         if (info)
         {
-            relatedCourses = info.courses;
+            relatedCourses = info.courses.filter(item => item.id !== course.id);
         }
 
         return (
@@ -149,7 +150,7 @@ export default class Contributor extends Component {
                     考研秘籍
                 </div>
                 <div className="others">
-                    他的其他课程
+                    {relatedCourses.length > 0 ? "他的其他课程" : ""}
                 </div>
                 <ul className="others-courses">
                     {relatedCourses.map(item => {
