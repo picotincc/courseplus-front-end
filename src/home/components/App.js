@@ -56,12 +56,13 @@ export default class App extends Component {
             const school = data["南京大学"];
             const majors = school.specialities;
             ServiceClient.getInstance().getAllCourseList().then(courses => {
+                let content = courses.sort((a, b) => a.specialityId < b.specialityId ? -1 : 1);
                 this.setState({
                     selectedSchool :"南京大学",
                     majors,
                     isSearched: true,
                     selectedMajor: {name: "请选择专业"},
-                    content: courses
+                    content: content
                 });
             });
         });

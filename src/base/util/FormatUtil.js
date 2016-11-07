@@ -33,7 +33,7 @@ export default class FormatUtil
         let tempAuthors = authors.map(author => {
             author.weight = tempTopics[author.id][0].weight;
             return author;
-        }).sort((a, b) => a.weight < b.weight);
+        }).sort((a, b) => a.weight < b.weight ? 1 : -1);
 
         let resTopics = tempAuthors.reduce((pre, cur) => {
             pre = pre.concat(tempTopics[cur.id]);
@@ -100,6 +100,7 @@ export default class FormatUtil
 
         return true;
     }
+
 }
 
 //判断是否为纯数字
