@@ -60,7 +60,7 @@ export default class App extends Component {
                     selectedSchool :"南京大学",
                     majors,
                     isSearched: true,
-                    selectedMajor: majors[0],
+                    selectedMajor: {name: "请选择专业"},
                     content: courses
                 });
             });
