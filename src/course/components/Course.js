@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 
 import FormatUtil from "../../base/util/FormatUtil";
 import ServiceClient from "../../base/service/ServiceClient";
+import { ORDER_TYPE, PAY_CHANNEL, EVENT_NAME } from "../../base/util/ConstantUtil";
 
 import Contributor from "./Contributor";
 import CourseInfo from "./CourseInfo";
@@ -20,6 +21,8 @@ export default class Course extends Component {
         this.handleResourceDownload = this.handleResourceDownload.bind(this);
         this.handleQuestionPublish = this.handleQuestionPublish.bind(this);
         this.handleQuestionShow = this.handleQuestionShow.bind(this);
+        this.handleTopicPay = this.handleTopicPay.bind(this);
+        this.handleCourseAuthorPay = this.handleCourseAuthorPay.bind(this);
     }
 
     static defaultProps = {
@@ -33,6 +36,7 @@ export default class Course extends Component {
     state = {
         selectedContributor: null,
         selectedTopic: null,
+        sortedAuthors: [],
         expandedTopics: [],
         forumInfo: []
     }
@@ -48,21 +52,37 @@ export default class Course extends Component {
         {
             const returnInfo = nextProps.returnInfo;
             const course = nextProps.course;
+            const result = FormatUtil.expandTopics(course.topics, course.authors);
             const author = returnInfo.authorId ? course.authors.find(item => item.id === returnInfo.authorId) : course.authors[0];
-            const expandedTopics = FormatUtil.expandTopics(course.topics);
+            const expandedTopics = result.topics;
             const topic = expandedTopics.find(item => item.id === returnInfo.topicId);
             this.setState({
                 selectedContributor: author,
                 selectedTopic: topic,
+                sortedAuthors: result.authors,
+                sortedTopics: result.sortedTopics,
                 expandedTopics: expandedTopics
             });
-            if (returnInfo.attachmentUrl)
+            if (returnInfo.type === 1)
             {
                 window.open(returnInfo.attachmentUrl);
             }
+            else if (returnInfo.type === 2)
+            {
+                PubSub.publish(EVENT_NAME.ADD_QUESTION_INFO, {
+                    authorId: returnInfo.authorId,
+                    topicId: returnInfo.topicId
+                });
+                nextProps.onQuestionShow();
+            }
             else
             {
-                nextProps.onQuestionShow(returnInfo);
+                swal({
+                    type: "success",
+                    title: "邀请码",
+                    customClass: "swal-inviteCode",
+                    text: `邀请码：${returnInfo.inviteCode} 加入QQ群：${returnInfo.qqGroupId}`
+                });
             }
         }
         else
@@ -70,12 +90,15 @@ export default class Course extends Component {
             if (!this.state.selectedContributor && nextProps.course)
             {
                 const course = nextProps.course;
-                const author = course.authors[0];
-                const topic = author ? course.topics[author.id][0] : {};
-                const expandedTopics = FormatUtil.expandTopics(course.topics);
+                const result = FormatUtil.expandTopics(course.topics, course.authors);
+                const author = result.authors[0];
+                const expandedTopics = result.topics;
+                const topic = author? result.sortedTopics[author.id][0] : {};
                 this.setState({
                     selectedContributor: author,
                     selectedTopic: topic,
+                    sortedAuthors: result.authors,
+                    sortedTopics: result.sortedTopics,
                     expandedTopics: expandedTopics
                 });
             }
@@ -83,12 +106,15 @@ export default class Course extends Component {
             if (this.state.selectedContributor && nextProps)
             {
                 const course = nextProps.course;
+                const result = FormatUtil.expandTopics(course.topics, course.authors);
+                const expandedTopics = result.topics;
                 const author = this.state.selectedContributor;
-                const topic = author ? course.topics[author.id][0] : {};
-                const expandedTopics = FormatUtil.expandTopics(course.topics);
+                const topic = result.sortedTopics[author.id][0];
                 this.setState({
                     selectedContributor: author,
                     selectedTopic: topic,
+                    sortedAuthors: result.authors,
+                    sortedTopics: result.sortedTopics,
                     expandedTopics: expandedTopics
                 });
             }
@@ -100,7 +126,7 @@ export default class Course extends Component {
         if (item.id !== this.state.selectedContributor.id)
         {
             const course = this.props.course;
-            const topic = course.topics[item.id][0];
+            const topic = this.state.sortedTopics[item.id][0];
             this.setState({
                 selectedContributor: item,
                 selectedTopic: topic
@@ -162,9 +188,9 @@ export default class Course extends Component {
     {
         const courseId = this.props.course.id;
         const topicId = this.state.selectedTopic.id;
-
         ServiceClient.getInstance().getCharge({
-            channel: "alipay_pc_direct",
+            type: ORDER_TYPE.RESOURCE,
+            channel: PAY_CHANNEL.ALIPAY,
             amount: cost,
             resourceId: resourceId,
             topicId: topicId
@@ -178,9 +204,40 @@ export default class Course extends Component {
         const topicId = this.state.selectedTopic.id;
 
         ServiceClient.getInstance().getCharge({
-            channel: "alipay_pc_direct",
+            type: ORDER_TYPE.QUESTION,
+            channel: PAY_CHANNEL.ALIPAY,
             amount: cost,
             topicId: topicId
+        }).then(res => {
+            pingpp.createPayment(res);
+        });
+    }
+
+    handleTopicPay()
+    {
+        const topic = this.state.selectedTopic;
+
+        ServiceClient.getInstance().getCharge({
+            type: ORDER_TYPE.SINGLE_COURSE,
+            channel: PAY_CHANNEL.ALIPAY,
+            amount: topic.cost,
+            topicId: topic.id
+        }).then(res => {
+            pingpp.createPayment(res);
+        });
+    }
+
+    handleCourseAuthorPay()
+    {
+        const topic = this.state.selectedTopic;
+        const author = this.state.selectedContributor;
+
+        ServiceClient.getInstance().getCharge({
+            type: ORDER_TYPE.ALL_COURSE,
+            channel: PAY_CHANNEL.ALIPAY,
+            amount: author.courseCost,
+            topicId: topic.id,
+            authorCourseId: author.authorCourseId
         }).then(res => {
             pingpp.createPayment(res);
         });
@@ -191,7 +248,8 @@ export default class Course extends Component {
         let question = {};
         question.authorId = author.id;
         question.topicId = this.state.selectedTopic.id;
-        this.props.onQuestionShow(question);
+        PubSub.publish(EVENT_NAME.ADD_QUESTION_INFO, question);
+        this.props.onQuestionShow();
     }
 
     render()
@@ -215,7 +273,7 @@ export default class Course extends Component {
                 specialityName: course.specialityName
             };
 
-            contributors = course.authors;
+            contributors = state.sortedAuthors;
             topics = state.expandedTopics;
             resources = course.resources;
         }
@@ -245,6 +303,7 @@ export default class Course extends Component {
                     <div className="contributor">
                         <Contributor
                             info={state.selectedContributor}
+                            curCourse={course}
                             onCourseSelect={onCourseSelect}
                             onResourceDownload={this.handleResourceDownload}
                             onQuestionPublish={this.handleQuestionPublish}
@@ -254,9 +313,12 @@ export default class Course extends Component {
                     <div className="topic">
                         <Topic
                             topics={topics}
+                            author={state.selectedContributor}
                             selectedTopic={state.selectedTopic}
                             onTopicChange={this.handleTopicChange}
                             onTopicMove={this.handleTopicMove}
+                            onTopicPay={this.handleTopicPay}
+                            onCourseAuthorPay={this.handleCourseAuthorPay}
                         />
                     </div>
                 </div>

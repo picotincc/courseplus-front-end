@@ -20,16 +20,27 @@ export default class FormatUtil
         return false;
     }
 
-    static expandTopics(topics)
+    static expandTopics(topics, authors)
     {
         const indexs = Object.keys(topics);
-        let res = [];
+        let tempTopics = {};
         for (let i = 0; i < indexs.length; i++)
         {
             let id = indexs[i];
-            res = res.concat(topics[id]);
+            tempTopics[id] = topics[id].sort((a, b) => a.weight < b.weight);
         }
-        return res;
+
+        let tempAuthors = authors.map(author => {
+            author.weight = tempTopics[author.id][0].weight;
+            return author;
+        }).sort((a, b) => a.weight < b.weight ? 1 : -1);
+
+        let resTopics = tempAuthors.reduce((pre, cur) => {
+            pre = pre.concat(tempTopics[cur.id]);
+            return pre;
+        }, []);
+
+        return {topics: resTopics, authors: tempAuthors, sortedTopics: tempTopics};
     }
 
     static getCurrentTime()
@@ -89,6 +100,7 @@ export default class FormatUtil
 
         return true;
     }
+
 }
 
 //判断是否为纯数字

@@ -1,5 +1,6 @@
 "use strict";
 
+const autoprefixer = require('autoprefixer');
 const path = require("path");
 const webpack = require("webpack");
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
@@ -8,7 +9,7 @@ module.exports = {
     context: path.resolve("./src"),
 
     entry: {
-        vendor: [ "jquery", "./base/lib/bootstrap.min.js", "sweetalert", "pingpp-js" ],
+        vendor: [ "babel-polyfill", "jquery", "./base/lib/bootstrap.min.js", "sweetalert", "pingpp-js", "pubsub-js" ],
         user: [ "./user/index.js", "./user/resource/index.less" ],
         home: [ "./home/index.js", "./home/resource/index.less" ],
         course: [ "./course/index.js", "./course/resource/index.less" ],
@@ -36,16 +37,24 @@ module.exports = {
             },
             {
                 test: /\.less$/,
-                loader: ExtractTextPlugin.extract("style-loader", "css-loader!less-loader")
+                loader: ExtractTextPlugin.extract("style-loader", "css-loader!postcss-loader!less-loader")
             },
             {
                 test: /\.(png|jpg)$/,
                 loader: 'url-loader?limit=8192'
             },
-            { test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: "url-loader?limit=10000&minetype=application/font-woff" },
-            { test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: "file-loader" }
+            {
+                test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+                loader: "url-loader?limit=10000&minetype=application/font-woff"
+            },
+            {
+                test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+                loader: "file-loader"
+            }
         ]
     },
+
+    postcss: [ autoprefixer() ],
 
     plugins: [
         new webpack.HotModuleReplacementPlugin(),
@@ -56,7 +65,8 @@ module.exports = {
             $: "jquery",
             jQuery: "jquery",
             swal: "sweetalert",
-            pingpp: "pingpp-js"
+            pingpp: "pingpp-js",
+            PubSub: "pubsub-js"
         }),
 
         new webpack.optimize.CommonsChunkPlugin({

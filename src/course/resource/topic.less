@@ -5,16 +5,85 @@
     background: #FFFFFF;
     border-radius: 5px;
     padding: 15px 15px;
+    position: relative;
+
 
     display: flex;
     flex-direction: column;
 
     > .knowledge-content
     {
-        flex: 1 0 auto;
-        overflow-y: auto;
-        height: 835px;
+        flex: 0 0 auto;
+
+
+        > .content
+        {
+            height: 615px;
+            overflow-y: auto;
+        }
+
+        > .content-pay
+        {
+            height: 555px;
+            overflow-y: auto;
+        }
+
+        > .pay-course-btns
+        {
+            width: 100%;
+            height: auto;
+
+            > .bar
+            {
+                display: flex;
+                padding: 10px 10px;
+                justify-content: center;
+                align-items: center;
+                background: white;
+
+                > .pay-this
+                {
+                    background: #038574;
+                    padding: 6px 12px;
+                    border: 1px solid #FFFFFF;
+                    border-radius: 5px;
+                    font-size: 18px;
+                    color: #FFFFFF;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    cursor: pointer;
+                    margin-right: 20px;
+
+                    > .icon
+                    {
+                        margin-right: 8px;
+                    }
+                }
+
+                > .pay-all
+                {
+                    background: @cp-light-green;
+                    padding: 6px 12px;
+                    border: 1px solid #FFFFFF;
+                    border-radius: 5px;
+                    font-size: 18px;
+                    color: #FFFFFF;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    cursor: pointer;
+
+                    > .icon
+                    {
+                        margin-right: 8px;
+                    }
+                }
+            }
+        }
     }
+
+
 
     > .bottom-controls
     {
@@ -43,12 +112,21 @@
 
             > .btn-category
             {
+                display: flex;
+                align-items: center;
                 background: #FFFFFF;
                 border: 1px solid #CCCCCC;
                 border-radius: 5px;
                 font-size: 18px;
                 color: #000000;
                 padding: 4px 8px;
+
+                > .btn-text
+                {
+                    text-overflow: ellipsis;
+                    max-width: 250px;
+                    overflow: hidden;
+                }
 
                 > span
                 {
@@ -64,15 +142,9 @@
 
                 > li > a
                 {
-                    white-space: nowrap;
-                    overflow: hidden;
-                    text-overflow: ellipsis;
+                    white-space: pre-line;
+                    width: 100%;
                     cursor: pointer;
-
-                    &:hover
-                    {
-                        white-space: normal;
-                    }
                 }
             }
         }
