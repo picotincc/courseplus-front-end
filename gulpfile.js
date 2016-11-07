@@ -1,14 +1,22 @@
 "use strict";
 
+const autoprefixer = require('autoprefixer');
 const gulp = require("gulp");
 const gutil = require("gulp-util");
 const open = require("gulp-open");
+const postcss = require('gulp-postcss');
 const rimraf = require("rimraf");
 const rev = require("gulp-rev");
 const revReplace = require("gulp-rev-replace");
 const webpack = require("webpack");
 const WebpackDevServer = require("webpack-dev-server");
 
+
+gulp.task('autoprefixer', function () {
+    return gulp.src('./public/**/*.css')
+        .pipe(postcss([ autoprefixer() ]))
+        .pipe(gulp.dest('./public'));
+});
 
 gulp.task("revision", function(){
   return gulp.src(["./public/assets/**/*.js", "./public/assets/**/*.css"])
