@@ -20,4 +20,7 @@ config.plugins.push(
     })
 );
 
+delete config.devServer;
+delete config.devtool;
+
 module.exports = config;

@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 
+import FormatUtil from "../../base/util/FormatUtil";
+
 import CourseBox from "./CourseBox";
 
 export default class CourseContent extends Component {
@@ -27,7 +29,8 @@ export default class CourseContent extends Component {
 
     render()
     {
-        const { courses , onCourseClick } = this.props;
+        let { courses , onCourseClick } = this.props;
+
         return (
             <div className="cp-home-course-content">
                 {courses.map(item => {

@@ -1,7 +1,8 @@
 .cp-home-course-box
 {
-    flex: 0 0 @cp-home-box-width;
+    flex: 0 0 auto;
     height: @cp-home-box-height;
+    width: @cp-home-box-width;
     background: #FFFFFF;
     border: 1px solid #979797;
     border-radius: 5px;
@@ -44,6 +45,10 @@
             font-size: 25px;
             color: #000000;
             margin-bottom: 7px;
+            overflow: hidden;
+            white-space: nowrap;
+            width: 273px;
+            text-overflow: ellipsis;
         }
 
         > .label-group

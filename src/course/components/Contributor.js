@@ -48,7 +48,7 @@ export default class Contributor extends Component {
                 {
                     swal({
                         title: "考研秘籍",
-                        text: `考研秘籍是${name}亲自整理的知识点、题库、真题解析，向${name}支付￥${cost}获取整套秘籍下载资格！`,
+                        text: `考研秘籍是${name}亲自整理的真题答案和详解、历年真题分析、教材及重点整理、冲刺期间备考策略、应试答题技巧，向${name}支付￥${cost}获取整套秘籍下载资格！`,
                         showCancelButton: true,
                         confirmButtonColor: "#038574",
                         confirmButtonText: "确认支付",
@@ -123,10 +123,11 @@ export default class Contributor extends Component {
     render()
     {
         const info = this.props.info;
+        const course = this.props.curCourse;
         let relatedCourses = [];
         if (info)
         {
-            relatedCourses = info.courses;
+            relatedCourses = info.courses.filter(item => item.id !== course.id);
         }
 
         return (
@@ -142,14 +143,14 @@ export default class Contributor extends Component {
                 </div>
                 <div onClick={this.handleQuestionPublish} className="contact">
                     <span className="icon iconfont icon-message"></span>
-                    大神直通车
+                    联系大神
                 </div>
                 <div onClick={this.handleResourceDownload} className="resource">
                     <span className="icon iconfont icon-download"></span>
                     考研秘籍
                 </div>
                 <div className="others">
-                    他的其他课程
+                    {relatedCourses.length > 0 ? "他的其他课程" : ""}
                 </div>
                 <ul className="others-courses">
                     {relatedCourses.map(item => {

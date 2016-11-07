@@ -34,8 +34,7 @@ export default class App extends Component {
         isLogin: false,
         user: null,
         courseInfo: null,
-        returnPayInfo: null,
-        questionInfo: null
+        returnPayInfo: null
     }
 
     componentDidMount()
@@ -97,12 +96,8 @@ export default class App extends Component {
         this.dialogContainer.style.zIndex = 0;
     }
 
-    handleQuestionShow(question)
+    handleQuestionShow()
     {
-        this.setState({
-            questionInfo: question,
-            returnPayInfo: null
-        });
         this.appContainer.classList.add("app-blur");
         this.questionContainer.style.zIndex = 20;
     }
@@ -131,8 +126,7 @@ export default class App extends Component {
             ServiceClient.getInstance().getCourseDetail(courseId).then(res => {
                 this.setState({
                     courseInfo: res,
-                    returnPayInfo: null,
-                    questionInfo: null
+                    returnPayInfo: null
                 });
             });
         }
@@ -154,7 +148,6 @@ export default class App extends Component {
                 <div ref="questionContainer" className="question-container">
                     <Question
                         onQuestionHide={this.handleQuestionHide}
-                        questionInfo={state.questionInfo}
                     />
                 </div>
                 <div ref="appContainer" className="app-container">

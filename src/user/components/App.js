@@ -115,7 +115,6 @@ export default class App extends Component {
                       text: res.message,
                       type: "success"
                     });
-                    console.log("updateUserInfo",res);
                     this.setState({
                         user: res
                     });
@@ -189,7 +188,6 @@ export default class App extends Component {
     {
         const state = this.state;
         let sectionPanel = null;
-        console.log("app render", state.user);
         if (state.selectedTab === "info")
         {
             sectionPanel = (<UserInfoPanel
