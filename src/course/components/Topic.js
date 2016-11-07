@@ -166,7 +166,10 @@ export default class Topic extends Component {
                     </div>
                     <div className="category-dropdown dropdown">
                         <button className="btn-category btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
-                            {selectedTopic ? selectedTopic.name : ""}<span className="caret"></span>
+                            <div className="btn-text">
+                                {selectedTopic ? selectedTopic.name : ""}
+                            </div>
+                            <span className="caret"></span>
                         </button>
                         <ul className="dropdown-menu">
                             {topics.map(item => {

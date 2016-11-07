@@ -30,8 +30,13 @@ export default class CourseInfo extends Component {
         const $para = $(this.refs.para);
         const togglePara = this.refs.togglePara;
         const height = $para.height();
-        if (height < 96.5) {
+        if (height < 96)
+        {
             togglePara.style.visibility = "hidden";
+        }
+        else
+        {
+            togglePara.style.visibility = "visible";
         }
     }
 

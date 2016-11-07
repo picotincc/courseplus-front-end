@@ -84,7 +84,7 @@ export default class Resources extends Component {
         return (
             <div className="cp-course-resources">
                 <div className="top-bar">
-                    <div className="title">往年试卷</div>
+                    <div className="title">独家资料</div>
                     {/* <div className="package-download">
                         <span className="icon iconfont icon-download"></span>
                         打包下载

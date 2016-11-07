@@ -112,12 +112,21 @@
 
             > .btn-category
             {
+                display: flex;
+                align-items: center;
                 background: #FFFFFF;
                 border: 1px solid #CCCCCC;
                 border-radius: 5px;
                 font-size: 18px;
                 color: #000000;
                 padding: 4px 8px;
+
+                > .btn-text
+                {
+                    text-overflow: ellipsis;
+                    max-width: 250px;
+                    overflow: hidden;
+                }
 
                 > span
                 {
@@ -133,15 +142,9 @@
 
                 > li > a
                 {
-                    white-space: nowrap;
-                    overflow: hidden;
-                    text-overflow: ellipsis;
+                    white-space: pre-line;
+                    width: 100%;
                     cursor: pointer;
-
-                    &:hover
-                    {
-                        white-space: normal;
-                    }
                 }
             }
         }
