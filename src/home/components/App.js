@@ -55,10 +55,11 @@ export default class App extends Component {
         ServiceClient.getInstance().getCourseSpeciality().then(data => {
             const school = data["南京大学"];
             const majors = school.specialities;
-            ServiceClient.getInstance().getCourseList(majors[0].id).then(courses => {
+            ServiceClient.getInstance().getAllCourseList().then(courses => {
                 this.setState({
                     selectedSchool :"南京大学",
                     majors,
+                    isSearched: true,
                     selectedMajor: majors[0],
                     content: courses
                 });

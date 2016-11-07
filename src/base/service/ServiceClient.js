@@ -293,6 +293,33 @@ export default class ServiceClient
         });
     }
 
+    getAllCourseList()
+    {
+        return new Promise((resolve, reject) => {
+            $.ajax({
+                url: `${CP_API_URL}/web/course/courseList`,
+                type: "GET",
+                data: {
+                    page: 1,
+                    limit: 100
+                },
+                cache: true,
+                timeout: 5000
+            }).then((data, textStatus, jqXHR) => {
+                resolve(JSON.parse(data));
+            }, (jqXHR, textStatus, errorThrown) => {
+                if(textStatus=='timeout')
+                {
+                    console.log("timeout", jqXHR, errorThrown);
+                }
+                else{
+                    console.log(jqXHR.responseJSON);
+                }
+            });
+        });
+    }
+
+
     getCourseList(specialityId)
     {
         const id = specialityId.toString();
