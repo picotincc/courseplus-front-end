@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 
+import FormatUtil from "../../base/util/FormatUtil";
 import ServiceClient from "../../base/service/ServiceClient";
 import WebStorageUtil from "../../base/util/WebStorageUtil";
 
@@ -36,13 +37,17 @@ export default class Resources extends Component {
             const cost = (item.cost / 100);
             const name = item.name;
             const onResourceDownload = this.props.onResourceDownload;
+            let winTemp = window.open("", FormatUtil.getWindowOpenTemp());
             ServiceClient.getInstance().getDownloadUrl(item.id).then(res => {
                 if (res.code === 0)
                 {
-                    window.open(res.message);
+                    setTimeout(() => {
+                        winTemp.location.href = res.message;
+                    }, 800);
                 }
                 else
                 {
+                    winTemp.close();
                     swal({
                         title: "课程资料",
                         text: `如果想要下载${name}需要支付￥${cost}获取此资料的下载资格！`,

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 
+import FormatUtil from "../../base/util/FormatUtil";
 import ServiceClient from "../../base/service/ServiceClient";
 import WebStorageUtil from "../../base/util/WebStorageUtil";
 
@@ -39,13 +40,17 @@ export default class Contributor extends Component {
             const cost = (info.resourceCost / 100);
             const name = info.name;
             const onResourceDownload = this.props.onResourceDownload;
+            let winTemp = window.open("", FormatUtil.getWindowOpenTemp());
             ServiceClient.getInstance().getDownloadUrl(info.attachmentId).then(res => {
                 if (res.code === 0)
                 {
-                    window.open(res.message);
+                    setTimeout(() => {
+                        winTemp.location.href = res.message;
+                    }, 800);
                 }
                 else
                 {
+                    winTemp.close();
                     swal({
                         title: "考研秘籍",
                         text: `考研秘籍是${name}亲自整理的真题答案和详解、历年真题分析、教材及重点整理、冲刺期间备考策略、应试答题技巧，向${name}支付￥${cost}获取整套秘籍下载资格！`,

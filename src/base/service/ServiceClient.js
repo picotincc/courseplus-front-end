@@ -769,7 +769,6 @@ export default class ServiceClient
     loginFortoken()
     {
         const userStorage = WebStorageUtil.getUserStorage();
-        const isSave = WebStorageUtil.getIsSaveStorage();
         const self = this;
         return new Promise((resolve, reject) => {
             if (userStorage)
