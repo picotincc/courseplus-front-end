@@ -116,16 +116,7 @@ export default class Dialog extends Component {
                     if (res.textStatus === "success" )
                     {
                         ServiceClient.getInstance().sendAuthCode(phone).then(res => {
-                            if (res.textStatus === "success")
-                            {
-                                swal({
-                                  title: "Good job!",
-                                  text: "发送成功",
-                                  type: "success"
-                                });
-
-                            }
-                            else
+                            if (res.textStatus !== "success")
                             {
                                 swal({
                                   title: "Something wrong!",
@@ -171,11 +162,7 @@ export default class Dialog extends Component {
                 ServiceClient.getInstance().sendAuthCode(phone).then(res => {
                     if (res.textStatus === "success")
                     {
-                        swal({
-                            title: "Good job!",
-                            text: res.message,
-                            type: "success"
-                        });
+                        resolve(true);
                     }
                     else
                     {
@@ -184,8 +171,8 @@ export default class Dialog extends Component {
                             text: res.message,
                             type: "error"
                         });
+                        resolve(true);
                     }
-                    resolve(true);
                 });
             }
             else

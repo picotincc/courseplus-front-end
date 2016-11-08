@@ -25,6 +25,24 @@ export default class Topic extends Component {
         topicInfo: null
     }
 
+    componentDidMount()
+    {
+        const topicContent = this.refs["topicContent"];
+        Ps.initialize(topicContent, {
+          wheelSpeed: 1,
+          minScrollbarLength: 20
+        });
+    }
+
+    componentDidUpdate()
+    {
+        const topicContent = this.refs["topicContent"];
+        Ps.initialize(topicContent, {
+          wheelSpeed: 1,
+          minScrollbarLength: 20
+        });
+    }
+
     componentWillReceiveProps(nextProps)
     {
         if (nextProps.selectedTopic)
@@ -131,7 +149,7 @@ export default class Topic extends Component {
         {
             content = (
                 <div className="knowledge-content">
-                    <div className="content-pay" dangerouslySetInnerHTML={{__html: topic.content}}>
+                    <div ref="topicContent" className="content-pay" dangerouslySetInnerHTML={{__html: topic.content}}>
                     </div>
                     <div className="pay-course-btns">
                         <div className="bar">
@@ -152,7 +170,7 @@ export default class Topic extends Component {
         {
             content = (
                 <div className="knowledge-content">
-                    <div className="content" dangerouslySetInnerHTML={{__html: topic.content}}>
+                    <div ref="topicContent" className="content" dangerouslySetInnerHTML={{__html: topic.content}}>
                     </div>
                 </div>
             );

@@ -9,7 +9,7 @@ module.exports = {
     context: path.resolve("./src"),
 
     entry: {
-        vendor: [ "babel-polyfill", "jquery", "./base/lib/bootstrap.min.js", "sweetalert", "pingpp-js", "pubsub-js" ],
+        vendor: [ "babel-polyfill", "jquery", "./base/lib/bootstrap.min.js", "sweetalert", "pingpp-js", "pubsub-js", "perfect-scrollbar" ],
         user: [ "./user/index.js", "./user/resource/index.less" ],
         home: [ "./home/index.js", "./home/resource/index.less" ],
         course: [ "./course/index.js", "./course/resource/index.less" ],
@@ -66,7 +66,8 @@ module.exports = {
             jQuery: "jquery",
             swal: "sweetalert",
             pingpp: "pingpp-js",
-            PubSub: "pubsub-js"
+            PubSub: "pubsub-js",
+            Ps: "perfect-scrollbar"
         }),
 
         new webpack.optimize.CommonsChunkPlugin({
