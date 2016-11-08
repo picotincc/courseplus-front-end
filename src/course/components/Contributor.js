@@ -46,7 +46,7 @@ export default class Contributor extends Component {
                 {
                     setTimeout(() => {
                         winTemp.location.href = res.message;
-                    }, 800);
+                    }, 500);
                 }
                 else
                 {

@@ -23,6 +23,7 @@ export default class Course extends Component {
         this.handleQuestionShow = this.handleQuestionShow.bind(this);
         this.handleTopicPay = this.handleTopicPay.bind(this);
         this.handleCourseAuthorPay = this.handleCourseAuthorPay.bind(this);
+        this.handleOpenUrl = this.handleOpenUrl.bind(this);
     }
 
     static defaultProps = {
@@ -65,7 +66,25 @@ export default class Course extends Component {
             });
             if (returnInfo.type === 1)
             {
-                window.open(returnInfo.attachmentUrl);
+                swal({
+                    title: "下载资料",
+                    text: "恭喜您，支付成功！已获得该资料的永久下载机会！",
+                    showCancelButton: true,
+                    confirmButtonColor: "#038574",
+                    confirmButtonText: "立即下载",
+                    cancelButtonText: "暂不下载",
+                    customClass: "swal-resource-dialog",
+                    closeOnConfirm: true,
+                    closeOnCancel: true
+                },(isConfirm) => {
+                    if (isConfirm)
+                    {
+                        let winTemp = window.open("", FormatUtil.getWindowOpenTemp());
+                        setTimeout(() => {
+                            winTemp.location.href = returnInfo.attachmentUrl;
+                        }, 500);
+                    }
+                });
             }
             else if (returnInfo.type === 2)
             {
