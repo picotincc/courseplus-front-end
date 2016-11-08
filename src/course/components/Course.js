@@ -23,7 +23,6 @@ export default class Course extends Component {
         this.handleQuestionShow = this.handleQuestionShow.bind(this);
         this.handleTopicPay = this.handleTopicPay.bind(this);
         this.handleCourseAuthorPay = this.handleCourseAuthorPay.bind(this);
-        this.handleOpenUrl = this.handleOpenUrl.bind(this);
     }
 
     static defaultProps = {
