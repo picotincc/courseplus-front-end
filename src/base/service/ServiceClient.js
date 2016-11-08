@@ -908,7 +908,7 @@ export default class ServiceClient
                                 }
                                 else
                                 {
-                                    res = Object.assign(jqXHR.responseJSON, {textStatus});
+                                    res = Object.assign({status:jqXHR.status}, {textStatus});
                                 }
                                 resolve(res);
                             });
