@@ -99,7 +99,7 @@ export default class Course extends Component {
                     type: "success",
                     title: "邀请码",
                     customClass: "swal-inviteCode",
-                    text: `邀请码：${returnInfo.inviteCode} 加入QQ群：${returnInfo.qqGroupId}`
+                    text: `邀请码：${returnInfo.inviteCode} 添加QQ：${returnInfo.qqGroupId}`
                 });
             }
         }

@@ -301,7 +301,7 @@ export default class ServiceClient
                 type: "GET",
                 data: {
                     page: 1,
-                    limit: 100
+                    limit: 50
                 },
                 cache: true,
                 timeout: 5000

@@ -52,8 +52,8 @@ export default class Contributor extends Component {
                 {
                     winTemp.close();
                     swal({
-                        title: "考研秘籍",
-                        text: `考研秘籍是${name}亲自整理的资料合集，打包购买有优惠，向${name}支付￥${cost}获取整套秘籍下载资格！`,
+                        title: "打包下载独家资料",
+                        text: `独家资料是${name}亲自整理的资料合集，打包购买有优惠，向${name}支付￥${cost}获取整套秘籍下载资格！`,
                         showCancelButton: true,
                         confirmButtonColor: "#038574",
                         confirmButtonText: "确认支付",
@@ -97,7 +97,7 @@ export default class Contributor extends Component {
                 else
                 {
                     swal({
-                        title: "大神直通车",
+                        title: "向大神提问",
                         text: `想要向${name}直接提问？向${name}支付￥${cost}来获得一次140字的提问机会，我们会亲自帮您联系大神，并尽快以邮件的形式给您答复！`,
                         showCancelButton: true,
                         confirmButtonColor: "#038574",
@@ -148,11 +148,11 @@ export default class Contributor extends Component {
                 </div>
                 <div onClick={this.handleQuestionPublish} className="contact">
                     <span className="icon iconfont icon-message"></span>
-                    联系大神
+                    向大神提问
                 </div>
                 <div onClick={this.handleResourceDownload} className="resource">
                     <span className="icon iconfont icon-download"></span>
-                    考研秘籍
+                    打包下载独家资料
                 </div>
                 <div className="others">
                     {relatedCourses.length > 0 ? "他的其他课程" : ""}

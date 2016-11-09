@@ -49,8 +49,8 @@ export default class Resources extends Component {
                 {
                     winTemp.close();
                     swal({
-                        title: "课程资料",
-                        text: `如果想要下载${name}需要支付￥${cost}获取此资料的下载资格！`,
+                        title: "独家资料",
+                        text: `如果想要下载${name}需要支付￥${cost}获取此资料的下载资格！在【打包下载独家资料】处购买有超值优惠哦`,
                         showCancelButton: true,
                         confirmButtonColor: "#038574",
                         confirmButtonText: "确认支付",
