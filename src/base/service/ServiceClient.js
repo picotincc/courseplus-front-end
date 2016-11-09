@@ -179,7 +179,8 @@ export default class ServiceClient
         const sendData = JSON.stringify({
             "phone": user.phone,
             "password": user.password,
-            "verifyCode": user.code
+            "verifyCode": user.code,
+            "qq": user.qq
         });
         return new Promise((resolve, reject) => {
             $.ajax({
@@ -915,7 +916,7 @@ export default class ServiceClient
                         }
                         else
                         {
-                            resolve({textStatus: "error"});
+                            resolve({status: 403, textStatus: "error"});
                         }
                     });
                 }

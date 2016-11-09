@@ -20,6 +20,16 @@ export default class FormatUtil
         return false;
     }
 
+    static isQQ(qq)
+    {
+        if (qq !== "")
+        {
+            return _isNum(qq);
+        }
+
+        return false;
+    }
+
     static expandTopics(topics, authors)
     {
         const indexs = Object.keys(topics);

@@ -53,7 +53,7 @@ export default class Contributor extends Component {
                     winTemp.close();
                     swal({
                         title: "打包下载独家资料",
-                        text: `独家资料是${name}亲自整理的资料合集，打包购买有优惠，向${name}支付￥${cost}获取整套秘籍下载资格！`,
+                        text: `独家资料是${name}亲自整理的独家资料的合集，打包购买有优惠，向${name}支付￥${cost}获取整套秘籍下载资格！`,
                         showCancelButton: true,
                         confirmButtonColor: "#038574",
                         confirmButtonText: "确认支付",
