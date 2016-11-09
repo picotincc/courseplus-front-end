@@ -104,7 +104,7 @@ submit.onclick = () => {
                     title: "反馈成功",
                     text: "返回首页"
                 }, () => {
-                    location.href = HOST + "/index.html";
+                    location.href = HOST + "/home.html";
                 });
             }
             else

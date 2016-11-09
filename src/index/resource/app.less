@@ -63,6 +63,26 @@
                 }
             }
         }
+
+        > .entry
+        {
+            width: 180px * 1.2;
+            height: 40px * 1.2;
+            color: #FFFFFF;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 22px;
+            background: #45A4B4;
+            border-radius: 100px;
+            margin-top: 60px;
+            cursor: pointer;
+
+            &:hover
+            {
+                background: #65CED8;
+            }
+        }
     }
 
     > .second
@@ -76,7 +96,7 @@
         > .top-bar
         {
             flex: 0 0 auto;
-            margin-top: 60px;
+            margin-top: 80px;
             margin-bottom: 20px;
 
             font-size: 22px;
@@ -100,37 +120,451 @@
 
         > .bottom-bar
         {
-            flex: 1 0 auto;
+            flex: 0 0 auto;
+            display: flex;
+
+            > .box
+            {
+                display: flex;
+                flex-direction: column;
+                margin-top: 60px;
+                margin-left: 36px * @scale;
+                margin-right: 36px * @scale;
+                justify-content: center;
+                align-items: center;
+
+                font-size: 18px;
+                color: #777777;
+
+                > img
+                {
+                    width: 120px * @scale;
+                    height: 120px * @scale;
+                    margin-bottom: 30px;
+                }
+
+                > .name
+                {
+                    font-size: 20px;
+                    font-weight: bold;
+                    color: #4A4A4A;
+                    margin-bottom: 10px;
+                }
+            }
         }
     }
 
     > .third
     {
-        background: #45A4B4;
-        height: 700px;
+        background-image: url(./img/section-third-bg.png);
+        background-position: right;
+        background-size: contain;
+        height: 500px * @scale;
+
+        > .third-bg
+        {
+            background-image: url(./img/third-bg.png);
+            background-repeat: no-repeat;
+            background-size: contain;
+            background-position: left;
+            height: 500px * @scale;
+            position: relative;
+
+            display: flex;
+            flex-direction: column;
+
+            > .bar
+            {
+                width: 274px * @scale;
+                height: 391px * @scale;
+                position: absolute;
+                bottom: 0;
+                right: 228px;
+            }
+
+            > .title
+            {
+                flex: 0 0 auto;
+                align-self: center;
+                margin-top: 40px;
+                display: flex;
+                align-items: center;
+
+                > img
+                {
+                    height: 50px;
+                    margin-right: 25px;
+                }
+
+                > .text
+                {
+                    font-size: 48px;
+                    font-weight: bold;
+                    color: #FFFFFF;
+                    letter-spacing: 0px;
+                    line-height: 62px;
+                }
+            }
+
+            > .content
+            {
+                flex: 0 0 auto;
+                font-size: 18px;
+                color: #FFFFFF;
+                letter-spacing: 0.56px;
+                margin: 80px 0px 0px 160px;
+
+                .yellow
+                {
+                    color: #FFF100;
+                }
+
+                .item
+                {
+                    display: flex;
+                    margin-bottom: 50px;
+                    align-items: center;
+
+                    > img
+                    {
+                        margin-right: 16px;
+                    }
+                }
+
+                > .one
+                {
+                    > img
+                    {
+                        margin-right: 27px;
+                    }
+                }
+
+                > .four
+                {
+                    > .item-text
+                    {
+                        width: 390px;
+                    }
+                }
+
+                > .five
+                {
+                    > .item-text
+                    {
+                        width: 390px;
+                    }
+                }
+            }
+        }
     }
 
     > .fourth
     {
         background: white;
-        height: 585px;
+        height: 417px * @scale;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        > .title
+        {
+            flex: 0 0 auto;
+            display: flex;
+            font-size: 48px;
+            font-weight: bold;
+            color: #4A4A4A;
+            letter-spacing: 0px;
+            line-height: 62px;
+            margin-top: 60px;
+            margin-bottom: 60px;
+            align-items: center;
+
+            img
+            {
+                height: 45px;
+            }
+
+            > .book
+            {
+                margin-right: 20px;
+            }
+
+            > .text
+            {
+                margin-left: 30px;
+            }
+        }
+
+        > .content
+        {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 80px;
+
+
+            > .box
+            {
+                height: 150px * @scale;
+                display: flex;
+                flex-direction: column;
+                font-size: 22px;
+                color: #4A4A4A;
+                letter-spacing: 0.56px;
+                align-items: center;
+
+                > img
+                {
+                    width: 85px * @scale;
+                    height: 75px * @scale;
+                    margin-left: 115px * @scale;
+                    margin-right: 115px * @scale;
+                    margin-bottom: 50px;
+                }
+            }
+
+            > .voice
+            {
+                border-left: 1px solid #A9A9A9;
+                border-right: 1px solid #A9A9A9;
+            }
+        }
     }
 
     > .fifth
     {
         background: #45A4B4;
-        height: 1068px;
+        height: 760px * @scale;
+        display: flex;
+        flex-direction: column;
+
+        > .title
+        {
+            flex: 0 0 auto;
+            align-self: center;
+            margin-top: 40px;
+            display: flex;
+            align-items: center;
+
+            > img
+            {
+                height: 50px;
+                margin-right: 25px;
+            }
+
+            > .text
+            {
+                font-size: 48px;
+                font-weight: bold;
+                color: #FFFFFF;
+                letter-spacing: 0px;
+                line-height: 62px;
+            }
+        }
+
+        > .content
+        {
+            font-size: 18px;
+            color: #FFFFFF;
+            flex: 0 0 auto;
+            display: flex;
+            margin-left: 82px * @scale;
+            margin-right: 82px * @scale;
+
+            > .box
+            {
+                display: flex;
+                width: 210px;
+                flex-direction: column;
+                margin-top: 60px;
+                margin-left: 25px * @scale;
+                margin-right: 25px * @scale;
+                justify-content: center;
+                align-items: center;
+
+                > img
+                {
+                    width: 120px * @scale;
+                    height: 120px * @scale;
+                    margin-bottom: 30px;
+                }
+
+                > .name
+                {
+                    font-size: 20px;
+                    font-weight: bold;
+                    color: #FFF100;
+                    margin-bottom: 20px;
+                }
+
+                > .catalog
+                {
+                    margin-top: 40px;
+                }
+
+                > .list
+                {
+                    display: flex;
+                    flex-direction: column;
+                    align-self: flex-start;
+                    margin-left: 16px;
+
+                    > span
+                    {
+                        margin-top: 8px;
+                    }
+                }
+            }
+        }
     }
 
     > .sixth
     {
         background-image: radial-gradient(51% 92%, #4B4B4B 50%, #3E3E3E 92%);
-        height: 700px;
+        height: 500px * @scale;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        > .title
+        {
+            flex: 0 0 auto;
+            align-self: center;
+            margin-top: 40px;
+            display: flex;
+            align-items: center;
+
+            > img
+            {
+                height: 50px;
+                margin-right: 25px;
+            }
+
+            > .text
+            {
+                font-size: 48px;
+                font-weight: bold;
+                color: #FFFFFF;
+                letter-spacing: 0px;
+                line-height: 62px;
+            }
+        }
+
+        > .content
+        {
+            display: flex;
+            justify-content: center;
+            margin-top: 120px;
+            align-self: flex-start;
+
+            > .counts
+            {
+                font-size: 52px;
+                font-weight: bold;
+                color: #FFFFFF;
+                letter-spacing: 0px;
+                margin-top: 60px;
+                margin-right: 100px;
+                margin-left: 210px;
+
+                .yellow
+                {
+                    color: #FFF100;
+                }
+            }
+
+            > .imgs
+            {
+                position: relative;
+
+                > .origin
+                {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    height: 340px;
+                }
+
+                > .opa
+                {
+                    position: absolute;
+                    top: 50px;
+                    left: 50px;
+                    height: 340px;
+                    opacity: 0.19;
+                }
+            }
+        }
     }
 
     > .seventh
     {
         background: #45A4B4;
-        height: 700px;
+        height: 500px * @scale;
+
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        > .title
+        {
+            flex: 0 0 auto;
+            align-self: center;
+            margin-top: 40px;
+            display: flex;
+            align-items: center;
+
+            > img
+            {
+                height: 50px;
+                margin-right: 25px;
+            }
+
+            > .text
+            {
+                font-size: 48px;
+                font-weight: bold;
+                color: #FFF100;
+                letter-spacing: 0px;
+                line-height: 62px;
+            }
+        }
+
+        > .content
+        {
+            display: flex;
+            margin-top: 60px;
+
+            > .box
+            {
+                display: flex;
+                flex-direction: column;
+                margin-top: 78px;
+                margin-left: 80px * @scale;
+                margin-right: 80px * @scale;
+                justify-content: center;
+                align-items: center;
+
+                font-size: 18px;
+                color: #FFFFFF;
+
+                > img
+                {
+                    width: 100px * @scale;
+                    height: 100px * @scale;
+                }
+
+                > .name
+                {
+                    font-weight: bold;
+                    color: #FFF100;
+                    margin-top: 50px;
+                    margin-bottom: 50px;
+                    font-size: 24px;
+                    color: #FFF100;
+                    letter-spacing: 0.75px;
+                }
+            }
+        }
     }
 }
