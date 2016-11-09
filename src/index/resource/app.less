@@ -1,0 +1,135 @@
+.cp-app-index
+{
+    @scale: 1440/1024;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+
+    .section
+    {
+        width: 100%;
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center;
+    }
+
+    > .first
+    {
+        background-image: url(./img/section-first-bg.png);
+        height: 500px * @scale;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        > .mebox
+        {
+            flex: 0 0 auto;
+            margin-top: 60px * @scale;
+            margin-bottom: 80px * @scale;
+        }
+
+        > .title
+        {
+            flex: 0 0 auto;
+            display: flex;
+
+            > .logo
+            {
+                width: 275px;
+                border-right: 3px solid white;
+                margin-right: 60px * @scale;
+
+                > img
+                {
+                    margin-right: 40px;
+                }
+            }
+
+            > .slogen
+            {
+                font-size: 63px;
+                font-weight: bolder;
+                color: #FFFFFF;
+                letter-spacing: 0px;
+                line-height: 93px;
+                width: 400px;
+
+                > .days
+                {
+                    font-size: 108px;
+                    color: #FFF100;
+                    margin-left: 27px;
+                    margin-right: 27px;
+                }
+            }
+        }
+    }
+
+    > .second
+    {
+        background: white;
+        height: 500px * @scale;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        > .top-bar
+        {
+            flex: 0 0 auto;
+            // width: 396px * @scale;
+            // height: 145px * @scale;
+            margin-top: 60px;
+            margin-bottom: 20px;
+
+            font-size: 18px;
+            color: #4A4A4A;
+            letter-spacing: 0px;
+            line-height: 30px;
+
+            display: flex;
+            flex-direction: column;
+        }
+
+        > .middle-line
+        {
+            background: #8C8C8C;
+            width: 420px * @scale;
+            height: 2px;
+        }
+
+        > .bottom-bar
+        {
+            flex: 1 0 auto;
+        }
+    }
+
+    > .third
+    {
+        background: #45A4B4;
+        height: 700px;
+    }
+
+    > .fourth
+    {
+        background: white;
+        height: 585px;
+    }
+
+    > .fifth
+    {
+        background: #45A4B4;
+        height: 1068px;
+    }
+
+    > .sixth
+    {
+        background-image: radial-gradient(51% 92%, #4B4B4B 50%, #3E3E3E 92%);
+        height: 700px;
+    }
+
+    > .seventh
+    {
+        background: #45A4B4;
+        height: 700px;
+    }
+}
