@@ -1,7 +1,7 @@
 const HOST = "";
 // const HOST = "http://127.0.0.1:3000";
 
-const DEFAULT_AVATOR = "/user_avatar.png";
+const DEFAULT_AVATOR = "/imgs/user_avatar.png";
 
 const PAY_CHANNEL = {
     "ALIPAY": "alipay_pc_direct"

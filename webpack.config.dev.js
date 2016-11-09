@@ -19,7 +19,7 @@ module.exports = {
 
     output: {
         path: path.resolve("./public/assets"),
-        publicPath: "/assets",
+        publicPath: "/assets/",
         filename: "[name]/bundle.js"
     },
 
@@ -42,7 +42,7 @@ module.exports = {
             },
             {
                 test: /\.(png|jpg)$/,
-                loader: 'url-loader?limit=8192'
+                loader: 'url?limit=10000&name=images/[name].[ext]'
             },
             {
                 test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,

@@ -12,21 +12,7 @@ const webpack = require("webpack");
 const WebpackDevServer = require("webpack-dev-server");
 
 
-gulp.task('autoprefixer', function () {
-    return gulp.src('./public/**/*.css')
-        .pipe(postcss([ autoprefixer() ]))
-        .pipe(gulp.dest('./public'));
-});
-
-gulp.task("revision", function(){
-  return gulp.src(["./public/assets/**/*.js", "./public/assets/**/*.css"])
-    .pipe(rev())
-    .pipe(gulp.dest("./output/assets"))
-    .pipe(rev.manifest())
-    .pipe(gulp.dest("./output"))
-});
-
-gulp.task("copy", cb => {
+gulp.task("copy-font", cb => {
     return gulp.src([
         "./public/assets/*.woff2",
         "./public/assets/*.woff",
@@ -37,12 +23,25 @@ gulp.task("copy", cb => {
     .pipe(gulp.dest("./output/assets"))
 });
 
+gulp.task("copy-png", cb => {
+    return gulp.src(["./public/**/*.png"])
+    .pipe(gulp.dest("./output"))
+});
+
 gulp.task("output-clean", cb => {
     rimraf("./output", cb);
 });
 
+gulp.task("revision", function(){
+  return gulp.src(["./public/assets/**/*.js", "./public/assets/**/*.css"])
+    .pipe(rev())
+    .pipe(gulp.dest("./output/assets"))
+    .pipe(rev.manifest())
+    .pipe(gulp.dest("./output"))
+});
 
-gulp.task("revreplace", ["output-clean", "copy", "revision"], function(){
+
+gulp.task("rev", ["output-clean", "copy-font","copy-png", "revision"], function(){
   const manifest = gulp.src("./output/rev-manifest.json");
 
   return gulp.src("./public/*.html")
