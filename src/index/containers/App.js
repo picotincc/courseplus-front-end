@@ -29,6 +29,18 @@ export default class App extends Component {
             $("#root").css("display", "inline-block");
             $("#root").css("width", "auto");
         }
+
+        const restDays = this.refs["restDays"];
+        restDays.textContent = this.calculateRestDays();
+    }
+
+    calculateRestDays()
+    {
+        const curDate = new Date();
+        const targetDate = new Date("2016-12-24");
+        const date = targetDate.getTime()-curDate.getTime();
+        const days = Math.floor(date / (24 * 3600 * 1000));
+        return days;
     }
 
     entry()
@@ -49,7 +61,7 @@ export default class App extends Component {
                             <img src="/imgs/course-logo-v.png"></img>
                         </div>
                         <div className="slogen">
-                            最后<span className="days">50</span>天让考研更容易
+                            最后<span ref="restDays" className="days">50</span>天让考研更容易
                         </div>
                     </div>
                     <div onClick={this.entry} className="entry">
