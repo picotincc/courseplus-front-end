@@ -52,6 +52,15 @@ export default class App extends Component {
     {
         return (
             <div className="cp-app-index">
+                <ul className="carousel-controls">
+                    <li className="active"><span></span></li>
+                    <li><span></span></li>
+                    <li><span></span></li>
+                    <li><span></span></li>
+                    <li><span></span></li>
+                    <li><span></span></li>
+                    <li><span></span></li>
+                </ul>
                 <div className="section first">
                     <div className="mebox">
                         <img src="/imgs/mebox.png"></img>
