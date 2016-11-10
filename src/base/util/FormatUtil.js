@@ -73,6 +73,10 @@ export default class FormatUtil
     }
 
     static  parseQuery(str){
+        if (str === "")
+        {
+            return false;
+        }
         return str.split('&').reduce((memo, x) => {
             let qa = x.split('=');
             if(!qa[0]) return memo;

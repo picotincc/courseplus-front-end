@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import Dialog from "../../base/components/Dialog";
 import Header from "../../base/components/Header";
 import Footer from "../../base/components/Footer";
+import FormatUtil from "../../base/util/FormatUtil";
 import ServiceClient from "../../base/service/ServiceClient";
 import WebStorageUtil from "../../base/util/WebStorageUtil";
 import { HOST } from "../../base/util/ConstantUtil";
@@ -67,14 +68,22 @@ export default class App extends Component {
         let courseId = WebStorageUtil.getCourseStorage();
         const returnInfo = WebStorageUtil.getReturnPayStorage();
         let info = this.state.returnPayInfo;
+        if (location.href.split("?").length > 1 && !courseId)
+        {
+            courseId = FormatUtil.parseQuery(location.href.split("?")[1])["id"];
+        }
 
         if (returnInfo)
         {
             courseId = returnInfo.courseId;
             info = returnInfo;
-            WebStorageUtil.setCourseStorage(courseId);
             WebStorageUtil.removeReturnPayStorage();
         }
+        if (!courseId)
+        {
+            location.href = HOST + "/home.html";
+        }
+        WebStorageUtil.setCourseStorage(courseId);
         ServiceClient.getInstance().getCourseDetail(courseId).then(res => {
             this.setState({
                 isLogin,

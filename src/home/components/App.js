@@ -131,7 +131,7 @@ export default class App extends Component {
     handleCourseClick(courseId)
     {
         WebStorageUtil.setCourseStorage(courseId);
-        location.href = `${HOST}/course.html`;
+        location.href = `${HOST}/course.html?id=${courseId}`;
     }
 
     render()

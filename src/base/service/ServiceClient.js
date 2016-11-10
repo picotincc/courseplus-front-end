@@ -97,7 +97,7 @@ export default class ServiceClient
             $.ajax({
                 url: `${CP_API_URL}/user/user/getUserInfo`,
                 type: "GET",
-                contentType: "application/json",
+                contentType: "application/json;charset=utf-8",
                 headers: {
                     "Authorization": "Basic " + btoa(token + ":")
                 },
@@ -154,7 +154,7 @@ export default class ServiceClient
             $.ajax({
                 url: `${CP_API_URL}/web/user/sendAuthCode`,
                 type: "POST",
-                contentType: "application/json",
+                contentType: "application/json;charset=utf-8",
                 data: sendData
             }).then((data, textStatus, jqXHR) => {
                 const res = Object.assign(data, {textStatus});
@@ -186,7 +186,7 @@ export default class ServiceClient
             $.ajax({
                 url: `${CP_API_URL}/web/user/register`,
                 type: "POST",
-                contentType: "application/json",
+                contentType: "application/json;charset=utf-8",
                 data: sendData
             }).then((data, textStatus, jqXHR) => {
                 const res = Object.assign(data, {textStatus});
@@ -218,7 +218,7 @@ export default class ServiceClient
             $.ajax({
                 url: `${CP_API_URL}/web/user/resetPassword`,
                 type: "POST",
-                contentType: "application/json",
+                contentType: "application/json;charset=utf-8",
                 data: sendData
             }).then((data, textStatus, jqXHR) => {
                 const res = Object.assign(data, {textStatus});
@@ -249,7 +249,7 @@ export default class ServiceClient
             $.ajax({
                 url: `${CP_API_URL}/web/user/login`,
                 type: "POST",
-                contentType: "application/json",
+                contentType: "application/json;charset=utf-8",
                 data: sendData
             }).then((data, textStatus, jqXHR) => {
                 const res = Object.assign(data, {textStatus});
@@ -378,7 +378,7 @@ export default class ServiceClient
             paras = {
                 url: `${CP_API_URL}/web/course/courseDetail`,
                 type: "GET",
-                contentType: "application/json",
+                contentType: "application/json;charset=utf-8",
                 headers: {
                     "Authorization": "Basic " + btoa(token + ":")
                 },
@@ -416,7 +416,7 @@ export default class ServiceClient
             paras = {
                 url: `${CP_API_URL}/web/course/topicDetail`,
                 type: "GET",
-                contentType: "application/json",
+                contentType: "application/json;charset=utf-8",
                 headers: {
                     "Authorization": "Basic " + btoa(token + ":")
                 },
@@ -495,7 +495,7 @@ export default class ServiceClient
             $.ajax({
                 url: `${CP_API_URL}/user/comment/postComment`,
                 type: "POST",
-                contentType: "application/json",
+                contentType: "application/json;charset=utf-8",
                 headers: {
                     "Authorization": "Basic " + btoa(token + ":")
                 },
@@ -512,7 +512,7 @@ export default class ServiceClient
                             $.ajax({
                                 url: `${CP_API_URL}/user/comment/postComment`,
                                 type: "POST",
-                                contentType: "application/json",
+                                contentType: "application/json;charset=utf-8",
                                 headers: {
                                     "Authorization": "Basic " + btoa(res.token + ":")
                                 },
@@ -568,7 +568,7 @@ export default class ServiceClient
             $.ajax({
                 url: `${CP_API_URL}/user/comment/postComment`,
                 type: "POST",
-                contentType: "application/json",
+                contentType: "application/json;charset=utf-8",
                 headers: {
                     "Authorization": "Basic " + btoa(token + ":")
                 },
@@ -585,7 +585,7 @@ export default class ServiceClient
                             $.ajax({
                                 url: `${CP_API_URL}/user/comment/postComment`,
                                 type: "POST",
-                                contentType: "application/json",
+                                contentType: "application/json;charset=utf-8",
                                 headers: {
                                     "Authorization": "Basic " + btoa(res.token + ":")
                                 },
@@ -641,7 +641,7 @@ export default class ServiceClient
             $.ajax({
                 url: `${CP_API_URL}/user/user/updateUserInfo`,
                 type: "POST",
-                contentType: "application/json",
+                contentType: "application/json;charset=utf-8",
                 headers: {
                     "Authorization": "Basic " + btoa(token + ":")
                 },
@@ -658,7 +658,7 @@ export default class ServiceClient
                             $.ajax({
                                 url: `${CP_API_URL}//user/user/updateUserInfo`,
                                 type: "POST",
-                                contentType: "application/json",
+                                contentType: "application/json;charset=utf-8",
                                 headers: {
                                     "Authorization": "Basic " + btoa(res.token + ":")
                                 },
@@ -704,7 +704,7 @@ export default class ServiceClient
             $.ajax({
                 url: `${CP_API_URL}/user/user/changePassword`,
                 type: "POST",
-                contentType: "application/json",
+                contentType: "application/json;charset=utf-8",
                 headers: {
                     "Authorization": "Basic " + btoa(token + ":")
                 },
@@ -721,7 +721,7 @@ export default class ServiceClient
                             $.ajax({
                                 url: `${CP_API_URL}/user/user/changePassword`,
                                 type: "POST",
-                                contentType: "application/json",
+                                contentType: "application/json;charset=utf-8",
                                 headers: {
                                     "Authorization": "Basic " + btoa(res.token + ":")
                                 },
@@ -803,7 +803,7 @@ export default class ServiceClient
             $.ajax({
                 type: "POST",
                 url: `${CP_API_URL}/user/pay`,
-                contentType: "application/json",
+                contentType: "application/json;charset=utf-8",
                 headers: {
                     "Authorization": "Basic " + btoa(token + ":")
                 },
@@ -820,7 +820,7 @@ export default class ServiceClient
                             $.ajax({
                                 url: `${CP_API_URL}/user/pay`,
                                 type: "POST",
-                                contentType: "application/json",
+                                contentType: "application/json;charset=utf-8",
                                 headers: {
                                     "Authorization": "Basic " + btoa(res.token + ":")
                                 },
@@ -872,13 +872,14 @@ export default class ServiceClient
             $.ajax({
                 url: `${CP_API_URL}/user/pay/checkOrderStatus`,
                 type: "GET",
-                contentType: "application/json",
+                contentType: "application/json;charset=utf-8",
                 headers: {
                     "Authorization": "Basic " + btoa(token + ":")
                 },
                 data: {
                     id: orderId
-                }
+                },
+                timeout: 20000
             }).then((data, textStatus, jqXHR) => {
                 const res = Object.assign(data, {textStatus});
                 resolve(res);
@@ -891,13 +892,14 @@ export default class ServiceClient
                             $.ajax({
                                 url: `${CP_API_URL}/user/pay/checkOrderStatus`,
                                 type: "GET",
-                                contentType: "application/json",
+                                contentType: "application/json;charset=utf-8",
                                 headers: {
                                     "Authorization": "Basic " + btoa(res.token + ":")
                                 },
                                 data: {
                                     id: orderId
-                                }
+                                },
+                                timeout: 20000
                             }).then((data, textStatus, jqXHR) => {
                                 const res = Object.assign(data, {textStatus});
                                 resolve(res);
@@ -945,7 +947,7 @@ export default class ServiceClient
             $.ajax({
                 url: `${CP_API_URL}/user/resource/getDownloadUrl`,
                 type: "GET",
-                contentType: "application/json",
+                contentType: "application/json;charset=utf-8",
                 headers: {
                     "Authorization": "Basic " + btoa(token + ":")
                 },
@@ -964,7 +966,7 @@ export default class ServiceClient
                             $.ajax({
                                 url: `${CP_API_URL}/user/resource/getDownloadUrl`,
                                 type: "GET",
-                                contentType: "application/json",
+                                contentType: "application/json;charset=utf-8",
                                 headers: {
                                     "Authorization": "Basic " + btoa(res.token + ":")
                                 },
@@ -1018,7 +1020,7 @@ export default class ServiceClient
             $.ajax({
                 url: `${CP_API_URL}/user/author/getQuestionChance`,
                 type: "GET",
-                contentType: "application/json",
+                contentType: "application/json;charset=utf-8",
                 headers: {
                     "Authorization": "Basic " + btoa(token + ":")
                 },
@@ -1037,7 +1039,7 @@ export default class ServiceClient
                             $.ajax({
                                 url: `${CP_API_URL}/user/author/getQuestionChance`,
                                 type: "GET",
-                                contentType: "application/json",
+                                contentType: "application/json;charset=utf-8",
                                 headers: {
                                     "Authorization": "Basic " + btoa(res.token + ":")
                                 },
@@ -1093,7 +1095,7 @@ export default class ServiceClient
             $.ajax({
                 url: `${CP_API_URL}/user/author/publishQuestion`,
                 type: "POST",
-                contentType: "application/json",
+                contentType: "application/json;charset=utf-8",
                 headers: {
                     "Authorization": "Basic " + btoa(token + ":")
                 },
@@ -1110,7 +1112,7 @@ export default class ServiceClient
                             $.ajax({
                                 url: `${CP_API_URL}/user/author/publishQuestion`,
                                 type: "POST",
-                                contentType: "application/json",
+                                contentType: "application/json;charset=utf-8",
                                 headers: {
                                     "Authorization": "Basic " + btoa(res.token + ":")
                                 },
@@ -1163,7 +1165,7 @@ export default class ServiceClient
             $.ajax({
                 url: `${CP_API_URL}/user/feedback/publishFeedBack`,
                 type: "POST",
-                contentType: "application/json",
+                contentType: "application/json;charset=utf-8",
                 headers: {
                     "Authorization": "Basic " + btoa(token + ":")
                 },
@@ -1180,7 +1182,7 @@ export default class ServiceClient
                             $.ajax({
                                 url: `${CP_API_URL}/user/feedback/publishFeedBack`,
                                 type: "POST",
-                                contentType: "application/json",
+                                contentType: "application/json;charset=utf-8",
                                 headers: {
                                     "Authorization": "Basic " + btoa(res.token + ":")
                                 },

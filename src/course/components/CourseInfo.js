@@ -83,6 +83,9 @@ export default class CourseInfo extends Component {
                         <div className="label major">
                             <span>{info.specialityName}</span>
                         </div>
+                        <div className="label prompt">
+                            <span>首节不满意全额退款</span>
+                        </div>
                     </div>
                     <div className="para" ref="para">
                         &nbsp;{info.desc}
