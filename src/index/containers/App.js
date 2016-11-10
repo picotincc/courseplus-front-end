@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import FormatUtil from "../../base/util/FormatUtil";
 
 export default class App extends Component {
 
@@ -22,7 +23,12 @@ export default class App extends Component {
 
     componentDidMount()
     {
-
+        const isPc = FormatUtil.isPC();
+        if (!isPc)
+        {
+            $("#root").css("display", "inline-block");
+            $("#root").css("width", "auto");
+        }
     }
 
     entry()
@@ -279,7 +285,17 @@ export default class App extends Component {
                             <span className="text">三个月免费享受米盒</span>
                             <span className="text">全平台资料</span>
                         </div>
-
+                    </div>
+                </div>
+                <div className="section eighth">
+                    <div onClick={this.entry} className="entry">
+                        <span>进入course+</span>
+                    </div>
+                </div>
+                <div className="section nighth">
+                    <div className="footer-content">
+                        <div className="copyright">Copyright © 2016 一可米互联网科技公司 苏ICP备15062280号</div>
+                        <div className="qq">客服QQ:3542317181</div>
                     </div>
                 </div>
             </div>
