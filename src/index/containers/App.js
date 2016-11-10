@@ -294,7 +294,8 @@ export default class App extends Component {
                 </div>
                 <div className="section nighth">
                     <div className="footer-content">
-                        <div className="copyright">Copyright © 2016 一可米互联网科技公司 苏ICP备15062280号</div>
+                        <div className="copyright">Copyright © 2016 一可米互联网科技公司</div>
+                        <a href="http://www.miibeian.gov.cn/" target="_blank"> 苏ICP备15062280号</a>
                         <div className="qq">客服QQ:3542317181</div>
                     </div>
                 </div>
