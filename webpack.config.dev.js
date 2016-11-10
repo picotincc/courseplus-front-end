@@ -9,16 +9,17 @@ module.exports = {
     context: path.resolve("./src"),
 
     entry: {
-        vendor: [ "babel-polyfill", "jquery", "./base/lib/bootstrap.min.js", "sweetalert", "pingpp-js", "pubsub-js" ],
+        vendor: [ "babel-polyfill", "jquery", "./base/lib/bootstrap.min.js", "sweetalert", "pingpp-js", "pubsub-js", "perfect-scrollbar" ],
         user: [ "./user/index.js", "./user/resource/index.less" ],
         home: [ "./home/index.js", "./home/resource/index.less" ],
         course: [ "./course/index.js", "./course/resource/index.less" ],
-        pay: [ "./pay/index.js", "./pay/index.less" ]
+        pay: [ "./pay/index.js", "./pay/index.less" ],
+        index: [ "./index/index.js", "./index/resource/index.less" ]
     },
 
     output: {
         path: path.resolve("./public/assets"),
-        publicPath: "/assets",
+        publicPath: "/assets/",
         filename: "[name]/bundle.js"
     },
 
@@ -41,7 +42,7 @@ module.exports = {
             },
             {
                 test: /\.(png|jpg)$/,
-                loader: 'url-loader?limit=8192'
+                loader: 'url?limit=10000&name=images/[name].[ext]'
             },
             {
                 test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
@@ -66,7 +67,8 @@ module.exports = {
             jQuery: "jquery",
             swal: "sweetalert",
             pingpp: "pingpp-js",
-            PubSub: "pubsub-js"
+            PubSub: "pubsub-js",
+            Ps: "perfect-scrollbar"
         }),
 
         new webpack.optimize.CommonsChunkPlugin({

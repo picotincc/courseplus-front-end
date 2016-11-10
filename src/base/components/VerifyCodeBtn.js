@@ -30,10 +30,11 @@ export default class VerifyCodeBtn extends Component {
     handleClick()
     {
         const disabled = this.state.disabled;
+        console.log("发送验证码", disabled);
 
         if (!disabled)
         {
-            this.props.onCodeSend(res => {
+            this.props.onCodeSend().then(res => {
                 if (res)
                 {
                     this.sendCodeBtn.classList.add("disabled");

@@ -179,7 +179,8 @@ export default class ServiceClient
         const sendData = JSON.stringify({
             "phone": user.phone,
             "password": user.password,
-            "verifyCode": user.code
+            "verifyCode": user.code,
+            "qq": user.qq
         });
         return new Promise((resolve, reject) => {
             $.ajax({
@@ -301,7 +302,7 @@ export default class ServiceClient
                 type: "GET",
                 data: {
                     page: 1,
-                    limit: 100
+                    limit: 50
                 },
                 cache: true,
                 timeout: 5000
@@ -769,7 +770,6 @@ export default class ServiceClient
     loginFortoken()
     {
         const userStorage = WebStorageUtil.getUserStorage();
-        const isSave = WebStorageUtil.getIsSaveStorage();
         const self = this;
         return new Promise((resolve, reject) => {
             if (userStorage)
@@ -909,14 +909,14 @@ export default class ServiceClient
                                 }
                                 else
                                 {
-                                    res = Object.assign(jqXHR.responseJSON, {textStatus});
+                                    res = Object.assign({status:jqXHR.status}, {textStatus});
                                 }
                                 resolve(res);
                             });
                         }
                         else
                         {
-                            resolve({textStatus: "error"});
+                            resolve({status: 403, textStatus: "error"});
                         }
                     });
                 }

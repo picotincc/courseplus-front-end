@@ -5,6 +5,11 @@
     flex-direction: column;
     padding-top: 20px;
 
+    > .hidden
+    {
+        display: none;
+    }
+
     > .course-info
     {
         flex: 0 0 auto;
@@ -43,6 +48,7 @@
     > .middle-content
     {
         flex: 0 0 680px;
+        height: 680px;
         display: flex;
         background: @cp-background-color;
 
@@ -50,11 +56,13 @@
         {
             flex: 0 0 200px;
             margin-right: 20px;
+            height: 680px;
         }
 
         > .topic
         {
             flex: 0 0 740px;
+            height: 100%;
         }
     }
 

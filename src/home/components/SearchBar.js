@@ -91,7 +91,7 @@ export default class SearchBar extends Component {
                 </div>
                 <div className="empty"></div>
                 <div className="search input-group">
-                  <input ref="searchInput" onKeyDown={this.handleKeyDown} type="text" className="form-control" placeholder="搜索" />
+                  <input ref="searchInput" onKeyDown={this.handleKeyDown} type="text" className="form-control" placeholder="课程名或课程编号" />
                   <span className="input-group-addon">
                     <span onClick={this.handleSearchClick} className="iconfont icon-search"></span>
                     </span>

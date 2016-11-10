@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
 import Header from "../../base/components/Header";
+import Footer from "../../base/components/Footer";
 import ServiceClient from "../../base/service/ServiceClient";
 import WebStorageUtil from "../../base/util/WebStorageUtil";
 import { HOST } from "../../base/util/ConstantUtil";
@@ -83,7 +84,7 @@ export default class App extends Component {
                   text: "请先登录",
                   type: "error"
                 });
-                location.href = `${HOST}/index.html`;
+                location.href = `${HOST}/home.html`;
             }
         });
     }
@@ -223,6 +224,7 @@ export default class App extends Component {
                         </aside>
                     </div>
                 </div>
+                <footer><Footer /></footer>
             </div>
         );
     }

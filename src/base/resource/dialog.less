@@ -1,13 +1,13 @@
 .cp-app-dialog
 {
     width: 420px;
-    height: 330px;
+    height: 350px;
     background: #FFFFFF;
     border-radius: 5px;
     position: relative;
     overflow-x: hidden;
 
-    .phone, .password
+    .qq, .phone, .password
     {
         flex: 0 0 43px;
         height: 43px;
@@ -34,6 +34,11 @@
             > .icon-password
             {
                 font-size: 20px;
+            }
+
+            > .icon-qq
+            {
+                font-size: 26px;
             }
 
             &.custom
@@ -279,6 +284,28 @@
                 cursor: pointer;
             }
         }
+    }
 
+    > .register-box
+    {
+        > .top-bar
+        {
+            padding: 16px 0;
+        }
+
+        > .input-group
+        {
+            margin-bottom: 12px;
+        }
+
+        > .code-bar
+        {
+            margin-bottom: 12px;
+        }
+
+        > .reg
+        {
+            margin-top: 0px;
+        }
     }
 }

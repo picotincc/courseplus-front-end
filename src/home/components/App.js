@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 
 import Dialog from "../../base/components/Dialog";
 import Header from "../../base/components/Header";
+import Footer from "../../base/components/Footer";
 import ServiceClient from "../../base/service/ServiceClient";
 import WebStorageUtil from "../../base/util/WebStorageUtil";
 import { HOST } from "../../base/util/ConstantUtil";
@@ -169,6 +170,8 @@ export default class App extends Component {
                             />
                         </div>
                     </main>
+
+                    <footer><Footer /></footer>
                 </div>
             </div>
         );

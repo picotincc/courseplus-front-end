@@ -20,6 +20,16 @@ export default class FormatUtil
         return false;
     }
 
+    static isQQ(qq)
+    {
+        if (qq !== "")
+        {
+            return _isNum(qq);
+        }
+
+        return false;
+    }
+
     static expandTopics(topics, authors)
     {
         const indexs = Object.keys(topics);
@@ -27,7 +37,7 @@ export default class FormatUtil
         for (let i = 0; i < indexs.length; i++)
         {
             let id = indexs[i];
-            tempTopics[id] = topics[id].sort((a, b) => a.weight < b.weight);
+            tempTopics[id] = topics[id].sort((a, b) => a.weight < b.weight ? 1 : -1);
         }
 
         let tempAuthors = authors.map(author => {
@@ -99,6 +109,40 @@ export default class FormatUtil
         }
 
         return true;
+    }
+
+    static getWindowOpenTemp()
+    {
+        var Sys = {};
+        var ua = navigator.userAgent.toLowerCase();
+        var s;
+        (s = ua.match(/msie ([\d.]+)/)) ? Sys.ie = s[1] :
+        (s = ua.match(/firefox\/([\d.]+)/)) ? Sys.firefox = s[1] :
+        (s = ua.match(/chrome\/([\d.]+)/)) ? Sys.chrome = s[1] :
+        (s = ua.match(/opera.([\d.]+)/)) ? Sys.opera = s[1] :
+        (s = ua.match(/version\/([\d.]+).*safari/)) ? Sys.safari = s[1] : 0;
+        var temp=null;
+        if(Sys.ie){//ie浏览器
+            temp='about:newTab';
+        }else{
+            temp='_blank';
+        }
+        return temp;
+    }
+
+    static isPC() {
+        var userAgentInfo = navigator.userAgent;
+        var Agents = ["Android", "iPhone",
+                    "SymbianOS", "Windows Phone",
+                    "iPad", "iPod"];
+        var flag = true;
+        for (var v = 0; v < Agents.length; v++) {
+            if (userAgentInfo.indexOf(Agents[v]) > 0) {
+                flag = false;
+                break;
+            }
+        }
+        return flag;
     }
 
 }

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 
 import Dialog from "../../base/components/Dialog";
 import Header from "../../base/components/Header";
+import Footer from "../../base/components/Footer";
 import ServiceClient from "../../base/service/ServiceClient";
 import WebStorageUtil from "../../base/util/WebStorageUtil";
 import { HOST } from "../../base/util/ConstantUtil";
@@ -42,28 +43,26 @@ export default class App extends Component {
         this.appContainer = this.refs["appContainer"];
         this.dialogContainer = this.refs["dialogContainer"];
         this.questionContainer = this.refs["questionContainer"];
-        this.loadCourseData();
         this.autoLogin();
     }
 
     autoLogin()
     {
         let isLogin = false;
+        let user = null;
 
         ServiceClient.getInstance().autoLogin().then(res => {
             if (res.status === 0)
             {
                 isLogin = true;
                 WebStorageUtil.setToken(res.token);
-                this.setState({
-                    isLogin,
-                    user: res
-                });
+                user = res;
             }
+            this.loadCourseData(isLogin, user);
         });
     }
 
-    loadCourseData()
+    loadCourseData(isLogin, user = null)
     {
         let courseId = WebStorageUtil.getCourseStorage();
         const returnInfo = WebStorageUtil.getReturnPayStorage();
@@ -78,6 +77,8 @@ export default class App extends Component {
         }
         ServiceClient.getInstance().getCourseDetail(courseId).then(res => {
             this.setState({
+                isLogin,
+                user,
                 courseInfo: res,
                 returnPayInfo: info
             });
@@ -166,6 +167,7 @@ export default class App extends Component {
                             onQuestionShow={this.handleQuestionShow}
                          />
                     </div>
+                    <footer><Footer /></footer>
                 </div>
             </div>
         );

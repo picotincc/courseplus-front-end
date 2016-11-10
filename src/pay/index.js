@@ -6,9 +6,12 @@ import { HOST } from "../base/util/ConstantUtil";
 
 const fdContainer = document.getElementById("fdContainer");
 const mainContainer = document.getElementById("mainContainer");
+const lgContainer = document.getElementById("loginContainer");
 const btnFail = document.getElementById("fail");
 const close = document.getElementById("close");
+const lgclose = document.getElementById("lgclose");
 const submit = document.getElementById("submit");
+const login = document.getElementById("login");
 const content = document.getElementById("content");
 const wordCount = document.getElementById("wordCount");
 
@@ -25,6 +28,55 @@ content.oninput = (e) => {
     wordCount.textContent = count;
 };
 
+login.onclick = (e) => {
+    let phone = $("input[name=phone]").val();
+    let password = $("input[name=password]").val();
+
+    if (phone !== "" && password !== "")
+    {
+        ServiceClient.getInstance().login({
+            phone,
+            password
+        }).then(res => {
+            if (res.textStatus === "success")
+            {
+                WebStorageUtil.setUserStorage({
+                    phone,
+                    password
+                });
+                swal({
+                  title: "Good job!",
+                  text: res.message,
+                  type: "success"
+                });
+                lgclose.click();
+            }
+            else
+            {
+                swal({
+                  title: "Something wrong!",
+                  text: res.message,
+                  type: "error"
+                });
+            }
+        });
+    }
+    else
+    {
+        swal({
+            type: "error",
+            title: "Something wrong！",
+            text: "输入不正确"
+        });
+    }
+};
+
+function showLoginDialog()
+{
+    mainContainer.classList.add("app-blur");
+    lgContainer.style.zIndex = 20;
+};
+
 btnFail.onclick = () => {
     mainContainer.classList.add("app-blur");
     fdContainer.style.zIndex = 20;
@@ -32,6 +84,10 @@ btnFail.onclick = () => {
 close.onclick = () => {
     mainContainer.classList.remove("app-blur");
     fdContainer.style.zIndex = 0;
+}
+lgclose.onclick = () => {
+    mainContainer.classList.remove("app-blur");
+    lgContainer.style.zIndex = 0;
 }
 
 submit.onclick = () => {
@@ -48,7 +104,7 @@ submit.onclick = () => {
                     title: "反馈成功",
                     text: "返回首页"
                 }, () => {
-                    location.href = HOST + "/index.html";
+                    location.href = HOST + "/home.html";
                 });
             }
             else
@@ -113,7 +169,14 @@ function checkOrderStatus()
         }
         else
         {
-            setTimeout(checkOrderStatus, 500);
+            if (res.status === 403)
+            {
+                if (lgContainer.style.zIndex !== 20)
+                {
+                    showLoginDialog();
+                }
+            }
+            setTimeout(checkOrderStatus, 800);
         }
     });
 }

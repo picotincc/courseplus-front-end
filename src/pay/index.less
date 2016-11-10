@@ -1,4 +1,5 @@
-@import "../base/lib/sweetalert.css";
+@import "../base/resource/index.less";
+
 
 html, body
 {
@@ -107,6 +108,148 @@ html, body
                 cursor: pointer;
             }
         }
+    }
+}
+
+.login-container
+{
+    z-index: 0;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.40);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    > .login-box
+    {
+        width: 420px;
+        background: #FFFFFF;
+        border-radius: 5px;
+        position: relative;
+        padding: 0px 44px;
+        display: flex;
+        flex-direction: column;
+
+
+        > .top-bar
+        {
+            flex: 0 0 auto;
+            padding: 20px 0px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            > .title
+            {
+                font-size: 18px;
+                color: #1D242C;
+            }
+
+            > .icon
+            {
+                align-self: flex-end;
+                font-size: 22px;
+                cursor: pointer;
+            }
+        }
+
+        > .save-bar
+        {
+            flex: 0 0 auto;
+            display: flex;
+            font-size: 14px;
+            margin-bottom: 20px;
+            align-items: center;
+
+            > .save-checkbox
+            {
+                margin: 0;
+                flex: 0 0 auto;
+                width: 18px;
+                height: 18px;
+                border: 1px solid #CCCCCC;
+                border-radius: 2px;
+            }
+
+            > .remember-me
+            {
+                flex: 1 0 auto;
+                color: #000000;
+                margin-left: 4px;
+            }
+        }
+
+        > .login-bar
+        {
+            flex: 0 0 auto;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: center;
+
+            > .btn-login
+            {
+                flex: 0 0 auto;
+                width: 250px;
+                height: 45px;
+                background: #4B7385;
+                border-radius: 5px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                font-size: 18px;
+                color: #FFFFFF;
+                cursor: pointer;
+            }
+        }
+
+        .phone, .password
+        {
+            flex: 0 0 43px;
+            height: 43px;
+            width: 332px;
+            background: #FFFFFF;
+            box-shadow: inset 0px 1px 0px 0px #ECECEC;
+            border-radius: 5px;
+            margin-bottom: 20px;
+
+            > .input-group-addon
+            {
+                width: 47px;
+
+                > .icon
+                {
+                    color: #999999;
+                }
+
+                > .icon-phone
+                {
+                    font-size: 22px;
+                }
+
+                > .icon-password
+                {
+                    font-size: 20px;
+                }
+
+                &.custom
+                {
+                    padding: 6px 10px;
+                }
+            }
+
+            > input
+            {
+                height: 46px;
+                font-size: 18px;
+                color: #999999;
+            }
+        }
+
+
     }
 }
 

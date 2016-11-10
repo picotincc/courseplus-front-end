@@ -47,6 +47,7 @@ export default class Dialog extends Component {
         this.r_phoneInput = this.refs["r_phoneInput"];
         this.r_codeInput = this.refs["r_codeInput"];
         this.r_passwordInput = this.refs["r_passwordInput"];
+        this.r_qqInput = this.refs["r_qqInput"];
         this.l_phoneInput = this.refs["l_phoneInput"];
         this.l_passwordInput = this.refs["l_passwordInput"];
         this.l_isSave = this.refs["l_isSave"];
@@ -116,16 +117,7 @@ export default class Dialog extends Component {
                     if (res.textStatus === "success" )
                     {
                         ServiceClient.getInstance().sendAuthCode(phone).then(res => {
-                            if (res.textStatus === "success")
-                            {
-                                swal({
-                                  title: "Good job!",
-                                  text: "发送成功",
-                                  type: "success"
-                                });
-
-                            }
-                            else
+                            if (res.textStatus !== "success")
                             {
                                 swal({
                                   title: "Something wrong!",
@@ -143,7 +135,7 @@ export default class Dialog extends Component {
                           text: res.message,
                           type: "error"
                         });
-                        resolve(true);
+                        resolve(false);
                     }
                 });
             }
@@ -171,11 +163,7 @@ export default class Dialog extends Component {
                 ServiceClient.getInstance().sendAuthCode(phone).then(res => {
                     if (res.textStatus === "success")
                     {
-                        swal({
-                            title: "Good job!",
-                            text: res.message,
-                            type: "success"
-                        });
+                        resolve(true);
                     }
                     else
                     {
@@ -184,8 +172,8 @@ export default class Dialog extends Component {
                             text: res.message,
                             type: "error"
                         });
+                        resolve(true);
                     }
-                    resolve(true);
                 });
             }
             else
@@ -206,6 +194,7 @@ export default class Dialog extends Component {
         this.r_phoneInput.value = "";
         this.r_codeInput.value = "";
         this.r_passwordInput.value = "";
+        this.r_qqInput.value = "";
         this.l_phoneInput.value = "";
         this.l_passwordInput.value = "";
         this.l_isSave.checked = true;
@@ -219,18 +208,21 @@ export default class Dialog extends Component {
         const phone = this.r_phoneInput.value;
         const code = this.r_codeInput.value;
         const password = this.r_passwordInput.value;
+        const qq = this.r_qqInput.value;
         const p_checked = FormatUtil.isPhoneNumber(phone);
         const c_checked = FormatUtil.isCodeNumber(code);
+        const q_checked = FormatUtil.isQQ(qq);
 
         const self = this;
-        if (p_checked)
+        if (p_checked && q_checked)
         {
             if (c_checked)
             {
                 ServiceClient.getInstance().register({
                     phone,
                     password,
-                    code
+                    code,
+                    qq
                 }).then(res => {
                     if (res.textStatus === "success")
                     {
@@ -262,7 +254,7 @@ export default class Dialog extends Component {
         {
             swal({
               title: "Something wrong!",
-              text: "请输入正确格式的手机号码",
+              text: "请输入正确格式的手机号码和QQ号",
               type: "error"
             });
         }
@@ -434,7 +426,13 @@ export default class Dialog extends Component {
                         </span>
                         <input type="password" ref="r_passwordInput" className="form-control" placeholder="密码" />
                     </div>
-                    <div className="register-bar">
+                    <div className="qq input-group">
+                        <span className="input-group-addon custom">
+                            <span className="icon iconfont icon-qq"></span>
+                        </span>
+                        <input type="text" ref="r_qqInput" className="form-control" placeholder="QQ号" />
+                    </div>
+                    <div className="register-bar reg">
                         <div onClick={this.register} className="btn-register">
                             <span>注册</span>
                         </div>
