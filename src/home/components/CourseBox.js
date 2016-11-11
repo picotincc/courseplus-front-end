@@ -57,6 +57,7 @@ export default class CourseBox extends Component {
                     <div className="count-group">
                         <span>知识点：{courseInfo.topicNum}</span>
                         <span>资料数量：{courseInfo.resourceNum}</span>
+                        <span>订单数：{courseInfo.orderCount}</span>
                     </div>
                     <span className="contributor">作者</span>
                     <div className="contributor-group">
