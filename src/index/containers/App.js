@@ -7,6 +7,7 @@ export default class App extends Component {
         super(props);
 
         this.entry = this.entry.bind(this);
+        this.entryMebox = this.entryMebox.bind(this);
     }
 
     static defaultProps = {
@@ -48,6 +49,11 @@ export default class App extends Component {
         location.href = "/home.html";
     }
 
+    entryMebox()
+    {
+        location.href = "http://mebox.top/";
+    }
+
     render()
     {
         return (
@@ -64,8 +70,13 @@ export default class App extends Component {
                             最后<span ref="restDays" className="days">50</span>天让考研更容易
                         </div>
                     </div>
-                    <div onClick={this.entry} className="entry">
-                        <span>进入course+</span>
+                    <div className="entrys">
+                        <div onClick={this.entry} className="entry course">
+                            <span>进入course+</span>
+                        </div>
+                        <div onClick={this.entryMebox} className="entry mebox">
+                            <span>进入米盒</span>
+                        </div>
                     </div>
                 </div>
                 <div className="section second">
@@ -300,8 +311,11 @@ export default class App extends Component {
                     </div>
                 </div>
                 <div className="section eighth">
-                    <div onClick={this.entry} className="entry">
+                    <div onClick={this.entry} className="entry course">
                         <span>进入course+</span>
+                    </div>
+                    <div onClick={this.entryMebox} className="entry mebox">
+                        <span>进入米盒</span>
                     </div>
                 </div>
                 <div className="section nighth">

@@ -64,25 +64,51 @@
             }
         }
 
-        > .entry
+        > .entrys
         {
-            width: 180px * 1.2;
-            height: 40px * 1.2;
-            color: #FFFFFF;
+            flex: 0 0 auto;
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 22px;
-            background: #45A4B4;
-            border-radius: 100px;
             margin-top: 60px;
-            cursor: pointer;
 
-            &:hover
+
+            > .entry
             {
-                background: #65CED8;
+                width: 180px * 1.2;
+                height: 40px * 1.2;
+                color: #FFFFFF;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                font-size: 22px;
+                border-radius: 100px;
+                cursor: pointer;
+
+
+
+                &.course
+                {
+                    background: #45A4B4;
+                    margin-right: 32px;
+                    &:hover
+                    {
+                        background: #65CED8;
+                    }
+                }
+
+                &.mebox
+                {
+                    background: #796c5c;
+                    &:hover
+                    {
+                        background: #d6b08a;
+                    }
+                }
             }
         }
+
+
     }
 
     > .second
@@ -581,14 +607,29 @@
             justify-content: center;
             align-items: center;
             font-size: 22px;
-            background: #45A4B4;
             border-radius: 100px;
+            margin-top: 60px;
             cursor: pointer;
-            margin: 50px 0px;
 
-            &:hover
+
+
+            &.course
             {
-                background: #65CED8;
+                background: #45A4B4;
+                margin-right: 32px;
+                &:hover
+                {
+                    background: #65CED8;
+                }
+            }
+
+            &.mebox
+            {
+                background: #796c5c;
+                &:hover
+                {
+                    background: #d6b08a;
+                }
             }
         }
     }
