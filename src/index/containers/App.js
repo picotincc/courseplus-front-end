@@ -7,6 +7,7 @@ export default class App extends Component {
         super(props);
 
         this.entry = this.entry.bind(this);
+        this.handleCarouselClick = this.handleCarouselClick.bind(this);
     }
 
     static defaultProps = {
@@ -18,7 +19,7 @@ export default class App extends Component {
     }
 
     state = {
-
+        position: 1
     }
 
     componentDidMount()
@@ -32,6 +33,14 @@ export default class App extends Component {
 
         const restDays = this.refs["restDays"];
         restDays.textContent = this.calculateRestDays();
+
+        this.$body = document.body;
+        this.refs["1"].classList.add("active");
+    }
+
+    componentDidUpdate()
+    {
+        this.refs[this.state.position].classList.add("active");
     }
 
     calculateRestDays()
@@ -48,18 +57,49 @@ export default class App extends Component {
         location.href = "/home.html";
     }
 
+    handleCarouselClick(key)
+    {
+        this.refs[this.state.position].classList.remove("active");
+        this.setState({
+            position: key
+        });
+        $(this.$body).animate({ scrollTop: this.calculateScrollTop(key) }, 600);
+    }
+
+    calculateScrollTop(key)
+    {
+        switch (key) {
+            case 1:
+                return 0;
+            case 2:
+                return 725;
+            case 3:
+                return 1409;
+            case 4:
+                return 2129;
+            case 5:
+                return 2729;
+            case 6:
+                return 3769;
+            case 7:
+                return 4489;
+            default:
+                break;
+        }
+    }
+
     render()
     {
         return (
-            <div className="cp-app-index">
+            <div ref="container" className="cp-app-index">
                 <ul className="carousel-controls">
-                    <li className="active"><span></span></li>
-                    <li><span></span></li>
-                    <li><span></span></li>
-                    <li><span></span></li>
-                    <li><span></span></li>
-                    <li><span></span></li>
-                    <li><span></span></li>
+                    <li ref="1" onClick={() => this.handleCarouselClick(1)}><span></span></li>
+                    <li ref="2" onClick={() => this.handleCarouselClick(2)}><span></span></li>
+                    <li ref="3" onClick={() => this.handleCarouselClick(3)}><span></span></li>
+                    <li ref="4" onClick={() => this.handleCarouselClick(4)}><span></span></li>
+                    <li ref="5" onClick={() => this.handleCarouselClick(5)}><span></span></li>
+                    <li ref="6" onClick={() => this.handleCarouselClick(6)}><span></span></li>
+                    <li ref="7" onClick={() => this.handleCarouselClick(7)}><span></span></li>
                 </ul>
                 <div className="section first">
                     <div className="mebox">
@@ -77,7 +117,7 @@ export default class App extends Component {
                         <span>进入course+</span>
                     </div>
                 </div>
-                <div className="section second">
+                <div id="second" className="section second">
                     <div className="top-bar">
                         <span className="text">南京大学本校考研大神零距离定制辅导＋经验传授</span>
                         <span className="text">免费备考心理辅导</span>
