@@ -3,6 +3,8 @@ import ReactQiniu from "react-qiniu";
 
 import ServiceClient from "../../base/service/ServiceClient";
 import FormatUtil from "../../base/util/FormatUtil";
+import { DEFAULT_AVATOR } from "../../base/util/ConstantUtil";
+
 
 export default class UserInfoPanel extends Component {
 
@@ -11,7 +13,6 @@ export default class UserInfoPanel extends Component {
 
         this.handleGenderSelect = this.handleGenderSelect.bind(this);
         this.handleInfoUpdate = this.handleInfoUpdate.bind(this);
-        this.changeGender = this.changeGender.bind(this);
         this.onDrop = this.onDrop.bind(this);
         this.onUpload = this.onUpload.bind(this);
     }
@@ -25,6 +26,8 @@ export default class UserInfoPanel extends Component {
     }
 
     state = {
+        nickname: "",
+        gender: 0,
         files: [],
         uploadKey: "",
         token: ""
@@ -32,33 +35,29 @@ export default class UserInfoPanel extends Component {
 
     componentDidMount()
     {
-        this.maleGender = this.refs["maleGender"];
-        this.femaleGender = this.refs["femaleGender"];
-        this.genderInput = this.refs["genderInput"];
         this.nicknameInput = this.refs["nicknameInput"];
         this.imgPreview = this.refs["imgPreview"];
 
+        this.nicknameInput.oninput = (e) => {
+            this.setState({
+                nickname: e.target.value
+            });
+        };
         const user = this.props.user;
-        this.genderInput.value = user.gender;
         this.nicknameInput.value = user.nickname;
-
-        if (user.gender !== 2)
+        if (user.gender)
         {
-            this.maleGender.classList.add("selected");
-        }
-        else
-        {
-            this.maleGender.classList.remove("selected");
+            this.refs[`gender_${user.gender}`].classList.add("selected");
         }
     }
 
     componentDidUpdate()
     {
-        const user = this.props.user;
-        this.genderInput.value = user.gender;
-        this.nicknameInput.value = user.nickname;
-
-        this.changeGender(user.gender);
+        this.nicknameInput.value = this.state.nickname;
+        if (this.state.gender != 0)
+        {
+            this.refs[`gender_${this.state.gender}`].classList.add("selected");
+        }
     }
 
     componentWillReceiveProps(nextProps)
@@ -71,43 +70,26 @@ export default class UserInfoPanel extends Component {
                 {
                     this.setState({
                         uploadKey,
-                        token: res.message
+                        token: res.message,
+                        gender: nextProps.user.gender,
+                        nickname: nextProps.user.nickname
                     });
                 }
             });
         }
     }
 
-    changeGender(gender)
-    {
-        if (gender !== 2 )
-        {
-            if (!this.maleGender.classList.contains("selected"))
-            {
-                this.maleGender.classList.add("selected");
-                this.femaleGender.classList.remove("selected");
-                this.genderInput.value = 1;
-            }
-        }
-        else
-        {
-            if (!this.femaleGender.classList.contains("selected"))
-            {
-                this.femaleGender.classList.add("selected");
-                this.maleGender.classList.remove("selected");
-                this.genderInput.value = 2;
-            }
-        }
-    }
-
     handleGenderSelect(gender)
     {
-        this.changeGender(gender);
+        this.refs[`gender_${this.state.gender}`].classList.remove("selected");
+        this.setState({
+            gender
+        });
     }
 
     handleInfoUpdate()
     {
-        const gender = this.genderInput.value;
+        const gender = this.state.gender;
         const nickname = this.nicknameInput.value;
         const files = this.state.files;
         const self = this;
@@ -172,7 +154,6 @@ export default class UserInfoPanel extends Component {
     render()
     {
         const user = this.props.user;
-        const icon = "http://i1.piimg.com/573251/970594a863d7aeb9.png";
 
         return (
             <div className="cp-user-userinfo">
@@ -182,13 +163,15 @@ export default class UserInfoPanel extends Component {
                     <input ref="nicknameInput" type="text" placeholder="昵称" className="form-control"/>
                 </div>
                 <div className="form-group">
-                    <input ref="genderInput" type="hidden" />
                     <label>性别</label>
                     <div className="gender-group">
-                        <div ref="maleGender" onClick={() => this.handleGenderSelect(1)} className="tab male">
+                        <div ref="gender_1" onClick={() => this.handleGenderSelect(1)} className="tab male">
                             <span>男</span>
                         </div>
-                        <div ref="femaleGender" onClick={() => this.handleGenderSelect(2)} className="tab female">
+                        <div ref="gender_3" onClick={() => this.handleGenderSelect(3)} className="tab secret">
+                            <span>保密</span>
+                        </div>
+                        <div ref="gender_2" onClick={() => this.handleGenderSelect(2)} className="tab female">
                             <span>女</span>
                         </div>
                     </div>
@@ -202,7 +185,7 @@ export default class UserInfoPanel extends Component {
                         token={this.state.token}
                         uploadKey={this.state.uploadKey}
                     >
-                    <img ref="imgPreview" width="144" height="144" src={user.icon ? user.icon : icon} />
+                    <img ref="imgPreview" width="144" height="144" src={user.icon ? user.icon : DEFAULT_AVATOR} />
                     </ReactQiniu>
                 </div>
                 <div onClick={this.handleInfoUpdate} className="btn-update">更新资料</div>
