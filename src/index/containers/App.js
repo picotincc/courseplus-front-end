@@ -8,6 +8,7 @@ export default class App extends Component {
 
         this.entry = this.entry.bind(this);
         this.handleCarouselClick = this.handleCarouselClick.bind(this);
+        this.handleScrollbarUpdate = this.handleScrollbarUpdate.bind(this);
     }
 
     static defaultProps = {
@@ -29,13 +30,15 @@ export default class App extends Component {
         {
             $("#root").css("display", "inline-block");
             $("#root").css("width", "auto");
+            $(this.refs["carousel"]).css("display", "none");
         }
 
         const restDays = this.refs["restDays"];
-        restDays.textContent = this.calculateRestDays();
+        restDays.textContent = _calculateRestDays();
 
-        this.$body = document.body;
+        this.body = document.body;
         this.refs["1"].classList.add("active");
+        window.onscroll = this.handleScrollbarUpdate;
     }
 
     componentDidUpdate()
@@ -43,13 +46,17 @@ export default class App extends Component {
         this.refs[this.state.position].classList.add("active");
     }
 
-    calculateRestDays()
+    handleScrollbarUpdate()
     {
-        const curDate = new Date();
-        const targetDate = new Date("2016-12-24 00:00:00");
-        const date = targetDate.getTime()-curDate.getTime();
-        const days = Math.floor(date / (24 * 3600 * 1000));
-        return days;
+        const scrollTop = this.body.scrollTop;
+        const position = _calculatePosition(scrollTop);
+        if (this.state.position !== position)
+        {
+            this.refs[this.state.position].classList.remove("active");
+            this.setState({
+                position
+            });
+        }
     }
 
     entry()
@@ -63,36 +70,16 @@ export default class App extends Component {
         this.setState({
             position: key
         });
-        $(this.$body).animate({ scrollTop: this.calculateScrollTop(key) }, 600);
+        $(this.body).animate({ scrollTop: _calculateScrollTop(key) }, 600);
     }
 
-    calculateScrollTop(key)
-    {
-        switch (key) {
-            case 1:
-                return 0;
-            case 2:
-                return 725;
-            case 3:
-                return 1409;
-            case 4:
-                return 2129;
-            case 5:
-                return 2729;
-            case 6:
-                return 3769;
-            case 7:
-                return 4489;
-            default:
-                break;
-        }
-    }
+
 
     render()
     {
         return (
             <div ref="container" className="cp-app-index">
-                <ul className="carousel-controls">
+                <ul ref="carousel" className="carousel-controls">
                     <li ref="1" onClick={() => this.handleCarouselClick(1)}><span></span></li>
                     <li ref="2" onClick={() => this.handleCarouselClick(2)}><span></span></li>
                     <li ref="3" onClick={() => this.handleCarouselClick(3)}><span></span></li>
@@ -362,5 +349,68 @@ export default class App extends Component {
                 </div>
             </div>
         );
+    }
+}
+
+function _calculateScrollTop(key)
+{
+    switch (key) {
+        case 1:
+            return 0;
+        case 2:
+            return 725;
+        case 3:
+            return 1409;
+        case 4:
+            return 2129;
+        case 5:
+            return 2729;
+        case 6:
+            return 3769;
+        case 7:
+            return 4489;
+        default:
+            break;
+    }
+}
+
+function _calculateRestDays()
+{
+    const curDate = new Date();
+    const targetDate = new Date("2016-12-24 00:00:00");
+    const date = targetDate.getTime()-curDate.getTime();
+    const days = Math.floor(date / (24 * 3600 * 1000));
+    return days;
+}
+
+function _calculatePosition(value)
+{
+    if (value >= 0 && value < 725)
+    {
+        return 1;
+    }
+    else if (value >= 725 && value < 1409)
+    {
+        return 2;
+    }
+    else if (value >= 1409 && value < 2129)
+    {
+        return 3;
+    }
+    else if (value >= 2129 && value < 2729)
+    {
+        return 4;
+    }
+    else if (value >= 2729 && value < 3769)
+    {
+        return 5;
+    }
+    else if (value >= 3769 && value < 4489)
+    {
+        return 6;
+    }
+    else
+    {
+        return 7;
     }
 }
