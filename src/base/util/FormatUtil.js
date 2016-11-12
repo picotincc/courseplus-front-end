@@ -37,13 +37,13 @@ export default class FormatUtil
         for (let i = 0; i < indexs.length; i++)
         {
             let id = indexs[i];
-            tempTopics[id] = topics[id].sort((a, b) => a.weight < b.weight ? 1 : -1);
+            tempTopics[id] = topics[id].sort((a, b) => a.weight - b.weight );
         }
 
         let tempAuthors = authors.map(author => {
             author.weight = tempTopics[author.id][0].weight;
             return author;
-        }).sort((a, b) => a.weight < b.weight ? 1 : -1);
+        }).sort((a, b) => a.weight - b.weight);
 
         let resTopics = tempAuthors.reduce((pre, cur) => {
             pre = pre.concat(tempTopics[cur.id]);
