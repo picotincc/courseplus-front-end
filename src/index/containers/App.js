@@ -37,7 +37,7 @@ export default class App extends Component {
     calculateRestDays()
     {
         const curDate = new Date();
-        const targetDate = new Date("2016-12-24");
+        const targetDate = new Date("2016-12-24 00:00:00");
         const date = targetDate.getTime()-curDate.getTime();
         const days = Math.floor(date / (24 * 3600 * 1000));
         return days;
