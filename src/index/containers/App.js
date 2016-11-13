@@ -37,7 +37,7 @@ export default class App extends Component {
         const restDays = this.refs["restDays"];
         restDays.textContent = _calculateRestDays();
 
-        this.body = document.body;
+        this.body = FormatUtil.checkBower() ? document.body : document.documentElement;
         this.refs["1"].classList.add("active");
         window.onscroll = this.handleScrollbarUpdate;
     }
@@ -76,7 +76,7 @@ export default class App extends Component {
         this.setState({
             position: key
         });
-        $(this.body).animate({ scrollTop: _calculateScrollTop(key) }, 600);
+        $(this.body).animate({ scrollTop: _calculateScrollTop(key) }, 500);
     }
 
 
