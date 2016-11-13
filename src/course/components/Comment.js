@@ -15,6 +15,8 @@ export default class Comment extends Component {
         this.updateReplyInput = this.updateReplyInput.bind(this);
         this.showReply = this.showReply.bind(this);
         this.handleCommentReply = this.handleCommentReply.bind(this);
+        this.handleCommentDelete = this.handleCommentDelete.bind(this);
+        this.handleReplyDelete = this.handleReplyDelete.bind(this);
     }
 
     static defaultProps = {
@@ -116,7 +118,7 @@ export default class Comment extends Component {
                         });
                         this.setState({
                             replyList: replyList
-                        })
+                        });
                     }
                     else
                     {
@@ -147,10 +149,70 @@ export default class Comment extends Component {
         }
     }
 
+    handleCommentDelete()
+    {
+        if (this.props.user.id === this.props.rootComment.authorId)
+        {
+            swal({
+                title: "删除评论",
+                text: `你确定要删除此评论吗`,
+                showCancelButton: true,
+                confirmButtonText: "确认",
+                cancelButtonText: "取消",
+                closeOnConfirm: true,
+                closeOnCancel: true
+            },(isConfirm) => {
+                if (isConfirm)
+                {
+                    this.props.onCommentDelete(this.props.rootComment.id);
+                }
+            });
+        }
+    }
+
+    handleReplyDelete(replyId)
+    {
+        const replyList = this.state.replyList;
+        ServiceClient.getInstance().deleteComment(replyId).then(res => {
+            if (res.textStatus === "success")
+            {
+                const resList = replyList.reduce((pre, cur) => {
+                    if (cur.id !== replyId)
+                    {
+                        pre.push(cur);
+                    }
+                    return pre;
+                }, []);
+                const count = resList.length;
+                this.setState({
+                    replyList: resList
+                });
+            }
+            else
+            {
+                swal({
+                    type: "error",
+                    title: "Something wrong!",
+                    text: res.message
+                });
+            }
+        });
+    }
+
     render()
     {
         const rootComment = this.props.rootComment;
         const replyList = this.state.replyList;
+        let deleteBtn = null;
+        if (this.props.user && this.props.user.id === rootComment.authorId)
+        {
+            deleteBtn = (
+                <a ref="btnDelete"
+                    onClick={this.handleCommentDelete}
+                    className="show-reply"
+                >删除</a>
+            );
+        }
         return (
             <div className="cp-course-comment">
                 <div className="root-comment">
@@ -162,6 +224,7 @@ export default class Comment extends Component {
                         <div className="content">{rootComment.content}</div>
                         <div className="bottom-bar">
                             <div className="comment-date">{rootComment.replyTime}</div>
+                            {deleteBtn}
                             <a ref="btnShowReply"
                                href={'#comment' + rootComment.id}
                                data-toggle="collapse"
@@ -175,7 +238,12 @@ export default class Comment extends Component {
                         {replyList.map(item => {
                             return (
                                 <li key={item.id}>
-                                    <Reply onReplyClick={this.updateReplyInput} reply={item} />
+                                    <Reply
+                                        user={this.props.user}
+                                        onReplyClick={this.updateReplyInput}
+                                        reply={item}
+                                        onReplyDelete={this.handleReplyDelete}
+                                    />
                                 </li>
                             );
                         })}

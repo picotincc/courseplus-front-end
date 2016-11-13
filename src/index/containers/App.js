@@ -108,7 +108,7 @@ export default class App extends Component {
                     </div>
                     <div className="entrys">
                         <div onClick={this.entry} className="entry course">
-                            <span>进入course+</span>
+                            <span>进入考研专区</span>
                         </div>
                         <div onClick={this.entryMebox} className="entry mebox">
                             <span>进入米盒</span>
@@ -348,7 +348,7 @@ export default class App extends Component {
                 </div>
                 <div className="section eighth">
                     <div onClick={this.entry} className="entry course">
-                        <span>进入course+</span>
+                        <span>进入考研专区</span>
                     </div>
                     <div onClick={this.entryMebox} className="entry mebox">
                         <span>进入米盒</span>

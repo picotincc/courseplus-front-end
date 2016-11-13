@@ -171,6 +171,7 @@ export default class App extends Component {
                     <div className="container">
                         <Course
                             course={state.courseInfo}
+                            user={state.user}
                             returnInfo={state.returnPayInfo}
                             onCourseSelect={this.handleCourseSelect}
                             onQuestionShow={this.handleQuestionShow}
