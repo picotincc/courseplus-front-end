@@ -1253,4 +1253,74 @@ export default class ServiceClient
         });
     }
 
+
+    deleteComment(commentId)
+    {
+        const token = WebStorageUtil.getToken();
+        const self = this;
+        return new Promise((resolve, reject) => {
+            $.ajax({
+                url: `${CP_API_URL}/user/comment/deleteComment`,
+                type: "GET",
+                contentType: "application/json;charset=utf-8",
+                headers: {
+                    "Authorization": "Basic " + btoa(token + ":")
+                },
+                data: {commentId}
+            }).then((data, textStatus, jqXHR) => {
+                const res = Object.assign(data, {textStatus});
+                resolve(res);
+            }, (jqXHR, textStatus, errorThrown) => {
+                if (jqXHR.status === 403)
+                {
+                    self.loginFortoken().then(res => {
+                        if (res.status === 0)
+                        {
+                            $.ajax({
+                                url: `${CP_API_URL}/user/comment/deleteComment`,
+                                type: "GET",
+                                contentType: "application/json;charset=utf-8",
+                                headers: {
+                                    "Authorization": "Basic " + btoa(res.token + ":")
+                                },
+                                data: {commentId}
+                            }).then((data, textStatus, jqXHR) => {
+                                const res = Object.assign(data, {textStatus});
+                                resolve(res);
+                            },(jqXHR, textStatus, errorThrown) => {
+                                let res = null;
+                                if (jqXHR.status === 500)
+                                {
+                                    res={textStatus, message: "服务器500错误"}
+                                }
+                                else
+                                {
+                                    res = Object.assign(jqXHR.responseJSON, {textStatus});
+                                }
+                                resolve(res);
+                            });
+                        }
+                        else
+                        {
+                            resolve({textStatus: "error", code: -1});
+                        }
+                    });
+                }
+                else
+                {
+                    let res = null;
+                    if (jqXHR.status === 500)
+                    {
+                        res={textStatus, message: "服务器500错误"}
+                    }
+                    else
+                    {
+                        res = Object.assign(jqXHR.responseJSON, {textStatus});
+                    }
+                    resolve(res);
+                }
+            });
+        });
+    }
+
 }

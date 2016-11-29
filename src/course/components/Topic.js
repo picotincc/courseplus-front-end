@@ -121,7 +121,7 @@ export default class Topic extends Component {
         else
         {
             swal({
-                title: "买断他的课程",
+                title: "买断TA的课程",
                 text: `您需要支付 ￥${cost} 来买断该作者关于这门课的全部课程，买断后，您可以直接参加他的所有现有课程以及新开课程。 支付完成后，我们将告知您课程负责人的QQ号以及邀请码，添加QQ号在验证信息处输入邀请码，即可通过验证。`,
                 showCancelButton: true,
                 confirmButtonColor: "#038574",
@@ -159,7 +159,7 @@ export default class Topic extends Component {
                             </div>
                             <div onClick={this.handleCourseAuthorPay} className="pay-all">
                                 <span className="icon iconfont icon-gouwuche"></span>
-                                {author.inviteCode ? "课程买断信息" : "购买他的全部课时" }
+                                {author.inviteCode ? "课程买断信息" : "购买TA的全部课时" }
                             </div>
                         </div>
                     </div>

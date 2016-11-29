@@ -7,6 +7,9 @@ export default class App extends Component {
         super(props);
 
         this.entry = this.entry.bind(this);
+        this.entryMebox = this.entryMebox.bind(this);
+        this.handleCarouselClick = this.handleCarouselClick.bind(this);
+        this.handleScrollbarUpdate = this.handleScrollbarUpdate.bind(this);
     }
 
     static defaultProps = {
@@ -18,7 +21,7 @@ export default class App extends Component {
     }
 
     state = {
-
+        position: 1
     }
 
     componentDidMount()
@@ -28,19 +31,33 @@ export default class App extends Component {
         {
             $("#root").css("display", "inline-block");
             $("#root").css("width", "auto");
+            $(this.refs["carousel"]).css("display", "none");
         }
 
         const restDays = this.refs["restDays"];
-        restDays.textContent = this.calculateRestDays();
+        restDays.textContent = _calculateRestDays();
+
+        this.body = FormatUtil.checkBower() ? document.body : document.documentElement;
+        this.refs["1"].classList.add("active");
+        window.onscroll = this.handleScrollbarUpdate;
     }
 
-    calculateRestDays()
+    componentDidUpdate()
     {
-        const curDate = new Date();
-        const targetDate = new Date("2016-12-24");
-        const date = targetDate.getTime()-curDate.getTime();
-        const days = Math.floor(date / (24 * 3600 * 1000));
-        return days;
+        this.refs[this.state.position].classList.add("active");
+    }
+
+    handleScrollbarUpdate()
+    {
+        const scrollTop = this.body.scrollTop;
+        const position = _calculatePosition(scrollTop);
+        if (this.state.position !== position)
+        {
+            this.refs[this.state.position].classList.remove("active");
+            this.setState({
+                position
+            });
+        }
     }
 
     entry()
@@ -48,10 +65,35 @@ export default class App extends Component {
         location.href = "/home.html";
     }
 
+    entryMebox()
+    {
+        location.href = "http://mebox.top/";
+    }
+
+    handleCarouselClick(key)
+    {
+        this.refs[this.state.position].classList.remove("active");
+        this.setState({
+            position: key
+        });
+        $(this.body).animate({ scrollTop: _calculateScrollTop(key) }, 500);
+    }
+
+
+
     render()
     {
         return (
-            <div className="cp-app-index">
+            <div ref="container" className="cp-app-index">
+                <ul ref="carousel" className="carousel-controls">
+                    <li ref="1" onClick={() => this.handleCarouselClick(1)}><span></span></li>
+                    <li ref="2" onClick={() => this.handleCarouselClick(2)}><span></span></li>
+                    <li ref="3" onClick={() => this.handleCarouselClick(3)}><span></span></li>
+                    <li ref="4" onClick={() => this.handleCarouselClick(4)}><span></span></li>
+                    <li ref="5" onClick={() => this.handleCarouselClick(5)}><span></span></li>
+                    <li ref="6" onClick={() => this.handleCarouselClick(6)}><span></span></li>
+                    <li ref="7" onClick={() => this.handleCarouselClick(7)}><span></span></li>
+                </ul>
                 <div className="section first">
                     <div className="mebox">
                         <img src="/imgs/mebox.png"></img>
@@ -64,11 +106,16 @@ export default class App extends Component {
                             最后<span ref="restDays" className="days">50</span>天让考研更容易
                         </div>
                     </div>
-                    <div onClick={this.entry} className="entry">
-                        <span>进入course+</span>
+                    <div className="entrys">
+                        <div onClick={this.entry} className="entry course">
+                            <span>进入考研专区</span>
+                        </div>
+                        <div onClick={this.entryMebox} className="entry mebox">
+                            <span>进入米盒</span>
+                        </div>
                     </div>
                 </div>
-                <div className="section second">
+                <div id="second" className="section second">
                     <div className="top-bar">
                         <span className="text">南京大学本校考研大神零距离定制辅导＋经验传授</span>
                         <span className="text">免费备考心理辅导</span>
@@ -300,18 +347,85 @@ export default class App extends Component {
                     </div>
                 </div>
                 <div className="section eighth">
-                    <div onClick={this.entry} className="entry">
-                        <span>进入course+</span>
+                    <div onClick={this.entry} className="entry course">
+                        <span>进入考研专区</span>
+                    </div>
+                    <div onClick={this.entryMebox} className="entry mebox">
+                        <span>进入米盒</span>
                     </div>
                 </div>
                 <div className="section nighth">
                     <div className="footer-content">
                         <div className="copyright">Copyright © 2016 一可米互联网科技公司</div>
                         <a href="http://www.miibeian.gov.cn/" target="_blank"> 苏ICP备15062280号</a>
-                        <div className="qq">客服QQ:3542317181</div>
+                        <div className="qq">客服QQ:2406964504</div>
                     </div>
                 </div>
             </div>
         );
+    }
+}
+
+function _calculateScrollTop(key)
+{
+    switch (key) {
+        case 1:
+            return 0;
+        case 2:
+            return 725;
+        case 3:
+            return 1409;
+        case 4:
+            return 2129;
+        case 5:
+            return 2729;
+        case 6:
+            return 3769;
+        case 7:
+            return 4489;
+        default:
+            break;
+    }
+}
+
+function _calculateRestDays()
+{
+    const curDate = new Date();
+    const targetDate = new Date("2016-12-24 00:00:00");
+    const date = 1482508800000 - curDate.getTime();
+
+    const days = Math.floor(date / (24 * 3600 * 1000));
+    return days;
+}
+
+function _calculatePosition(value)
+{
+    if (value >= 0 && value < 725)
+    {
+        return 1;
+    }
+    else if (value >= 725 && value < 1409)
+    {
+        return 2;
+    }
+    else if (value >= 1409 && value < 2129)
+    {
+        return 3;
+    }
+    else if (value >= 2129 && value < 2729)
+    {
+        return 4;
+    }
+    else if (value >= 2729 && value < 3769)
+    {
+        return 5;
+    }
+    else if (value >= 3769 && value < 4489)
+    {
+        return 6;
+    }
+    else
+    {
+        return 7;
     }
 }

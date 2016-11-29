@@ -26,7 +26,7 @@ export default class Course extends Component {
     }
 
     static defaultProps = {
-        course: null
+        course: null,
     }
 
     static propTypes = {
@@ -37,8 +37,7 @@ export default class Course extends Component {
         selectedContributor: null,
         selectedTopic: null,
         sortedAuthors: [],
-        expandedTopics: [],
-        forumInfo: []
+        expandedTopics: []
     }
 
     componentDidMount()
@@ -343,6 +342,7 @@ export default class Course extends Component {
                 <div className="discuss-area">
                     <Forum
                         selectedTopic={state.selectedTopic}
+                        user={this.props.user}
                     />
                 </div>
                 <div className="related-resources">

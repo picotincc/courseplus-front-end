@@ -33,7 +33,7 @@ export default class App extends Component {
         isLogin: false,
         user: {
             nickname: "",
-            gender: 1,
+            gender: 0,
             icon: null
         },
         selectedTab: "info",

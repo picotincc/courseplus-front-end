@@ -13,6 +13,7 @@ export default class Forum extends Component {
         this.commentInput_onfocus = this.commentInput_onfocus.bind(this);
         this.commentInput_onblur = this.commentInput_onblur.bind(this);
         this.handleCommentPublish = this.handleCommentPublish.bind(this);
+        this.handleCommentDelete = this.handleCommentDelete.bind(this);
     }
 
     static defaultProps = {
@@ -24,7 +25,6 @@ export default class Forum extends Component {
     }
 
     state = {
-        isLogin: true,
         commentList: []
     }
 
@@ -115,6 +115,34 @@ export default class Forum extends Component {
         }
     }
 
+    handleCommentDelete(commentId)
+    {
+        const commentList = this.state.commentList;
+        ServiceClient.getInstance().deleteComment(commentId).then(res => {
+            if (res.textStatus === "success")
+            {
+                const resList = commentList.reduce((pre, cur) => {
+                    if (cur.id !== commentId)
+                    {
+                        pre.push(cur);
+                    }
+                    return pre;
+                }, []);
+                this.setState({
+                    commentList: resList
+                });
+            }
+            else
+            {
+                swal({
+                    type: "error",
+                    title: "Something wrong!",
+                    text: res.message
+                });
+            }
+        });
+    }
+
     render()
     {
         const topic = this.props.selectedTopic;
@@ -136,8 +164,10 @@ export default class Forum extends Component {
                     return (
                         <li key={item.id}>
                             <Comment
+                                user={user}
                                 topic={topic}
                                 rootComment={item}
+                                onCommentDelete={this.handleCommentDelete}
                             />
                         </li>
                     );
