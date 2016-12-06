@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import FormatUtil from "../../base/util/FormatUtil";
 
+import FundingDialog from "../components/FundingDialog";
+
 export default class App extends Component {
 
     constructor (props) {
@@ -104,7 +106,7 @@ export default class App extends Component {
         return (
             <div className="cp-app-index">
                 <div ref="dialogContainer" className="dialog-container">
-
+                    <FundingDialog onFundingHide={this.handleDialogHide} />
                 </div>
                 <div ref="appContainer" className="app-container">
                     <ul ref="carousel" className="carousel-controls">
