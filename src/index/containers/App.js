@@ -38,6 +38,8 @@ export default class App extends Component {
             $("#root").css("display", "inline-block");
             $("#root").css("width", "auto");
             $(this.refs["carousel"]).css("display", "none");
+            this.appContainer.style.width = "auto";
+            this.dialogContainer.style.width = "1351px";
         }
 
         const restDays = this.refs["restDays"];
