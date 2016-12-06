@@ -4,6 +4,8 @@ export default class FundingDialog extends Component {
 
     constructor (props) {
         super(props);
+
+        this.handleJoin = this.handleJoin.bind(this);
     }
 
     static defaultProps = {
@@ -21,6 +23,11 @@ export default class FundingDialog extends Component {
     componentDidMount()
     {
 
+    }
+
+    handleJoin()
+    {
+        location.href = "http://www.mebox.wiki/activity/funding";
     }
 
     render()
@@ -45,7 +52,7 @@ export default class FundingDialog extends Component {
                             点击立即参加&nbsp;共享百万资料
                         </div>
                     </div>
-                    <div className="join">
+                    <div onClick={this.handleJoin} className="join">
                         <div className="join-btn">
                             我要参加
                         </div>
