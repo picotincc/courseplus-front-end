@@ -24,7 +24,7 @@ gulp.task("copy-font", cb => {
 });
 
 gulp.task("copy-png", cb => {
-    return gulp.src(["./public/**/*.png"])
+    return gulp.src(["./public/**/*.png", "./public/**/*.jpg"])
     .pipe(gulp.dest("./output"))
 });
 

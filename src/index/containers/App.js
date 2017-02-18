@@ -38,6 +38,8 @@ export default class App extends Component {
             $("#root").css("display", "inline-block");
             $("#root").css("width", "auto");
             $(this.refs["carousel"]).css("display", "none");
+            this.appContainer.style.width = "auto";
+            this.dialogContainer.style.width = "1351px";
         }
 
         const restDays = this.refs["restDays"];
@@ -47,7 +49,7 @@ export default class App extends Component {
         this.refs["1"].classList.add("active");
         window.onscroll = this.handleScrollbarUpdate;
 
-        this.handleDialogShow();
+        // this.handleDialogShow();
     }
 
     componentDidUpdate()
@@ -106,7 +108,7 @@ export default class App extends Component {
         return (
             <div className="cp-app-index">
                 <div ref="dialogContainer" className="dialog-container">
-                    <FundingDialog onFundingHide={this.handleDialogHide} />
+                    {/* <FundingDialog onFundingHide={this.handleDialogHide} /> */}
                 </div>
                 <div ref="appContainer" className="app-container">
                     <ul ref="carousel" className="carousel-controls">
@@ -421,7 +423,8 @@ function _calculateRestDays()
     const date = 1482508800000 - curDate.getTime();
 
     const days = Math.floor(date / (24 * 3600 * 1000));
-    return days;
+    const newDays = (days + 365) % 365;
+    return newDays;
 }
 
 function _calculatePosition(value)

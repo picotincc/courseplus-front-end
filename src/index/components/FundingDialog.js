@@ -27,7 +27,7 @@ export default class FundingDialog extends Component {
 
     handleJoin()
     {
-        location.href = "http://www.mebox.wiki/activity/funding";
+        location.href = "http://mebox.top/activity/funding";
     }
 
     render()

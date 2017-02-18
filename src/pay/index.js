@@ -2,8 +2,9 @@ import FormatUtil from "../base/util/FormatUtil";
 import WebStorageUtil from "../base/util/WebStorageUtil";
 import ServiceClient from "../base/service/ServiceClient";
 import { HOST } from "../base/util/ConstantUtil";
+import AnalysisUtil from "../base/util/AnlaysisUtil";
 
-
+AnalysisUtil.createBdAnalysisEntry();
 const fdContainer = document.getElementById("fdContainer");
 const mainContainer = document.getElementById("mainContainer");
 const lgContainer = document.getElementById("loginContainer");
